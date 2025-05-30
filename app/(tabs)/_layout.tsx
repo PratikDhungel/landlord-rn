@@ -46,6 +46,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="plans"
+        options={{
+          title: 'Your Plans',
+          tabBarIcon: ({ color }) => <TabBarIcon name="list-alt" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
         name="rentals"
         options={{
           title: 'Rentals',
