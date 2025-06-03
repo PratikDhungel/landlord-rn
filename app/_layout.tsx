@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { MD3LightTheme as DefaultTheme, PaperProvider, Snackbar } from 'react-native-paper'
+import { ActivityIndicator, MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
@@ -9,7 +9,8 @@ import 'react-native-reanimated'
 import { StatusBar } from 'expo-status-bar'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/libs/queryClient'
-import { getUserAuthStatus } from '@/utils/appUtils'
+import useAuth from '@/hooks/useAuth'
+import AuthProvider from '@/components/contexts/AuthProvider'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -63,25 +64,39 @@ const CustomTheme = {
   },
 }
 
-function RootLayoutNav() {
-  const isUserLoggedIn = getUserAuthStatus()
-
+const RootLayoutNav = () => {
   return (
     <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <PaperProvider theme={CustomTheme}>
-          <StatusBar style="dark" />
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <PaperProvider theme={CustomTheme}>
+            <StatusBar style="dark" />
 
-          <Stack>
-            <Stack.Protected guard={isUserLoggedIn}>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-            </Stack.Protected>
-
-            <Stack.Screen name="login" options={{ headerShown: false }} />
-          </Stack>
-        </PaperProvider>
-      </QueryClientProvider>
+            <AuthNavigation />
+          </PaperProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </SafeAreaProvider>
+  )
+}
+
+const AuthNavigation = () => {
+  const { isLoading, token } = useAuth()
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" animating={true} />
+  }
+
+  return (
+    <Stack>
+      <Stack.Protected guard={!!token}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!token}>
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+      </Stack.Protected>
+    </Stack>
   )
 }

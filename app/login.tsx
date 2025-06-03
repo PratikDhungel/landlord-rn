@@ -3,9 +3,9 @@ import { useRouter } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { api } from '@/utils/axios'
+import useAuth from '@/hooks/useAuth'
 import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
-import { setStorageItem } from '@/utils/storage'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -14,19 +14,20 @@ const Login = () => {
   const [isSuccess, setIsSuccess] = useState(false)
 
   const router = useRouter()
+  const { setAuthTokenOnLogin } = useAuth()
 
   async function handleUserLogin() {
     try {
       setIsLoading(true)
+
       const { data } = await api.post('/api/auth/login', {
         email,
         password,
       })
-      setStorageItem('jwt_token', data.token)
-      setStorageItem('refresh_token', data.refreshToken)
+
+      setAuthTokenOnLogin(data.token)
       setIsSuccess(true)
       router.replace('/(tabs)/plans')
-    } catch {
     } finally {
       setIsLoading(false)
     }
