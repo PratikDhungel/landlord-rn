@@ -13,7 +13,7 @@ const AuthNavigation = () => {
   return (
     <Stack>
       <Stack.Protected guard={!!token}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(protected)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack.Protected>
 

@@ -28,7 +28,7 @@ const Login = () => {
 
       setAuthTokenOnLogin(data.token)
       setIsSuccess(true)
-      router.replace('/(tabs)/plans')
+      router.replace('/(protected)/plans')
     } finally {
       setIsLoading(false)
     }
