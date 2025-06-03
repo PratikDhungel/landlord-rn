@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useRouter } from 'expo-router'
-import { StyleSheet, Text, View } from 'react-native'
+import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 
 import { api } from '@/utils/axios'
 import useAuth from '@/hooks/useAuth'
 import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
+import { Button } from 'react-native-paper'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -33,44 +34,70 @@ const Login = () => {
     }
   }
 
+  function handleForgotPasswordClick() {
+    router.push('/forgot-password')
+  }
+
+  function handleCreateAccountClick() {
+    router.push('/create-account')
+  }
+
   return (
     <View style={styles.screen}>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.appTitle}>Landlord</Text>
-        </View>
-
+      <ImageBackground
+        source={require('../assets/images/icon.png')}
+        style={styles.background}
+        resizeMode="cover"
+      >
         <View style={styles.loginFormContainer}>
           <View style={styles.loginTitleContainer}>
-            <Text style={styles.loginTitle}>Login</Text>
+            <Text style={styles.loginTitle}>Welcome back</Text>
+
+            <Text>Login to your account</Text>
           </View>
 
-          <LabelTextInput
-            label="Email"
-            value={email}
-            keyboardType="email-address"
-            onChangeText={setEmail}
-          />
+          <View>
+            <LabelTextInput
+              label="Email"
+              value={email}
+              keyboardType="email-address"
+              onChangeText={setEmail}
+            />
 
-          <LabelTextInput
-            label="Password"
-            value={password}
-            secureTextEntry
-            onChangeText={setPassword}
-          />
+            <LabelTextInput
+              label="Password"
+              value={password}
+              secureTextEntry
+              onChangeText={setPassword}
+            />
 
-          <LoadingButton
-            buttonLabel="Login"
-            loadingLabel="Logging In"
-            successLabel="Logged In"
-            isSuccess={isSuccess}
-            isLoading={isLoading}
-            mode="contained"
-            style={{ marginTop: 24 }}
-            onPress={handleUserLogin}
-          />
+            <Button
+              mode="text"
+              style={styles.forgotPasswordButton}
+              onPress={handleForgotPasswordClick}
+            >
+              Forgot Password?
+            </Button>
+
+            <LoadingButton
+              buttonLabel="Login"
+              loadingLabel="Logging In"
+              successLabel="Logged In"
+              isSuccess={isSuccess}
+              isLoading={isLoading}
+              mode="contained"
+              style={{ marginTop: 24 }}
+              onPress={handleUserLogin}
+            />
+
+            <Text style={styles.actionButtonSeparatorText}>Or</Text>
+
+            <Button mode="contained" onPress={handleCreateAccountClick}>
+              Create Account
+            </Button>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </View>
   )
 }
@@ -79,19 +106,10 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
-  container: {
+  background: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#b2d8ff',
-  },
-  titleContainer: {
-    paddingTop: 64,
-    paddingVertical: 32,
-  },
-  appTitle: {
-    fontSize: 64,
-    fontWeight: 'bold',
-    color: '#fff',
+    width: '100%',
+    height: '100%',
   },
   loginFormContainer: {
     borderTopLeftRadius: 50,
@@ -99,16 +117,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '100%',
     height: '100%',
-    fontSize: 24,
-    paddingVertical: 32,
-    paddingHorizontal: 18,
+    marginTop: 240,
+    paddingVertical: 40,
+    paddingHorizontal: 32,
   },
   loginTitleContainer: {
-    alignItems: 'center',
     marginBottom: 24,
   },
   loginTitle: {
     fontSize: 32,
+    color: '#007fff',
+  },
+  forgotPasswordButton: {
+    alignSelf: 'flex-start',
+    marginLeft: -12,
+  },
+  actionButtonSeparatorText: {
+    fontSize: 16,
+    paddingVertical: 12,
+    fontWeight: 'bold',
+    alignSelf: 'center',
   },
 })
 

@@ -14,7 +14,7 @@ const LabelTextInput = (props: TextInputProps) => {
 
 const styles = StyleSheet.create({
   textInputContainer: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   textInputLabel: {
     marginBottom: 4,
