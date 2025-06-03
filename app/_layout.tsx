@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native'
+import { MD3LightTheme as DefaultTheme, PaperProvider, Snackbar } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
@@ -9,6 +9,7 @@ import 'react-native-reanimated'
 import { StatusBar } from 'expo-status-bar'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/libs/queryClient'
+import { getUserAuthStatus } from '@/utils/appUtils'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,31 +53,34 @@ export default function RootLayout() {
   return <RootLayoutNav />
 }
 
-const CustomTheme: Theme = {
-  dark: false,
+const CustomTheme = {
+  ...DefaultTheme,
   colors: {
-    primary: '#007FFF',
-    background: '#F0F8FF',
-    card: '#f2f2f2',
-    text: '#000000',
-    border: '#cccccc',
-    notification: '#ff80ab',
+    ...DefaultTheme.colors,
+    primary: '#007fff',
+    secondary: '#dcdcdc',
+    surfaceDisabled: '#dcdcdc',
   },
-  fonts: DefaultTheme.fonts,
 }
 
 function RootLayoutNav() {
+  const isUserLoggedIn = getUserAuthStatus()
+
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider value={CustomTheme}>
+        <PaperProvider theme={CustomTheme}>
           <StatusBar style="dark" />
 
           <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            <Stack.Protected guard={isUserLoggedIn}>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack.Protected>
+
+            <Stack.Screen name="login" options={{ headerShown: false }} />
           </Stack>
-        </ThemeProvider>
+        </PaperProvider>
       </QueryClientProvider>
     </SafeAreaProvider>
   )
