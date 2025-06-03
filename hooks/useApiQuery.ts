@@ -10,7 +10,7 @@ type UseApiQueryProps<T> = {
   options?: Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'>
 }
 
-export function useApiQuery<T = any>({ queryKey, url, config, options }: UseApiQueryProps<T>) {
+const useApiQuery = <T = any>({ queryKey, url, config, options }: UseApiQueryProps<T>) => {
   return useQuery<T>({
     queryKey,
     queryFn: async () => {
@@ -20,3 +20,5 @@ export function useApiQuery<T = any>({ queryKey, url, config, options }: UseApiQ
     ...options,
   })
 }
+
+export default useApiQuery

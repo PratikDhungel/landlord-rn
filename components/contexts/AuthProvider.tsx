@@ -7,7 +7,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [[isLoading, token], setToken] = useStorageState('jwt_token')
 
   function setAuthTokenOnLogin(authToken: string) {
-    console.log('setAuthTokenOnLogin', authToken)
     setToken(authToken)
   }
 

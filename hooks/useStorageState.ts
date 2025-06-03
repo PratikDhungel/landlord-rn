@@ -1,6 +1,7 @@
 import { Platform } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import { useEffect, useCallback, useReducer } from 'react'
+import { getStorageItemAsync, setStorageItemAsync, storageKey } from '@/utils/storage'
 
 type TAsyncState<T> = [boolean, T | null]
 
@@ -13,43 +14,13 @@ function useAsyncState<T>(initialValue: TAsyncState<T> = [true, null]): UseState
   )
 }
 
-export async function setStorageItemAsync(key: string, value: string | null) {
-  if (Platform.OS === 'web') {
-    try {
-      if (value === null) {
-        localStorage.removeItem(key)
-      } else {
-        localStorage.setItem(key, value)
-      }
-    } catch (e) {
-      console.error('Local storage is unavailable:', e)
-    }
-  } else {
-    if (value == null) {
-      await SecureStore.deleteItemAsync(key)
-    } else {
-      await SecureStore.setItemAsync(key, value)
-    }
-  }
-}
-
-export function useStorageState(key: string): UseStateHook<string> {
+export function useStorageState(key: storageKey): UseStateHook<string> {
   const [state, setState] = useAsyncState<string>()
 
   useEffect(() => {
-    if (Platform.OS === 'web') {
-      try {
-        if (typeof localStorage !== 'undefined') {
-          setState(localStorage.getItem(key))
-        }
-      } catch (e) {
-        console.error('Local storage is unavailable:', e)
-      }
-    } else {
-      SecureStore.getItemAsync(key).then(value => {
-        setState(value)
-      })
-    }
+    getStorageItemAsync('jwt_token').then(value => {
+      setState(value)
+    })
   }, [key])
 
   const setValue = useCallback(

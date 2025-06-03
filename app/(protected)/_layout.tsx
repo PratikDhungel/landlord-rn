@@ -1,19 +1,19 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs } from 'expo-router';
+import React from 'react'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Tabs } from 'expo-router'
 
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { useTheme } from '@react-navigation/native';
+import { useClientOnlyValue } from '@/components/useClientOnlyValue'
+import { useTheme } from '@react-navigation/native'
 
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
+  name: React.ComponentProps<typeof FontAwesome>['name']
+  color: string
 }) {
-  return <FontAwesome size={24} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={24} style={{ marginBottom: -3 }} {...props} />
 }
 
 export default function TabLayout() {
-  const currentTheme = useTheme();
+  const currentTheme = useTheme()
 
   return (
     <Tabs
@@ -48,7 +48,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="plans"
         options={{
-          title: 'Your Plans',
+          tabBarLabel: 'Plans',
+          title: 'Your Rental Plans',
           tabBarIcon: ({ color }) => <TabBarIcon name="list-alt" color={color} />,
         }}
       />
@@ -69,5 +70,5 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
-  );
+  )
 }

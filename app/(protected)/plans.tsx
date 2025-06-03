@@ -1,11 +1,19 @@
-import { StyleSheet } from 'react-native'
-import { Text, View } from '@/components/Themed'
+import { StyleSheet, Text, View } from 'react-native'
 
-export default function TabTwoScreen() {
+import ScreenWrapper from '@/components/common/ScreenWrapper'
+import useApiQuery from '@/hooks/useApiQuery'
+
+const RentalPlans = () => {
+  const { data } = useApiQuery({ queryKey: ['rental-plans'], url: '/rentals/my-rentals-plans' })
+
+  console.log('response', data)
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Rental Plans</Text>
-    </View>
+    <ScreenWrapper>
+      <View style={styles.container}>
+        <Text style={styles.title}>Rental Plans</Text>
+      </View>
+    </ScreenWrapper>
   )
 }
 
@@ -20,3 +28,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 })
+
+export default RentalPlans
