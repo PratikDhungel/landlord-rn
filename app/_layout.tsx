@@ -1,16 +1,16 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { ActivityIndicator, MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
-import * as SplashScreen from 'expo-splash-screen'
-import { useEffect } from 'react'
 import 'react-native-reanimated'
+import { useEffect } from 'react'
+import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
+import * as SplashScreen from 'expo-splash-screen'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper'
+
 import { queryClient } from '@/libs/queryClient'
-import useAuth from '@/hooks/useAuth'
 import AuthProvider from '@/components/contexts/AuthProvider'
+import AuthNavigation from '@/components/auth/AuthNavigation'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -77,26 +77,5 @@ const RootLayoutNav = () => {
         </QueryClientProvider>
       </AuthProvider>
     </SafeAreaProvider>
-  )
-}
-
-const AuthNavigation = () => {
-  const { isLoading, token } = useAuth()
-
-  if (isLoading) {
-    return <ActivityIndicator size="large" animating={true} />
-  }
-
-  return (
-    <Stack>
-      <Stack.Protected guard={!!token}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack.Protected>
-
-      <Stack.Protected guard={!token}>
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-      </Stack.Protected>
-    </Stack>
   )
 }
