@@ -6,8 +6,6 @@ import useApiQuery from '@/hooks/useApiQuery'
 const RentalPlans = () => {
   const { data } = useApiQuery({ queryKey: ['rental-plans'], url: '/rentals/my-rentals-plans' })
 
-  console.log('response', data)
-
   return (
     <ScreenWrapper>
       <View style={styles.container}>
