@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar'
 import * as SplashScreen from 'expo-splash-screen'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper'
 
 import { queryClient } from '@/libs/queryClient'

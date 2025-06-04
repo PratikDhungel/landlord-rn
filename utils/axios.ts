@@ -5,6 +5,8 @@ const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL
 
 const excludedPaths = ['/auth/login', '/auth/register']
 
+console.log('api base', API_BASE_URL)
+
 export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {

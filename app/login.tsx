@@ -21,7 +21,7 @@ const Login = () => {
     try {
       setIsLoading(true)
 
-      const { data } = await api.post('/api/auth/login', {
+      const { data } = await api.post('/auth/login', {
         email,
         password,
       })
@@ -29,6 +29,7 @@ const Login = () => {
       setAuthTokenOnLogin(data.token)
       setIsSuccess(true)
       router.replace('/(protected)/plans')
+      // TODO Add a toast on error
     } finally {
       setIsLoading(false)
     }
