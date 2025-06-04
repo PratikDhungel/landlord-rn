@@ -50,7 +50,7 @@ const RentalPlansRow = ({ rentalPlan }: { rentalPlan: any }) => {
 
   return (
     <View style={styles.tableRowContainer}>
-      <Text style={{ flex: 2, maxWidth: 200 }} ellipsizeMode="tail">
+      <Text style={{ flex: 2, maxWidth: 200 }} ellipsizeMode="tail" numberOfLines={1}>
         {name}
       </Text>
 
