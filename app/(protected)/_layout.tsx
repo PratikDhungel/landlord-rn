@@ -2,8 +2,8 @@ import React from 'react'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs } from 'expo-router'
 
-import { useClientOnlyValue } from '@/components/useClientOnlyValue'
 import useAppTheme from '@/hooks/useAppTheme'
+import { useClientOnlyValue } from '@/components/useClientOnlyValue'
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name']
@@ -29,28 +29,17 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          // headerRight: () => (
-          //   <Link href="/modal" asChild>
-          //     <Pressable>
-          //       {({ pressed }) => (
-          //         <FontAwesome
-          //           name="info-circle"
-          //           size={25}
-          //           color={Colors[colorScheme ?? 'light'].text}
-          //           style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-          //         />
-          //       )}
-          //     </Pressable>
-          //   </Link>
-          // ),
         }}
       />
       <Tabs.Screen
         name="plans"
         options={{
           tabBarLabel: 'Plans',
-          title: 'Your Rental Plans',
+          title: 'Your Plans',
           tabBarIcon: ({ color }) => <TabBarIcon name="list-alt" color={color} />,
+          headerShown: false,
+          // for navigation from nested plans route -> any other tab -> plans tab; show to default plans screen instead of nested screen as recorded in previous stack
+          popToTopOnBlur: true,
         }}
       />
 
