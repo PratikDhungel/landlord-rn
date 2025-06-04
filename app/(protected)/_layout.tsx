@@ -3,7 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs } from 'expo-router'
 
 import { useClientOnlyValue } from '@/components/useClientOnlyValue'
-import { useTheme } from '@react-navigation/native'
+import useAppTheme from '@/hooks/useAppTheme'
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name']
@@ -13,7 +13,7 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const currentTheme = useTheme()
+  const currentTheme = useAppTheme()
 
   return (
     <Tabs

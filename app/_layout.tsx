@@ -3,11 +3,12 @@ import { useEffect } from 'react'
 import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
 import * as SplashScreen from 'expo-splash-screen'
+import { PaperProvider } from 'react-native-paper'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
-import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import { AppTheme } from '@/hooks/useAppTheme'
 import { queryClient } from '@/libs/queryClient'
 import AuthProvider from '@/components/contexts/AuthProvider'
 import AuthNavigation from '@/components/auth/AuthNavigation'
@@ -54,22 +55,12 @@ export default function RootLayout() {
   return <RootLayoutNav />
 }
 
-const CustomTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: '#007fff',
-    secondary: '#dcdcdc',
-    surfaceDisabled: '#dcdcdc',
-  },
-}
-
 const RootLayoutNav = () => {
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <PaperProvider theme={CustomTheme}>
+          <PaperProvider theme={AppTheme}>
             <StatusBar style="dark" />
 
             <AuthNavigation />
