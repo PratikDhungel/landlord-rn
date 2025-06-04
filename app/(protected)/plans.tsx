@@ -36,7 +36,7 @@ const RentalPlans = () => {
 const RentalPlansTitle = () => {
   return (
     <View style={styles.tableTitleContainer}>
-      <Text style={[styles.tableTitleText, { flex: 2 }]}>Name</Text>
+      <Text style={[styles.tableTitleText, { flex: 2, maxWidth: 240 }]}>Name</Text>
 
       <Text style={[styles.tableTitleText, { flex: 1, textAlign: 'center' }]}>Rate Period</Text>
 
@@ -50,7 +50,7 @@ const RentalPlansRow = ({ rentalPlan }: { rentalPlan: any }) => {
 
   return (
     <View style={styles.tableRowContainer}>
-      <Text style={{ flex: 2, maxWidth: 200 }} ellipsizeMode="tail" numberOfLines={1}>
+      <Text style={{ flex: 2, maxWidth: 240 }} ellipsizeMode="tail" numberOfLines={1}>
         {name}
       </Text>
 
