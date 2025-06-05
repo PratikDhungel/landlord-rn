@@ -7,7 +7,13 @@ const LabelTextInput = (props: TextInputProps) => {
   return (
     <View style={styles.textInputContainer}>
       <Text style={styles.textInputLabel}>{label}</Text>
-      <TextInput style={styles.textInput} {...inputProps} dense />
+      <TextInput
+        style={styles.textInput}
+        {...inputProps}
+        dense
+        outlineColor="#444444"
+        activeOutlineColor="#007fff"
+      />
     </View>
   )
 }
@@ -20,7 +26,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   textInput: {
-    backgroundColor: '#e5f2ff',
+    backgroundColor: 'transparent',
     fontSize: 14,
   },
 })

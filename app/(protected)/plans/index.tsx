@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 
-import ScreenWrapper from '@/components/common/ScreenWrapper'
 import useApiQuery from '@/hooks/useApiQuery'
+import ScreenWrapper from '@/components/common/ScreenWrapper'
 import { ActivityIndicator } from 'react-native-paper'
+import Container from '@/components/common/Container'
 
 const RentalPlans = () => {
-  const { data, isLoading } = useApiQuery({
+  const { data, isError, isLoading } = useApiQuery({
     queryKey: ['rental-plans'],
     url: '/rentals/my-rentals-plans',
   })
@@ -18,9 +19,18 @@ const RentalPlans = () => {
     )
   }
 
+  //   TODO Create common component for error screens
+  if (isError) {
+    return (
+      <View>
+        <Text>Something went wrong</Text>
+      </View>
+    )
+  }
+
   return (
     <ScreenWrapper>
-      <View style={styles.container}>
+      <Container>
         <Text style={styles.pageTitle}>Rental Plans</Text>
 
         <RentalPlansTitle />
@@ -28,7 +38,7 @@ const RentalPlans = () => {
         {data.map((eachPlan: any) => {
           return <RentalPlansRow key={eachPlan.id} rentalPlan={eachPlan} />
         })}
-      </View>
+      </Container>
     </ScreenWrapper>
   )
 }
