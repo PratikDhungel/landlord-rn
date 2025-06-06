@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import { useRouter } from 'expo-router'
 import { Menu } from 'react-native-paper'
 import { Pressable, View } from 'react-native'
 
+import { api } from '@/utils/axios'
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
+import useReactQueryClient from '@/hooks/useReactQueryClient'
 
 // TODO Move to constants
 const RATE_PERIOD_VALUES = [
@@ -43,12 +46,35 @@ export default function TabTwoScreen() {
 
   const [name, setName] = useState('')
   const [rate, setRate] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const [ratePeriod, setRatePeriod] = useState(defaultRatePeriod)
+
+  const router = useRouter()
+  const { handleInvalidateSingleQuery } = useReactQueryClient()
 
   const ratePeriodLabel = RATE_PERIOD_VALUES.find(each => each.value === ratePeriod)!.label
 
-  const openMenu = () => {
+  function openMenu() {
     setMenuVisible(true)
+  }
+
+  async function handleAddNewPlan() {
+    setIsLoading(true)
+
+    try {
+      await api.post('/rentals/create-rental-plan', {
+        name,
+        rate,
+        rate_period: ratePeriod,
+      })
+      setIsSuccess(true)
+      handleInvalidateSingleQuery(['rental-plans'])
+      // NOTE Assuming new plan page is always opened from plans tab
+      router.back()
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -101,13 +127,14 @@ export default function TabTwoScreen() {
         <View>
           <LoadingButton
             buttonLabel="Add Plan"
-            isLoading={false}
-            isSuccess={false}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
             loadingLabel="Adding Plan"
             successLabel="Added"
             mode="contained"
             icon="plus"
             style={{ alignSelf: 'flex-end' }}
+            onPress={handleAddNewPlan}
           />
         </View>
       </Container>
