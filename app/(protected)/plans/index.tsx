@@ -5,8 +5,19 @@ import ScreenWrapper from '@/components/common/ScreenWrapper'
 import { ActivityIndicator } from 'react-native-paper'
 import Container from '@/components/common/Container'
 
+type TRentalPlan = {
+  id: number
+  name: string
+  rate: number
+  rate_period: string
+  owner_id: number
+  created_at: string
+  updated_at: string
+  deleted_at: string
+}
+
 const RentalPlans = () => {
-  const { data, isError, isLoading } = useApiQuery({
+  const { data, isError, isLoading } = useApiQuery<TRentalPlan[]>({
     queryKey: ['rental-plans'],
     url: '/rentals/my-rentals-plans',
   })
@@ -22,9 +33,17 @@ const RentalPlans = () => {
   //   TODO Create common component for error screens
   if (isError) {
     return (
-      <View>
+      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
         <Text>Something went wrong</Text>
-      </View>
+      </ScreenWrapper>
+    )
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text>No data available</Text>
+      </ScreenWrapper>
     )
   }
 

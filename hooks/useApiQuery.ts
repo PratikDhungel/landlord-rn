@@ -3,19 +3,19 @@ import { useQuery, UseQueryOptions, QueryKey } from '@tanstack/react-query'
 
 import { api } from '@/utils/axios'
 
-type UseApiQueryProps<T> = {
-  queryKey: QueryKey
+interface IUseApiQueryProps<TData = unknown> {
+  queryKey: readonly unknown[]
   url: string
   config?: AxiosRequestConfig
-  options?: Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'>
+  options?: Omit<UseQueryOptions<TData>, 'queryKey' | 'queryFn'>
 }
 
-const useApiQuery = <T = any>({ queryKey, url, config, options }: UseApiQueryProps<T>) => {
-  return useQuery<T>({
+const useApiQuery = <TData>({ queryKey, url, config, options }: IUseApiQueryProps<TData>) => {
+  return useQuery<TData>({
     queryKey,
     queryFn: async () => {
-      const response = await api.get<T>(url, config)
-      return response.data
+      const response = await api.get(url, config)
+      return response.data as TData
     },
     ...options,
   })
