@@ -46,8 +46,11 @@ export default function TabLayout() {
       <Tabs.Screen
         name="rentals"
         options={{
-          title: 'Rentals',
+          tabBarLabel: 'Rentals',
+          title: 'Your Rentals',
           tabBarIcon: ({ color }) => <TabBarIcon name="dollar" color={color} />,
+          headerShown: false,
+          popToTopOnBlur: true,
         }}
       />
 
