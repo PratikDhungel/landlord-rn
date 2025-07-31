@@ -26,12 +26,16 @@ api.interceptors.request.use(async config => {
   return config
 })
 
-api.interceptors.response.use(
-  response => response,
-  async error => {
-    if (error.response?.status === 401) {
-      await logout()
-    }
-    return Promise.reject(error)
-  },
-)
+export function provideStateUpdateCallbackToInterceptor(handleStateUpdateOnLogout: () => void) {
+  api.interceptors.response.use(
+    response => response,
+    async error => {
+      if (error.response?.status === 401) {
+        // TODO Update to handle refresh token update and auto logout on refresh token expiry
+        await logout()
+        handleStateUpdateOnLogout()
+      }
+      return Promise.reject(error)
+    },
+  )
+}

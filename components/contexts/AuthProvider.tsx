@@ -1,7 +1,8 @@
-import { type PropsWithChildren } from 'react'
+import { useEffect, type PropsWithChildren } from 'react'
 
 import { AuthContext } from '@/hooks/useAuth'
 import { useStorageState } from '@/hooks/useStorageState'
+import { provideStateUpdateCallbackToInterceptor } from '@/utils/axios'
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const [[isLoading, token], setToken] = useStorageState('jwt_token')
@@ -13,6 +14,10 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   function removeAuthTokenOnLogout() {
     setToken(null)
   }
+
+  useEffect(() => {
+    provideStateUpdateCallbackToInterceptor(removeAuthTokenOnLogout)
+  }, [])
 
   return (
     <AuthContext
