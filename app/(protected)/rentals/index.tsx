@@ -7,10 +7,10 @@ import Container from '@/components/common/Container'
 
 type TRental = {
   id: number
-  user_id: number
-  tenant_first_name: string
-  tenant_last_name: string
-  plan_name: string
+  userId: number
+  tenantFirstName: string
+  tenantLastName: string
+  planName: string
 }
 
 const Rentals = () => {
@@ -70,8 +70,8 @@ const RentalsTitle = () => {
 }
 
 const RentalsRow = ({ rentalPlan }: { rentalPlan: any }) => {
-  const { tenant_first_name, tenant_last_name, plan_name } = rentalPlan
-  const tenantFullName = `${tenant_first_name} ${tenant_last_name}`
+  const { tenantFirstName, tenantLastName, planName } = rentalPlan
+  const tenantFullName = `${tenantFirstName} ${tenantLastName}`
 
   return (
     <View style={styles.tableRowContainer}>
@@ -79,7 +79,7 @@ const RentalsRow = ({ rentalPlan }: { rentalPlan: any }) => {
         {tenantFullName}
       </Text>
 
-      <Text style={{ flex: 1 }}>{plan_name}</Text>
+      <Text style={{ flex: 1 }}>{planName}</Text>
     </View>
   )
 }

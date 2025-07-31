@@ -9,11 +9,11 @@ type TRentalPlan = {
   id: number
   name: string
   rate: number
-  rate_period: string
-  owner_id: number
-  created_at: string
-  updated_at: string
-  deleted_at: string
+  ratePeriod: string
+  ownerId: number
+  createdAt: string
+  updatedAt: string
+  deletedAt: string
 }
 
 const RentalPlans = () => {
@@ -75,7 +75,7 @@ const RentalPlansTitle = () => {
 }
 
 const RentalPlansRow = ({ rentalPlan }: { rentalPlan: any }) => {
-  const { name, rate_period, rate } = rentalPlan
+  const { name, ratePeriod, rate } = rentalPlan
 
   return (
     <View style={styles.tableRowContainer}>
@@ -83,7 +83,7 @@ const RentalPlansRow = ({ rentalPlan }: { rentalPlan: any }) => {
         {name}
       </Text>
 
-      <Text style={{ flex: 1, textAlign: 'center' }}>{rate_period}</Text>
+      <Text style={{ flex: 1, textAlign: 'center' }}>{ratePeriod}</Text>
 
       <Text style={{ flex: 1, textAlign: 'right' }}>{rate}</Text>
     </View>
