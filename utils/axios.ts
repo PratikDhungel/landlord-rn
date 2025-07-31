@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { logout } from './appUtils'
 import { getStorageItemAsync } from './storage'
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL
@@ -24,3 +25,13 @@ api.interceptors.request.use(async config => {
 
   return config
 })
+
+api.interceptors.response.use(
+  response => response,
+  async error => {
+    if (error.response?.status === 401) {
+      await logout()
+    }
+    return Promise.reject(error)
+  },
+)

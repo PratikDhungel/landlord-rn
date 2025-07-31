@@ -1,5 +1,3 @@
-import { Platform } from 'react-native'
-import * as SecureStore from 'expo-secure-store'
 import { useEffect, useCallback, useReducer } from 'react'
 import { getStorageItemAsync, setStorageItemAsync, storageKey } from '@/utils/storage'
 

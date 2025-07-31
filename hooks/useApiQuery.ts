@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
-import { useQuery, UseQueryOptions, QueryKey } from '@tanstack/react-query'
+import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
 import { api } from '@/utils/axios'
 

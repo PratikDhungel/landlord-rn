@@ -1,5 +1,8 @@
-import { getStorageItem } from './storage'
+import { router } from 'expo-router'
+import { setStorageItemAsync } from './storage'
 
-export function getUserAuthStatus() {
-  return !!getStorageItem('jwt_token')
+export async function logout() {
+  await setStorageItemAsync('jwt_token', null)
+  await setStorageItemAsync('refresh_token', null)
+  router.push('/login')
 }
