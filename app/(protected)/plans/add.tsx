@@ -107,6 +107,7 @@ export default function TabTwoScreen() {
               }
               anchorPosition="bottom"
               contentStyle={{ width: 160 }}
+              onDismiss={() => setMenuVisible(false)}
             >
               {RATE_PERIOD_VALUES.map(eachRatePeriod => {
                 return (

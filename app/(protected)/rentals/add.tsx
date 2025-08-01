@@ -19,7 +19,7 @@ export default function TabTwoScreen() {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const { data: rentalPlans, isLoading: isRentalPlansLoading } = useApiQuery<TRentalPlan[]>({
+  const { data: rentalPlans } = useApiQuery<TRentalPlan[]>({
     queryKey: ['rental-plans'],
     url: '/rentals/my-rentals-plans',
   })
