@@ -1,20 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
 
-import useApiQuery from '@/hooks/useApiQuery'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
-import { ActivityIndicator } from 'react-native-paper'
 import Container from '@/components/common/Container'
+import { ActivityIndicator } from 'react-native-paper'
+import ScreenWrapper from '@/components/common/ScreenWrapper'
 
-type TRentalPlan = {
-  id: number
-  name: string
-  rate: number
-  ratePeriod: string
-  ownerId: number
-  createdAt: string
-  updatedAt: string
-  deletedAt: string
-}
+import useApiQuery from '@/hooks/useApiQuery'
+import { TRentalPlan } from '@/app/types/rentalPlan'
 
 const RentalPlans = () => {
   const { data, isError, isLoading } = useApiQuery<TRentalPlan[]>({
