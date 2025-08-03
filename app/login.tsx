@@ -30,6 +30,8 @@ const Login = () => {
       setIsSuccess(true)
       router.replace('/(protected)/plans')
       // TODO Add a toast on error
+    } catch {
+      console.error('Login Error')
     } finally {
       setIsLoading(false)
     }
