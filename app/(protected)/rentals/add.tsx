@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Menu } from 'react-native-paper'
-import { Pressable, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
@@ -9,13 +9,16 @@ import LoadingButton from '@/components/button/LoadingButton'
 
 import useApiQuery from '@/hooks/useApiQuery'
 
+import { TUser } from '@/app/types/users'
 import { TRentalPlan } from '@/app/types/rentalPlan'
 
 export default function TabTwoScreen() {
-  const [menuVisible, setMenuVisible] = useState(false)
+  const [isTenantMenuVisible, setIsTenantMenuVisible] = useState(false)
+  const [isRentalPlanMenuVisible, setIsRentalPlanMenuVisible] = useState(false)
 
-  const [tenant, setTenantName] = useState('')
-  const [rentalPlanId, setRentalPlanId] = useState<number | null>(null)
+  const [tenantQuery, setTenantQuery] = useState('')
+  const [selectedTenant, setSelectedTenant] = useState<TUser | null>(null)
+  const [rentalPlanId, setRentalPlanId] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
@@ -23,10 +26,13 @@ export default function TabTwoScreen() {
     queryKey: ['rental-plans'],
     url: '/rentals/my-rentals-plans',
   })
-
-  function openMenu() {
-    setMenuVisible(true)
-  }
+  const { data: usersList = [] } = useApiQuery<TUser[]>({
+    queryKey: ['users-list-query', tenantQuery],
+    url: `users/search?name=${tenantQuery}`,
+    options: {
+      enabled: tenantQuery.length >= 3,
+    },
+  })
 
   async function handleAddNewRental() {
     setIsLoading(true)
@@ -40,24 +46,69 @@ export default function TabTwoScreen() {
 
   const selectedRentalPlan = rentalPlans?.find(each => each.id === rentalPlanId)
 
+  const selectedTenantFullName =
+    selectedTenant === null ? '' : `${selectedTenant?.firstName} ${selectedTenant?.lastName}`
+
   return (
     <ScreenWrapper>
       <Container>
-        <View style={{ marginBottom: 16 }}>
-          <LabelTextInput
-            mode="outlined"
-            label="Tenant"
-            value={tenant}
-            onChangeText={setTenantName}
-          />
-        </View>
-
         <View style={{ flexDirection: 'row', gap: 16, marginBottom: 16 }}>
-          <View>
+          <View style={{ flex: 1 }}>
             <Menu
-              visible={menuVisible}
+              visible={isTenantMenuVisible}
               anchor={
-                <Pressable onPress={openMenu}>
+                <Pressable onPress={() => setIsTenantMenuVisible(true)}>
+                  <LabelTextInput
+                    mode="outlined"
+                    label="Tenant"
+                    value={selectedTenantFullName}
+                    outlineStyle={{ borderColor: '#444444' }}
+                    textColor="#444444"
+                    disabled
+                  />
+                </Pressable>
+              }
+              anchorPosition="bottom"
+              onDismiss={() => {
+                setTenantQuery('')
+                setIsTenantMenuVisible(false)
+              }}
+            >
+              <LabelTextInput
+                mode="flat"
+                placeholder="Search user..."
+                value={tenantQuery}
+                outlineStyle={{ borderColor: '#444444' }}
+                textColor="#444444"
+                onChangeText={setTenantQuery}
+              />
+              {usersList?.length === 0 ? (
+                <View style={{ display: 'flex', alignItems: 'center' }}>
+                  <Text style={{ fontSize: 12, color: '#444444' }}>No users available</Text>
+                </View>
+              ) : (
+                usersList?.map(user => {
+                  return (
+                    <Menu.Item
+                      key={user.id}
+                      onPress={() => {
+                        setSelectedTenant(user)
+                        setIsTenantMenuVisible(false)
+                        setTenantQuery('')
+                      }}
+                      title={`${user.firstName} ${user.lastName}`}
+                    />
+                  )
+                })
+              )}
+            </Menu>
+          </View>
+
+          <View style={{ flex: 1 }}>
+            <Menu
+              visible={isRentalPlanMenuVisible}
+              anchor={
+                <Pressable onPress={() => setIsRentalPlanMenuVisible(true)}>
                   <LabelTextInput
                     mode="outlined"
                     label="Rental Plan"
@@ -69,7 +120,7 @@ export default function TabTwoScreen() {
                 </Pressable>
               }
               anchorPosition="bottom"
-              onDismiss={() => setMenuVisible(false)}
+              onDismiss={() => setIsRentalPlanMenuVisible(false)}
             >
               {rentalPlans?.map(eachRentalPlan => {
                 return (
@@ -77,7 +128,7 @@ export default function TabTwoScreen() {
                     key={eachRentalPlan.id}
                     onPress={() => {
                       setRentalPlanId(eachRentalPlan.id)
-                      setMenuVisible(false)
+                      setIsRentalPlanMenuVisible(false)
                     }}
                     title={eachRentalPlan.name}
                   />

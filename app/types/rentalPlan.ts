@@ -1,9 +1,9 @@
 export type TRentalPlan = {
-  id: number
+  id: string
   name: string
   rate: number
   ratePeriod: string
-  ownerId: number
+  ownerId: string
   createdAt: string
   updatedAt: string
   deletedAt: string
