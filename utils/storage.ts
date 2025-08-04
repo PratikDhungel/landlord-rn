@@ -1,7 +1,7 @@
 import { Platform } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 
-export type storageKey = 'jwt_token' | 'refresh_token'
+export type storageKey = 'jwt_token' | 'refresh_token' | 'user'
 
 export async function getStorageItemAsync(key: storageKey) {
   if (Platform.OS === 'web') {

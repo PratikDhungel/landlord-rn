@@ -8,3 +8,8 @@ export type TUser = {
   createdAt: string
   updatedAt: string
 }
+
+export type TUserLoginResponse = TUser & {
+  token: string
+  refreshToken: string
+}

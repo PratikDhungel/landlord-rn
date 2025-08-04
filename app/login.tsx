@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useRouter } from 'expo-router'
+import { Button } from 'react-native-paper'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 
 import { api } from '@/utils/axios'
 import useAuth from '@/hooks/useAuth'
 import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
-import { Button } from 'react-native-paper'
+
+import { TUserLoginResponse } from '@/types/users'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -15,18 +17,23 @@ const Login = () => {
   const [isSuccess, setIsSuccess] = useState(false)
 
   const router = useRouter()
-  const { setAuthTokenOnLogin } = useAuth()
+  const { setAuthTokenOnLogin, setUserInfoOnLogin } = useAuth()
 
   async function handleUserLogin() {
     try {
       setIsLoading(true)
 
-      const { data } = await api.post('/auth/login', {
+      const { data }: { data: TUserLoginResponse } = await api.post('/auth/login', {
         email,
         password,
       })
 
+      // TODO Add refresh token to state
       setAuthTokenOnLogin(data.token)
+
+      const { token, refreshToken, ...userInfo } = data
+
+      setUserInfoOnLogin(userInfo)
       setIsSuccess(true)
       router.replace('/(protected)/plans')
       // TODO Add a toast on error
