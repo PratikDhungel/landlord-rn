@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Menu } from 'react-native-paper'
 import { Pressable, View } from 'react-native'
 import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 
+import Dropdown from '@/components/dropdown/Dropdown'
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelTextInput from '@/components/input/LabelTextInput'
@@ -16,18 +16,26 @@ import { TRentalPlan } from '@/types/rentalPlan'
 import { TDropdownOption } from '@/types/common'
 
 export default function TabTwoScreen() {
-  const [isRentalPlanMenuVisible, setIsRentalPlanMenuVisible] = useState(false)
-
   const [showDatePicker, setShowDatePicker] = useState(false)
+
   const [selectedTenant, setSelectedTenant] = useState<TDropdownOption | null>(null)
+  const [selectedRental, setSelectedRental] = useState<TDropdownOption | null>(null)
   const [startDate, setStartDate] = useState(new Date())
-  const [rentalPlanId, setRentalPlanId] = useState('')
+
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const { data: rentalPlans } = useApiQuery<TRentalPlan[]>({
+  const { data: rentalPlans = [] } = useApiQuery<TRentalPlan[]>({
     queryKey: ['rental-plans'],
     url: '/rentals/my-rentals-plans',
+  })
+
+  const rentalPlansOptions = rentalPlans.map(rentalPlan => {
+    return {
+      id: rentalPlan.id,
+      label: rentalPlan.name,
+      value: rentalPlan.id,
+    }
   })
 
   async function handleAddNewRental() {
@@ -39,8 +47,6 @@ export default function TabTwoScreen() {
       setIsLoading(false)
     }
   }
-
-  const selectedRentalPlan = rentalPlans?.find(each => each.id === rentalPlanId)
 
   function usersListPrepareFunction(user: TUser[]) {
     return user.map(eachUser => {
@@ -87,37 +93,11 @@ export default function TabTwoScreen() {
         </View>
 
         <View style={{ marginBottom: 12 }}>
-          <Menu
-            visible={isRentalPlanMenuVisible}
-            anchor={
-              <Pressable onPress={() => setIsRentalPlanMenuVisible(true)}>
-                <LabelTextInput
-                  mode="outlined"
-                  label="Rental Plan"
-                  value={selectedRentalPlan?.name}
-                  disabled
-                  outlineStyle={{ borderColor: '#444444' }}
-                  textColor="#444444"
-                />
-              </Pressable>
-            }
-            anchorPosition="bottom"
-            onDismiss={() => setIsRentalPlanMenuVisible(false)}
-            contentStyle={{ minWidth: 160 }}
-          >
-            {rentalPlans?.map(eachRentalPlan => {
-              return (
-                <Menu.Item
-                  key={eachRentalPlan.id}
-                  onPress={() => {
-                    setRentalPlanId(eachRentalPlan.id)
-                    setIsRentalPlanMenuVisible(false)
-                  }}
-                  title={eachRentalPlan.name}
-                />
-              )
-            })}
-          </Menu>
+          <Dropdown
+            selectedValue={selectedRental}
+            setSelectedValue={setSelectedRental}
+            dropdownOptions={rentalPlansOptions}
+          />
         </View>
 
         <View style={{ marginBottom: 12 }}>
