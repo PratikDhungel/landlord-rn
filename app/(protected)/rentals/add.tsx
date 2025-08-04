@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'expo-router'
 import { Pressable, View } from 'react-native'
 import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 
@@ -9,7 +10,9 @@ import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
 import SearchableDropdown from '@/components/dropdown/SearchableDropdown'
 
+import { api } from '@/utils/axios'
 import useApiQuery from '@/hooks/useApiQuery'
+import useReactQueryClient from '@/hooks/useReactQueryClient'
 
 import { TUser } from '@/types/users'
 import { TRentalPlan } from '@/types/rentalPlan'
@@ -19,11 +22,14 @@ export default function TabTwoScreen() {
   const [showDatePicker, setShowDatePicker] = useState(false)
 
   const [selectedTenant, setSelectedTenant] = useState<TDropdownOption | null>(null)
-  const [selectedRental, setSelectedRental] = useState<TDropdownOption | null>(null)
+  const [selectedRentalPlan, setSelectedRentalPlan] = useState<TDropdownOption | null>(null)
   const [startDate, setStartDate] = useState(new Date())
 
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+
+  const router = useRouter()
+  const { handleInvalidateSingleQuery } = useReactQueryClient()
 
   const { data: rentalPlans = [] } = useApiQuery<TRentalPlan[]>({
     queryKey: ['rental-plans'],
@@ -41,8 +47,17 @@ export default function TabTwoScreen() {
   async function handleAddNewRental() {
     setIsLoading(true)
 
+    const createRentalPayload = {
+      tenant_id: selectedTenant?.id,
+      plan_id: selectedRentalPlan?.id,
+      start_date: startDate,
+    }
+
     try {
+      await api.post('/rentals/create-rental', createRentalPayload)
       setIsSuccess(true)
+      handleInvalidateSingleQuery(['rentals'])
+      router.back()
     } finally {
       setIsLoading(false)
     }
@@ -94,8 +109,8 @@ export default function TabTwoScreen() {
 
         <View style={{ marginBottom: 12 }}>
           <Dropdown
-            selectedValue={selectedRental}
-            setSelectedValue={setSelectedRental}
+            selectedValue={selectedRentalPlan}
+            setSelectedValue={setSelectedRentalPlan}
             dropdownOptions={rentalPlansOptions}
           />
         </View>
