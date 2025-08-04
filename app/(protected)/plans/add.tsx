@@ -1,7 +1,6 @@
 import { useState } from 'react'
+import { View } from 'react-native'
 import { useRouter } from 'expo-router'
-import { Menu } from 'react-native-paper'
-import { Pressable, View } from 'react-native'
 
 import { api } from '@/utils/axios'
 import Container from '@/components/common/Container'
@@ -9,55 +8,55 @@ import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
+import Dropdown from '@/components/dropdown/Dropdown'
 
 // TODO Move to constants
-const RATE_PERIOD_VALUES = [
+const RATE_PERIOD_OPTIONS = [
   {
+    id: '1',
     label: 'Weekly',
     value: 'weekly',
   },
   {
+    id: '2',
     label: 'Biweekly',
     value: 'biweekly',
   },
   {
+    id: '3',
     label: 'Monthly',
     value: 'monthly',
     default: true,
   },
   {
+    id: '4',
     label: 'Quarterly',
     value: 'quarterly',
   },
   {
+    id: '5',
     label: 'Biannual',
     value: 'biannual',
   },
   {
+    id: '6',
     label: 'Annual',
     value: 'annual',
   },
 ]
 
-const defaultRatePeriod = RATE_PERIOD_VALUES.find(ratePeriod => ratePeriod.default)!.value
+const defaultRatePeriod = RATE_PERIOD_OPTIONS.find(ratePeriod => ratePeriod.default)!
 
 export default function TabTwoScreen() {
-  const [menuVisible, setMenuVisible] = useState(false)
-
   const [name, setName] = useState('')
   const [rate, setRate] = useState('')
+  const [ratePeriod, setRatePeriod] = useState(defaultRatePeriod)
+
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [ratePeriod, setRatePeriod] = useState(defaultRatePeriod)
 
   const router = useRouter()
   const { handleInvalidateSingleQuery } = useReactQueryClient()
-
-  const ratePeriodLabel = RATE_PERIOD_VALUES.find(each => each.value === ratePeriod)!.label
-
-  function openMenu() {
-    setMenuVisible(true)
-  }
 
   async function handleAddNewPlan() {
     setIsLoading(true)
@@ -89,39 +88,12 @@ export default function TabTwoScreen() {
             <LabelTextInput mode="outlined" label="Rate" value={rate} onChangeText={setRate} />
           </View>
 
-          <View style={{ width: 160 }}>
-            <Menu
-              visible={menuVisible}
-              anchor={
-                <Pressable onPress={openMenu}>
-                  <LabelTextInput
-                    mode="outlined"
-                    label="Rate Period"
-                    value={ratePeriodLabel}
-                    disabled
-                    // override disabled state colors
-                    outlineStyle={{ borderColor: '#444444' }}
-                    textColor="#444444"
-                  />
-                </Pressable>
-              }
-              anchorPosition="bottom"
-              contentStyle={{ width: 160 }}
-              onDismiss={() => setMenuVisible(false)}
-            >
-              {RATE_PERIOD_VALUES.map(eachRatePeriod => {
-                return (
-                  <Menu.Item
-                    key={eachRatePeriod.value}
-                    onPress={() => {
-                      setRatePeriod(eachRatePeriod.value)
-                      setMenuVisible(false)
-                    }}
-                    title={eachRatePeriod.label}
-                  />
-                )
-              })}
-            </Menu>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              selectedValue={ratePeriod}
+              setSelectedValue={setRatePeriod}
+              dropdownOptions={RATE_PERIOD_OPTIONS}
+            />
           </View>
         </View>
 
