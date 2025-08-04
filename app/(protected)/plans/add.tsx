@@ -79,11 +79,11 @@ export default function TabTwoScreen() {
   return (
     <ScreenWrapper>
       <Container>
-        <View style={{ marginBottom: 16 }}>
+        <View style={{ marginBottom: 12 }}>
           <LabelTextInput mode="outlined" label="Name" value={name} onChangeText={setName} />
         </View>
 
-        <View style={{ flexDirection: 'row', gap: 16, marginBottom: 16 }}>
+        <View style={{ flexDirection: 'row', gap: 12, marginBottom: 12 }}>
           <View style={{ flex: 1 }}>
             <LabelTextInput mode="outlined" label="Rate" value={rate} onChangeText={setRate} />
           </View>
