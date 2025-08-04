@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Menu } from 'react-native-paper'
 import { Pressable, View } from 'react-native'
+import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
@@ -17,7 +18,9 @@ import { TDropdownOption } from '@/types/common'
 export default function TabTwoScreen() {
   const [isRentalPlanMenuVisible, setIsRentalPlanMenuVisible] = useState(false)
 
+  const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedTenant, setSelectedTenant] = useState<TDropdownOption | null>(null)
+  const [startDate, setStartDate] = useState(new Date())
   const [rentalPlanId, setRentalPlanId] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -49,56 +52,89 @@ export default function TabTwoScreen() {
     })
   }
 
+  function handleOpenDatePicker() {
+    setShowDatePicker(true)
+  }
+
+  function handleStartDateSelection(datePickerEvent: DateTimePickerEvent, date: Date | undefined) {
+    const { type } = datePickerEvent
+
+    if (type === 'set' && date) {
+      setStartDate(date)
+    }
+
+    setShowDatePicker(false)
+  }
+
   const userSearchQueryOptions = {
     queryKey: ['users-list-query'],
     endpoint: 'users/search?name',
     prepareFunc: usersListPrepareFunction,
   }
 
+  // Show date only
+  const startDateString = startDate.toISOString().split('T')[0]
+
   return (
     <ScreenWrapper>
       <Container>
-        <View style={{ flexDirection: 'row', gap: 16, marginBottom: 16 }}>
-          <View style={{ flex: 1 }}>
-            <SearchableDropdown
-              selectedValue={selectedTenant}
-              setSelectedValue={setSelectedTenant}
-              queryOptions={userSearchQueryOptions}
-            />
-          </View>
+        <View style={{ marginBottom: 12 }}>
+          <SearchableDropdown
+            selectedValue={selectedTenant}
+            setSelectedValue={setSelectedTenant}
+            queryOptions={userSearchQueryOptions}
+          />
+        </View>
 
-          <View style={{ flex: 1 }}>
-            <Menu
-              visible={isRentalPlanMenuVisible}
-              anchor={
-                <Pressable onPress={() => setIsRentalPlanMenuVisible(true)}>
-                  <LabelTextInput
-                    mode="outlined"
-                    label="Rental Plan"
-                    value={selectedRentalPlan?.name}
-                    disabled
-                    outlineStyle={{ borderColor: '#444444' }}
-                    textColor="#444444"
-                  />
-                </Pressable>
-              }
-              anchorPosition="bottom"
-              onDismiss={() => setIsRentalPlanMenuVisible(false)}
-            >
-              {rentalPlans?.map(eachRentalPlan => {
-                return (
-                  <Menu.Item
-                    key={eachRentalPlan.id}
-                    onPress={() => {
-                      setRentalPlanId(eachRentalPlan.id)
-                      setIsRentalPlanMenuVisible(false)
-                    }}
-                    title={eachRentalPlan.name}
-                  />
-                )
-              })}
-            </Menu>
-          </View>
+        <View style={{ marginBottom: 12 }}>
+          <Menu
+            visible={isRentalPlanMenuVisible}
+            anchor={
+              <Pressable onPress={() => setIsRentalPlanMenuVisible(true)}>
+                <LabelTextInput
+                  mode="outlined"
+                  label="Rental Plan"
+                  value={selectedRentalPlan?.name}
+                  disabled
+                  outlineStyle={{ borderColor: '#444444' }}
+                  textColor="#444444"
+                />
+              </Pressable>
+            }
+            anchorPosition="bottom"
+            onDismiss={() => setIsRentalPlanMenuVisible(false)}
+            contentStyle={{ minWidth: 160 }}
+          >
+            {rentalPlans?.map(eachRentalPlan => {
+              return (
+                <Menu.Item
+                  key={eachRentalPlan.id}
+                  onPress={() => {
+                    setRentalPlanId(eachRentalPlan.id)
+                    setIsRentalPlanMenuVisible(false)
+                  }}
+                  title={eachRentalPlan.name}
+                />
+              )
+            })}
+          </Menu>
+        </View>
+
+        <View style={{ marginBottom: 12 }}>
+          <Pressable onPress={handleOpenDatePicker}>
+            <LabelTextInput
+              mode="outlined"
+              label="Start Date"
+              value={startDateString}
+              disabled
+              outlineStyle={{ borderColor: '#444444' }}
+              textColor="#444444"
+            />
+          </Pressable>
+
+          {showDatePicker && (
+            <RNDateTimePicker value={startDate} onChange={handleStartDateSelection} />
+          )}
         </View>
 
         <View>

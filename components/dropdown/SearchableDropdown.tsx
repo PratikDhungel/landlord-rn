@@ -54,7 +54,7 @@ const SearchableDropdown = ({
     setIsMenuVisible(false)
   }
 
-  const searchResults = [...prepareFunc(data), ...prepareFunc(data)]
+  const searchResults = prepareFunc(data)
   const selectedValueLabel = selectedValue?.label ?? ''
 
   return (
@@ -68,19 +68,22 @@ const SearchableDropdown = ({
             value={selectedValueLabel}
             // Add outline to hide disabled color
             outlineStyle={{ borderColor: '#444444' }}
+            textColor="#444444"
             disabled
           />
         </Pressable>
       }
       anchorPosition="bottom"
       onDismiss={handleDropdownMenuDismiss}
+      contentStyle={{ minWidth: 160 }}
     >
       <TextInput
         dense
         value={searchQuery}
         activeOutlineColor="#007fff"
-        style={{ marginBottom: 4 }}
+        style={{ marginBottom: 4, fontSize: 12 }}
         onChangeText={setSearchQuery}
+        placeholder="Search..."
       />
 
       <SearchableDropdownOptions
@@ -105,7 +108,7 @@ const SearchableDropdownOptions = ({
 }: ISearchableDropdownOptions) => {
   if (isLoading) {
     return (
-      <View>
+      <View style={{ width: 120, padding: 8 }}>
         <ActivityIndicator size="small" animating={true} />
       </View>
     )
@@ -113,8 +116,14 @@ const SearchableDropdownOptions = ({
 
   if (searchResults.length === 0) {
     return (
-      <View style={{ display: 'flex', alignItems: 'center', paddingVertical: 12 }}>
-        <Text style={{ fontSize: 12, color: '#444444' }}>No options available</Text>
+      <View
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: 12,
+        }}
+      >
+        <Text style={{ fontSize: 12, color: '#444444' }}>No option available</Text>
       </View>
     )
   }
