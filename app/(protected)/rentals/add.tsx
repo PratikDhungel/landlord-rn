@@ -1,23 +1,23 @@
 import { useState } from 'react'
 import { Menu } from 'react-native-paper'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
+import SearchableDropdown from '@/components/dropdown/SearchableDropdown'
 
 import useApiQuery from '@/hooks/useApiQuery'
 
-import { TUser } from '@/app/types/users'
-import { TRentalPlan } from '@/app/types/rentalPlan'
+import { TUser } from '@/types/users'
+import { TRentalPlan } from '@/types/rentalPlan'
+import { TDropdownOption } from '@/types/common'
 
 export default function TabTwoScreen() {
-  const [isTenantMenuVisible, setIsTenantMenuVisible] = useState(false)
   const [isRentalPlanMenuVisible, setIsRentalPlanMenuVisible] = useState(false)
 
-  const [tenantQuery, setTenantQuery] = useState('')
-  const [selectedTenant, setSelectedTenant] = useState<TUser | null>(null)
+  const [selectedTenant, setSelectedTenant] = useState<TDropdownOption | null>(null)
   const [rentalPlanId, setRentalPlanId] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -25,13 +25,6 @@ export default function TabTwoScreen() {
   const { data: rentalPlans } = useApiQuery<TRentalPlan[]>({
     queryKey: ['rental-plans'],
     url: '/rentals/my-rentals-plans',
-  })
-  const { data: usersList = [] } = useApiQuery<TUser[]>({
-    queryKey: ['users-list-query', tenantQuery],
-    url: `users/search?name=${tenantQuery}`,
-    options: {
-      enabled: tenantQuery.length >= 3,
-    },
   })
 
   async function handleAddNewRental() {
@@ -46,62 +39,32 @@ export default function TabTwoScreen() {
 
   const selectedRentalPlan = rentalPlans?.find(each => each.id === rentalPlanId)
 
-  const selectedTenantFullName =
-    selectedTenant === null ? '' : `${selectedTenant?.firstName} ${selectedTenant?.lastName}`
+  function usersListPrepareFunction(user: TUser[]) {
+    return user.map(eachUser => {
+      return {
+        id: eachUser.id,
+        label: `${eachUser.firstName} ${eachUser.lastName}`,
+        value: eachUser.id,
+      }
+    })
+  }
+
+  const userSearchQueryOptions = {
+    queryKey: ['users-list-query'],
+    endpoint: 'users/search?name',
+    prepareFunc: usersListPrepareFunction,
+  }
 
   return (
     <ScreenWrapper>
       <Container>
         <View style={{ flexDirection: 'row', gap: 16, marginBottom: 16 }}>
           <View style={{ flex: 1 }}>
-            <Menu
-              visible={isTenantMenuVisible}
-              anchor={
-                <Pressable onPress={() => setIsTenantMenuVisible(true)}>
-                  <LabelTextInput
-                    mode="outlined"
-                    label="Tenant"
-                    value={selectedTenantFullName}
-                    outlineStyle={{ borderColor: '#444444' }}
-                    textColor="#444444"
-                    disabled
-                  />
-                </Pressable>
-              }
-              anchorPosition="bottom"
-              onDismiss={() => {
-                setTenantQuery('')
-                setIsTenantMenuVisible(false)
-              }}
-            >
-              <LabelTextInput
-                mode="flat"
-                placeholder="Search user..."
-                value={tenantQuery}
-                outlineStyle={{ borderColor: '#444444' }}
-                textColor="#444444"
-                onChangeText={setTenantQuery}
-              />
-              {usersList?.length === 0 ? (
-                <View style={{ display: 'flex', alignItems: 'center' }}>
-                  <Text style={{ fontSize: 12, color: '#444444' }}>No users available</Text>
-                </View>
-              ) : (
-                usersList?.map(user => {
-                  return (
-                    <Menu.Item
-                      key={user.id}
-                      onPress={() => {
-                        setSelectedTenant(user)
-                        setIsTenantMenuVisible(false)
-                        setTenantQuery('')
-                      }}
-                      title={`${user.firstName} ${user.lastName}`}
-                    />
-                  )
-                })
-              )}
-            </Menu>
+            <SearchableDropdown
+              selectedValue={selectedTenant}
+              setSelectedValue={setSelectedTenant}
+              queryOptions={userSearchQueryOptions}
+            />
           </View>
 
           <View style={{ flex: 1 }}>

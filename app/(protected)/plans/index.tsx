@@ -5,7 +5,7 @@ import { ActivityIndicator } from 'react-native-paper'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
 import useApiQuery from '@/hooks/useApiQuery'
-import { TRentalPlan } from '@/app/types/rentalPlan'
+import { TRentalPlan } from '@/types/rentalPlan'
 
 const RentalPlans = () => {
   const { data, isError, isLoading } = useApiQuery<TRentalPlan[]>({
