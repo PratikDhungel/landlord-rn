@@ -120,10 +120,10 @@ const SearchableDropdownOptions = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          padding: 12,
+          padding: 8,
         }}
       >
-        <Text style={{ fontSize: 12, color: '#444444' }}>No option available</Text>
+        <Text style={{ color: '#444444' }}>No option available</Text>
       </View>
     )
   }
