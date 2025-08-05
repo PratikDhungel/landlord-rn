@@ -25,17 +25,18 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
-          title: 'Home',
+          tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          headerShown: false,
         }}
       />
+
       <Tabs.Screen
         name="plans"
         options={{
           tabBarLabel: 'Plans',
-          title: 'Your Plans',
           tabBarIcon: ({ color }) => <TabBarIcon name="list-alt" color={color} />,
           headerShown: false,
           // for navigation from nested plans route -> any other tab -> plans tab; show to default plans screen instead of nested screen as recorded in previous stack
@@ -47,7 +48,6 @@ export default function TabLayout() {
         name="rentals"
         options={{
           tabBarLabel: 'Rentals',
-          title: 'Your Rentals',
           tabBarIcon: ({ color }) => <TabBarIcon name="dollar" color={color} />,
           headerShown: false,
           popToTopOnBlur: true,

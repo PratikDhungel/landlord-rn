@@ -35,7 +35,7 @@ const Login = () => {
 
       setUserInfoOnLogin(userInfo)
       setIsSuccess(true)
-      router.replace('/(protected)/plans')
+      router.replace('/(protected)/(home)')
       // TODO Add a toast on error
     } catch {
       console.error('Login Error')
