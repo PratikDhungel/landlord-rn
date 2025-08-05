@@ -16,7 +16,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 16, marginBottom: 12, fontWeight: 500 }}>Total Rentals</Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Total Rentals</Text>
 
           <View
             style={{
@@ -44,7 +44,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 16, marginBottom: 12, fontWeight: 500 }}>Total Earnings</Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Total Earnings</Text>
 
           <View
             style={{
@@ -76,7 +76,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 16, marginBottom: 12, fontWeight: 500 }}>Owned Rentals</Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Owned Rentals</Text>
 
           <View
             style={{
@@ -106,7 +106,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 16, marginBottom: 12, fontWeight: 500 }}>Total Expenditure</Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Total Expenditure</Text>
 
           <View
             style={{
@@ -138,7 +138,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 16, marginBottom: 12, fontWeight: 500 }}>Earnings by month</Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Earnings by month</Text>
 
           <View
             style={{
