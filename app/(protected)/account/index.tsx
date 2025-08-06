@@ -1,4 +1,4 @@
-import { router, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { Button } from 'react-native-paper'
 
 import Container from '@/components/common/Container'
