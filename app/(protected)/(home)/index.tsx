@@ -53,9 +53,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>
-            Total Owned Rentals
-          </Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Owned Rentals</Text>
 
           <View
             style={{
@@ -115,9 +113,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>
-            Total Liable Rentals
-          </Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Liable Rentals</Text>
 
           <View
             style={{
