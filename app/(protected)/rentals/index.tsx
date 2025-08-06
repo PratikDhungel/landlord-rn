@@ -1,20 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+
+import Container from '@/components/common/Container'
+import ScreenWrapper from '@/components/common/ScreenWrapper'
 
 import useApiQuery from '@/hooks/useApiQuery'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
-import { ActivityIndicator } from 'react-native-paper'
-import Container from '@/components/common/Container'
+import { getDateFromISOString } from '@/utils/dateUtils'
 
-type TRental = {
-  id: number
-  userId: number
-  tenantFirstName: string
-  tenantLastName: string
-  planName: string
-}
+import { TRental } from '@/types/rentals'
 
 const Rentals = () => {
-  const { data, isError, isLoading } = useApiQuery<TRental[]>({
+  const {
+    data = [],
+    isError,
+    isLoading,
+  } = useApiQuery<TRental[]>({
     queryKey: ['rentals'],
     url: '/rentals/owned-rentals',
   })
@@ -36,7 +36,7 @@ const Rentals = () => {
     )
   }
 
-  if (!data || data.length === 0) {
+  if (data.length === 0) {
     return (
       <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
         <Text>No data available</Text>
@@ -65,13 +65,17 @@ const RentalsTitle = () => {
       <Text style={[styles.tableTitleText, { flex: 1 }]}>Tenant Name</Text>
 
       <Text style={[styles.tableTitleText, { flex: 1 }]}>Plan Name</Text>
+
+      <Text style={[styles.tableTitleText, { flex: 1 }]}>Start Date</Text>
     </View>
   )
 }
 
-const RentalsRow = ({ rentalPlan }: { rentalPlan: any }) => {
-  const { tenantFirstName, tenantLastName, planName } = rentalPlan
+const RentalsRow = ({ rentalPlan }: { rentalPlan: TRental }) => {
+  const { tenantFirstName, tenantLastName, planName, startDate } = rentalPlan
+
   const tenantFullName = `${tenantFirstName} ${tenantLastName}`
+  const startDateAsString = getDateFromISOString(startDate)
 
   return (
     <View style={styles.tableRowContainer}>
@@ -80,6 +84,8 @@ const RentalsRow = ({ rentalPlan }: { rentalPlan: any }) => {
       </Text>
 
       <Text style={{ flex: 1 }}>{planName}</Text>
+
+      <Text style={{ flex: 1 }}>{startDateAsString}</Text>
     </View>
   )
 }
