@@ -1,17 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 
-const TabsGroup = () => {
-  const tabNames = ['Tab 1', 'Tab2']
+type TTabConfig = {
+  label: string
+  value: string
+  isActive?: boolean
+}
 
+interface ITabsGroupProps {
+  config: TTabConfig[]
+  onActiveStateUpdate: (value: string) => void
+}
+
+const TabsGroup = ({ config, onActiveStateUpdate }: ITabsGroupProps) => {
   return (
     <View style={{ flexDirection: 'row' }}>
-      {tabNames.map((tab, idx) => {
+      {config.map((tab, idx) => {
         return (
           <EachTab
-            label={tab}
+            tabConfig={tab}
             key={idx}
             isFirstItem={idx === 0}
-            isLastItem={idx === tabNames.length - 1}
+            isLastItem={idx === config.length - 1}
+            onActiveStateUpdate={onActiveStateUpdate}
           />
         )
       })}
@@ -19,19 +29,23 @@ const TabsGroup = () => {
   )
 }
 
-const EachTab = ({
-  label,
-  isFirstItem,
-  isLastItem,
-}: {
-  label: string
+interface ITabProps {
+  tabConfig: TTabConfig
   isFirstItem: boolean
   isLastItem: boolean
-}) => {
-  const isActive = isFirstItem
+  onActiveStateUpdate: (value: string) => void
+}
+
+const EachTab = ({ tabConfig, isFirstItem, isLastItem, onActiveStateUpdate }: ITabProps) => {
+  const { label, value, isActive } = tabConfig
+
+  function handleUpdateActiveTab() {
+    onActiveStateUpdate(value)
+  }
 
   return (
-    <View
+    <Pressable
+      onPress={handleUpdateActiveTab}
       style={[
         styles.commonTab,
         isFirstItem && styles.firstTabItem,
@@ -40,7 +54,7 @@ const EachTab = ({
       ]}
     >
       <Text style={[isActive && styles.activeTabText]}>{label}</Text>
-    </View>
+    </Pressable>
   )
 }
 
@@ -49,6 +63,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   commonTab: {
+    flex: 1,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderColor: '#007fff',
