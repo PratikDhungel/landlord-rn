@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 import TabsGroup from '@/components/tabs/TabsGroup'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import OwnedRentals from '@/components/rentals/OwnedRentals'
+import LiableRentals from '@/components/rentals/LiableRentals'
 
 enum RENTAL_TYPES {
   OWNED_RENTALS = 'owned_rentals',
@@ -48,11 +49,7 @@ const RentalDetailsTable = ({ activeRentalType }: { activeRentalType: string }) 
     return <OwnedRentals />
   }
 
-  return (
-    <>
-      <Text>Liable Rentals</Text>
-    </>
-  )
+  return <LiableRentals />
 }
 
 export default Rentals

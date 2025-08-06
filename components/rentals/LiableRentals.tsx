@@ -9,14 +9,14 @@ import { getDateFromISOString } from '@/utils/dateUtils'
 
 import { TRental } from '@/types/rentals'
 
-const OwnedRentals = () => {
+const LiableRentals = () => {
   const {
     data = [],
     isError,
     isLoading,
   } = useApiQuery<TRental[]>({
-    queryKey: ['owned-rentals'],
-    url: '/rentals/owned-rentals',
+    queryKey: ['liable-rentals'],
+    url: '/rentals/liable-rentals',
   })
 
   if (isLoading) {
@@ -60,7 +60,7 @@ const OwnedRentals = () => {
 const RentalsTitle = () => {
   return (
     <View style={styles.tableTitleContainer}>
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Tenant Name</Text>
+      <Text style={[styles.tableTitleText, { flex: 1 }]}>Owner Name</Text>
 
       <Text style={[styles.tableTitleText, { flex: 1 }]}>Plan Name</Text>
 
@@ -70,15 +70,15 @@ const RentalsTitle = () => {
 }
 
 const RentalsRow = ({ rentalPlan }: { rentalPlan: TRental }) => {
-  const { tenantFirstName, tenantLastName, planName, startDate } = rentalPlan
+  const { ownerFirstName, ownerLastName, planName, startDate } = rentalPlan
 
-  const tenantFullName = `${tenantFirstName} ${tenantLastName}`
+  const ownerFullName = `${ownerFirstName} ${ownerLastName}`
   const startDateAsString = getDateFromISOString(startDate)
 
   return (
     <View style={styles.tableRowContainer}>
       <Text style={{ flex: 1 }} ellipsizeMode="tail" numberOfLines={1}>
-        {tenantFullName}
+        {ownerFullName}
       </Text>
 
       <Text style={{ flex: 1 }}>{planName}</Text>
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default OwnedRentals
+export default LiableRentals
