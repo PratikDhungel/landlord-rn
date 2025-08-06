@@ -65,12 +65,14 @@ export default function TabTwoScreen() {
       await api.post('/rentals/create-rental-plan', {
         name,
         rate,
-        rate_period: ratePeriod,
+        rate_period: ratePeriod.value,
       })
       setIsSuccess(true)
       handleInvalidateSingleQuery(['rental-plans'])
       // NOTE Assuming new plan page is always opened from plans tab
       router.back()
+    } catch {
+      console.error('Error adding new plan')
     } finally {
       setIsLoading(false)
     }
