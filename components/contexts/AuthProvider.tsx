@@ -9,7 +9,7 @@ interface IAuthContext {
   setAuthTokenOnLogin: (token: string) => void
   removeAuthTokenOnLogout: () => void
   setUserInfoOnLogin: (user: TUser) => void
-  removeUserInfoOnLogout: () => void
+  handleStateUpdateOnLogout: () => void
   userInfo: TUser | null
   token?: string | null
   isLoading: boolean
@@ -19,7 +19,7 @@ export const AuthContext = createContext<IAuthContext>({
   setAuthTokenOnLogin: () => null,
   removeAuthTokenOnLogout: () => null,
   setUserInfoOnLogin: () => null,
-  removeUserInfoOnLogout: () => null,
+  handleStateUpdateOnLogout: () => null,
   userInfo: null,
   token: null,
   isLoading: false,
@@ -44,17 +44,13 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     setUserInfoInStorage(stringifiedUserInfo)
   }
 
-  function removeUserInfoOnLogout() {
-    setUserInfoInStorage(null)
-  }
-
-  function logoutStateCallback() {
+  function handleStateUpdateOnLogout() {
     setToken(null)
     setUserInfoInStorage(null)
   }
 
   useEffect(() => {
-    provideStateUpdateCallbackToInterceptor(logoutStateCallback)
+    provideStateUpdateCallbackToInterceptor(handleStateUpdateOnLogout)
   }, [])
 
   const isLoading = isTokenStateLoading || isUserStateLoading
@@ -65,7 +61,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         setAuthTokenOnLogin,
         removeAuthTokenOnLogout,
         setUserInfoOnLogin,
-        removeUserInfoOnLogout,
+        handleStateUpdateOnLogout,
         userInfo,
         token,
         isLoading,
