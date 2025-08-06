@@ -1,8 +1,45 @@
 import { Text, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
+import useApiQuery from '@/hooks/useApiQuery'
+import { isObjectEmpty } from '@/utils/objectUtils'
+
+import { TFinancialSummary } from '@/types/users'
+
 export default function Home() {
+  const { data, isError, isLoading } = useApiQuery<TFinancialSummary>({
+    queryKey: ['financialSummary'],
+    url: '/users/financial-summary',
+  })
+
+  if (isLoading) {
+    return (
+      <ScreenWrapper customStyle={{ justifyContent: 'center' }}>
+        <ActivityIndicator size="large" animating={true} />
+      </ScreenWrapper>
+    )
+  }
+
+  if (isError) {
+    return (
+      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Something went wrong</Text>
+      </ScreenWrapper>
+    )
+  }
+
+  if (!data || isObjectEmpty(data)) {
+    return (
+      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text>No data available</Text>
+      </ScreenWrapper>
+    )
+  }
+
+  const { ownedRentalCount, liableRentalCount } = data
+
   return (
     <ScreenWrapper>
       <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
@@ -16,7 +53,9 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Total Rentals</Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>
+            Total Owned Rentals
+          </Text>
 
           <View
             style={{
@@ -30,7 +69,7 @@ export default function Home() {
               height: 100,
             }}
           >
-            <Text style={{ fontSize: 20 }}>50</Text>
+            <Text style={{ fontSize: 20 }}>{ownedRentalCount}</Text>
           </View>
         </View>
 
@@ -76,7 +115,9 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Owned Rentals</Text>
+          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>
+            Total Liable Rentals
+          </Text>
 
           <View
             style={{
@@ -91,7 +132,7 @@ export default function Home() {
             }}
           >
             <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
-              4
+              {liableRentalCount}
             </Text>
           </View>
         </View>

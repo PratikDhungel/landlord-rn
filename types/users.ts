@@ -13,3 +13,8 @@ export type TUserLoginResponse = TUser & {
   token: string
   refreshToken: string
 }
+
+export type TFinancialSummary = {
+  ownedRentalCount: number
+  liableRentalCount: number
+}
