@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { useRouter } from 'expo-router'
 import { ActivityIndicator } from 'react-native-paper'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
@@ -19,6 +20,8 @@ const LiableRentals = () => {
     url: '/rentals/liable-rentals',
   })
 
+  const router = useRouter()
+
   if (isLoading) {
     return (
       <ScreenWrapper customStyle={{ justifyContent: 'center' }}>
@@ -27,7 +30,10 @@ const LiableRentals = () => {
     )
   }
 
-  //   TODO Create common component for error screens
+  function onRentalRowPress(rentalId: string) {
+    router.push(`/rentals/${rentalId}`)
+  }
+
   if (isError) {
     return (
       <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -50,8 +56,14 @@ const LiableRentals = () => {
 
       <RentalsTitle />
 
-      {data.map((eachPlan: any) => {
-        return <RentalsRow key={eachPlan.id} rentalPlan={eachPlan} />
+      {data.map((eachRental: any) => {
+        return (
+          <RentalsRow
+            key={eachRental.id}
+            liableRental={eachRental}
+            onRentalRowPress={onRentalRowPress}
+          />
+        )
       })}
     </Container>
   )
@@ -69,14 +81,19 @@ const RentalsTitle = () => {
   )
 }
 
-const RentalsRow = ({ rentalPlan }: { rentalPlan: TRental }) => {
-  const { ownerFirstName, ownerLastName, planName, startDate } = rentalPlan
+interface IRentalsRowProps {
+  liableRental: TRental
+  onRentalRowPress: (rentalId: string) => void
+}
+
+const RentalsRow = ({ liableRental, onRentalRowPress }: IRentalsRowProps) => {
+  const { id: rentalId, ownerFirstName, ownerLastName, planName, startDate } = liableRental
 
   const ownerFullName = `${ownerFirstName} ${ownerLastName}`
   const startDateAsString = getDateFromISOString(startDate)
 
   return (
-    <View style={styles.tableRowContainer}>
+    <Pressable style={styles.tableRowContainer} onPress={() => onRentalRowPress(rentalId)}>
       <Text style={{ flex: 1 }} ellipsizeMode="tail" numberOfLines={1}>
         {ownerFullName}
       </Text>
@@ -84,7 +101,7 @@ const RentalsRow = ({ rentalPlan }: { rentalPlan: TRental }) => {
       <Text style={{ flex: 1 }}>{planName}</Text>
 
       <Text style={{ flex: 1 }}>{startDateAsString}</Text>
-    </View>
+    </Pressable>
   )
 }
 

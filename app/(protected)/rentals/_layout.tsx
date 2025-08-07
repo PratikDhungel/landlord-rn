@@ -27,6 +27,12 @@ export default function PlansLayout() {
           title: 'Add Rental',
         }}
       />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          title: 'Rental Details',
+        }}
+      />
     </Stack>
   )
 }
