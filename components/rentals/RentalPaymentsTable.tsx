@@ -28,7 +28,7 @@ const RentalPaymentsTableHeader = () => {
 }
 
 const RentalPaymentsTableRow = ({ rentalPayment }: { rentalPayment: TRentalPayment }) => {
-  const { amount, createdAt, proofOfPayment } = rentalPayment
+  const { amount, paymentDate, proofOfPayment } = rentalPayment
 
   const proofOfPaymentLabel = proofOfPayment ?? 'N/A'
 
@@ -36,7 +36,7 @@ const RentalPaymentsTableRow = ({ rentalPayment }: { rentalPayment: TRentalPayme
     <View style={styles.tableRowContainer}>
       <Text style={{ flex: 1 }}>{amount}</Text>
 
-      <Text style={{ flex: 1 }}>{getDateFromISOString(createdAt)}</Text>
+      <Text style={{ flex: 1 }}>{getDateFromISOString(paymentDate)}</Text>
 
       <Text style={{ flex: 1 }}>{proofOfPaymentLabel}</Text>
     </View>

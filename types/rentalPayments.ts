@@ -4,5 +4,6 @@ export type TRentalPayment = {
   payerId: string
   amount: number
   createdAt: string
+  paymentDate: string
   proofOfPayment: string | null
 }

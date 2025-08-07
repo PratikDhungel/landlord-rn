@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import { View, Text } from 'react-native'
 import { useLocalSearchParams } from 'expo-router'
-import { ActivityIndicator } from 'react-native-paper'
+import { ActivityIndicator, Button } from 'react-native-paper'
 
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
@@ -10,9 +11,11 @@ import { getDateFromISOString } from '@/utils/dateUtils'
 
 import { TRentalWithPayments } from '@/types/rentals'
 import RentalPaymentsTable from '@/components/rentals/RentalPaymentsTable'
+import RentalPaymentModal from '@/components/rentals/RentalPaymentModal'
 
 const RentalDetails = () => {
-  const { id: rentalId } = useLocalSearchParams()
+  const { id: rentalId }: { id: string } = useLocalSearchParams()
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
 
   const { data, isError, isLoading } = useApiQuery<TRentalWithPayments>({
     queryKey: ['liable-rentals', rentalId],
@@ -33,6 +36,10 @@ const RentalDetails = () => {
         <Text>No data available</Text>
       </ScreenWrapper>
     )
+  }
+
+  function handleDismissPaymentModal() {
+    setShowPaymentModal(false)
   }
 
   const { ownerFirstName, ownerLastName, ownerEmail, planName, startDate, paymentDetails } = data
@@ -73,7 +80,7 @@ const RentalDetails = () => {
       </Container>
 
       <Container>
-        <View style={{ marginBottom: 12 }}>
+        <View style={{ marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={{
               fontSize: 20,
@@ -82,6 +89,10 @@ const RentalDetails = () => {
           >
             Rental Payments
           </Text>
+
+          <Button mode="contained" onPress={() => setShowPaymentModal(true)}>
+            New Payment
+          </Button>
         </View>
 
         <View style={{ marginBottom: 12 }}>
@@ -93,6 +104,12 @@ const RentalDetails = () => {
 
         <RentalPaymentsTable rentalPayments={payments} />
       </Container>
+
+      <RentalPaymentModal
+        rentalId={rentalId}
+        visible={showPaymentModal}
+        onDismissModal={handleDismissPaymentModal}
+      />
     </ScreenWrapper>
   )
 }
