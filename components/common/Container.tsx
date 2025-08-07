@@ -1,8 +1,12 @@
 import { PropsWithChildren } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
-const Container = ({ children }: PropsWithChildren) => {
-  return <View style={styles.container}>{children}</View>
+interface IContainerProps extends PropsWithChildren {
+  containerStyles?: ViewStyle
+}
+
+const Container = ({ containerStyles, children }: IContainerProps) => {
+  return <View style={[styles.container, containerStyles && containerStyles]}>{children}</View>
 }
 
 const styles = StyleSheet.create({
