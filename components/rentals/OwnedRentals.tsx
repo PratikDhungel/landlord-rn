@@ -50,8 +50,8 @@ const OwnedRentals = () => {
 
       <RentalsTitle />
 
-      {data.map((eachPlan: any) => {
-        return <RentalsRow key={eachPlan.id} rentalPlan={eachPlan} />
+      {data.map((eachRental: any) => {
+        return <RentalsRow key={eachRental.id} ownedRental={eachRental} />
       })}
     </Container>
   )
@@ -69,8 +69,8 @@ const RentalsTitle = () => {
   )
 }
 
-const RentalsRow = ({ rentalPlan }: { rentalPlan: TRental }) => {
-  const { tenantFirstName, tenantLastName, planName, startDate } = rentalPlan
+const RentalsRow = ({ ownedRental }: { ownedRental: TRental }) => {
+  const { tenantFirstName, tenantLastName, planName, startDate } = ownedRental
 
   const tenantFullName = `${tenantFirstName} ${tenantLastName}`
   const startDateAsString = getDateFromISOString(startDate)
