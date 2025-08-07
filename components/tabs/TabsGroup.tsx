@@ -53,7 +53,7 @@ const EachTab = ({ tabConfig, isFirstItem, isLastItem, onActiveStateUpdate }: IT
         isActive && styles.activeTab,
       ]}
     >
-      <Text style={[isActive && styles.activeTabText]}>{label}</Text>
+      <Text style={[styles.tabText, isActive && styles.activeTabText]}>{label}</Text>
     </Pressable>
   )
 }
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   },
   commonTab: {
     flex: 1,
+    alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderColor: '#007fff',
@@ -81,6 +82,9 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     backgroundColor: '#007fff',
+  },
+  tabText: {
+    fontWeight: 600,
   },
   activeTabText: {
     color: '#fff',
