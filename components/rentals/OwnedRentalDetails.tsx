@@ -59,8 +59,8 @@ const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
     <ScreenWrapper>
       <Container containerStyles={{ marginBottom: 16 }}>
         <View>
-          {rentalDetailsLabelValues.map(detail => {
-            return <LabelValuePair label={detail.label} value={detail.value} />
+          {rentalDetailsLabelValues.map((detail, idx) => {
+            return <LabelValuePair label={detail.label} value={detail.value} key={idx} />
           })}
         </View>
       </Container>

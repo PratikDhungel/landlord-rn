@@ -69,8 +69,8 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
       <Container containerStyles={{ marginBottom: 16 }}>
         <View>
           <View>
-            {rentalDetailsLabelValues.map(detail => {
-              return <LabelValuePair label={detail.label} value={detail.value} />
+            {rentalDetailsLabelValues.map((detail, idx) => {
+              return <LabelValuePair label={detail.label} value={detail.value} key={idx} />
             })}
           </View>
         </View>
@@ -87,8 +87,8 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
             Rental Payments
           </Text>
 
-          <Button mode="contained" onPress={() => setShowPaymentModal(true)}>
-            New Payment
+          <Button mode="text" onPress={() => setShowPaymentModal(true)}>
+            <Text style={{ fontSize: 12 }}>New Payment</Text>
           </Button>
         </View>
 
