@@ -13,7 +13,7 @@ const LabelValuePair = ({ label, value, containerStyles }: ILabelValuePairProps)
   return (
     <View style={combinedContainerStyles}>
       <Text>
-        <Text style={styles.labelText}>{label}:</Text>
+        <Text style={styles.labelText}>{label}: </Text>
 
         <Text>{value}</Text>
       </Text>
