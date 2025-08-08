@@ -14,7 +14,7 @@ import RentalPaymentsTable from './RentalPaymentsTable'
 const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
   const { data, isError, isLoading } = useApiQuery<TRentalWithPayments>({
     queryKey: ['owned-rentals', rentalId],
-    url: `/rentals/liable-rental/${rentalId}`,
+    url: `/rentals/details/${rentalId}`,
   })
 
   if (isLoading) {

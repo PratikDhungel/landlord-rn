@@ -19,7 +19,7 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
 
   const { data, isError, isLoading } = useApiQuery<TRentalWithPayments>({
     queryKey: ['liable-rentals', rentalId],
-    url: `/rentals/liable-rental/${rentalId}`,
+    url: `/rentals/details/${rentalId}`,
   })
 
   if (isLoading) {
