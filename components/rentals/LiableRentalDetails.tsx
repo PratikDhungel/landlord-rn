@@ -42,7 +42,16 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
     setShowPaymentModal(false)
   }
 
-  const { ownerFirstName, ownerLastName, ownerEmail, planName, startDate, paymentDetails } = data
+  const {
+    ownerFirstName,
+    ownerLastName,
+    ownerEmail,
+    planName,
+    startDate,
+    paymentDetails,
+    planRate,
+  } = data
+  const planRateAsString = planRate.toString()
   const { payments, total: totalPayment } = paymentDetails
 
   const rentalDetailsLabelValues = [
@@ -57,6 +66,10 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
     {
       label: 'Rental Plan Name',
       value: planName,
+    },
+    {
+      label: 'Rental Plan Rate',
+      value: planRateAsString,
     },
     {
       label: 'Start Date',
@@ -104,6 +117,7 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
 
       <RentalPaymentModal
         rentalId={rentalId}
+        planRate={planRateAsString}
         visible={showPaymentModal}
         onDismissModal={handleDismissPaymentModal}
       />

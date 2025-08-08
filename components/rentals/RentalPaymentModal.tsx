@@ -12,20 +12,25 @@ import useReactQueryClient from '@/hooks/useReactQueryClient'
 interface IRentalPaymentModalProps {
   rentalId: string
   visible: boolean
+  planRate: string
   onDismissModal: () => void
 }
 
 const currentDate = new Date()
 
-const RentalPaymentModal = ({ rentalId, visible, onDismissModal }: IRentalPaymentModalProps) => {
+const RentalPaymentModal = ({
+  rentalId,
+  visible,
+  planRate,
+  onDismissModal,
+}: IRentalPaymentModalProps) => {
   const { handleInvalidateSingleQuery } = useReactQueryClient()
 
-  const [paymentAmount, setPaymentAmount] = useState('')
+  const [paymentAmount, setPaymentAmount] = useState(planRate)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [paymentDate, setPaymentDate] = useState(currentDate)
 
   const [isLoading, setIsLoading] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
 
   function handleOpenDatePicker() {
     setShowDatePicker(true)
@@ -48,6 +53,11 @@ const RentalPaymentModal = ({ rentalId, visible, onDismissModal }: IRentalPaymen
     setShowDatePicker(false)
   }
 
+  function resetFormValuesToDefault() {
+    setPaymentAmount(planRate)
+    setPaymentDate(currentDate)
+  }
+
   async function handleAddNewPayment() {
     setIsLoading(true)
 
@@ -59,11 +69,11 @@ const RentalPaymentModal = ({ rentalId, visible, onDismissModal }: IRentalPaymen
         amount: parsedPaymentAmount,
         payment_date: paymentDate,
       })
-      setIsSuccess(true)
       handleInvalidateSingleQuery(['liable-rentals', rentalId])
     } catch {
       console.error('Error adding new payment')
     } finally {
+      resetFormValuesToDefault()
       setIsLoading(false)
       onDismissModal()
     }
@@ -123,8 +133,6 @@ const RentalPaymentModal = ({ rentalId, visible, onDismissModal }: IRentalPaymen
           <LoadingButton
             buttonLabel="Pay"
             loadingLabel="Paying"
-            successLabel="Payed"
-            isSuccess={isSuccess}
             isLoading={isLoading}
             mode="contained"
             onPress={handleAddNewPayment}

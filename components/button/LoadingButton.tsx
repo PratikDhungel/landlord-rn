@@ -3,9 +3,9 @@ import { Button, ButtonProps } from 'react-native-paper'
 interface ILoadingButtonProps extends Omit<ButtonProps, 'children'> {
   buttonLabel: string
   isLoading: boolean
-  isSuccess: boolean
+  isSuccess?: boolean
   loadingLabel: string
-  successLabel: string
+  successLabel?: string
 }
 
 const LoadingButton = (props: ILoadingButtonProps) => {

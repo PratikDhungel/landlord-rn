@@ -33,7 +33,15 @@ const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
     )
   }
 
-  const { tenantFirstName, tenantLastName, tenantEmail, planName, startDate, paymentDetails } = data
+  const {
+    tenantFirstName,
+    tenantLastName,
+    tenantEmail,
+    planName,
+    startDate,
+    paymentDetails,
+    planRate,
+  } = data
   const { payments, total: totalPayment } = paymentDetails
 
   const rentalDetailsLabelValues = [
@@ -48,6 +56,10 @@ const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
     {
       label: 'Rental Plan Name',
       value: planName,
+    },
+    {
+      label: 'Rental Plan Rate',
+      value: planRate.toString(),
     },
     {
       label: 'Start Date',

@@ -12,6 +12,7 @@ export type TRental = {
   tenantEmail: string
   planId: string
   planName: string
+  planRate: number
   startDate: string
 }
 
