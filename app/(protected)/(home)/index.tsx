@@ -38,7 +38,7 @@ export default function Home() {
     )
   }
 
-  const { ownedRentalCount, liableRentalCount } = data
+  const { ownedRentalCount, liableRentalCount, totalEarnings, totalExpenditure } = data
 
   return (
     <ScreenWrapper>
@@ -96,7 +96,7 @@ export default function Home() {
             }}
           >
             <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
-              50758
+              {totalEarnings}
             </Text>
           </View>
         </View>
@@ -158,7 +158,7 @@ export default function Home() {
             }}
           >
             <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
-              10973
+              {totalExpenditure}
             </Text>
           </View>
         </View>

@@ -17,4 +17,6 @@ export type TUserLoginResponse = TUser & {
 export type TFinancialSummary = {
   ownedRentalCount: number
   liableRentalCount: number
+  totalEarnings: number
+  totalExpenditure: number
 }
