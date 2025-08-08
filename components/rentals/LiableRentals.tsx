@@ -30,10 +30,6 @@ const LiableRentals = () => {
     )
   }
 
-  function onRentalRowPress(rentalId: string) {
-    router.push(`/rentals/${rentalId}`)
-  }
-
   if (isError) {
     return (
       <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -48,6 +44,16 @@ const LiableRentals = () => {
         <Text>No data available</Text>
       </ScreenWrapper>
     )
+  }
+
+  function onRentalRowPress(rentalId: string) {
+    router.push({
+      pathname: '/rentals/[id]',
+      params: {
+        id: rentalId,
+        type: 'liable-rental',
+      },
+    })
   }
 
   return (

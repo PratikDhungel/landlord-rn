@@ -9,12 +9,12 @@ import ScreenWrapper from '@/components/common/ScreenWrapper'
 import useApiQuery from '@/hooks/useApiQuery'
 import { getDateFromISOString } from '@/utils/dateUtils'
 
-import { TRentalWithPayments } from '@/types/rentals'
+import { RentalTypes, TRentalWithPayments } from '@/types/rentals'
 import RentalPaymentsTable from '@/components/rentals/RentalPaymentsTable'
 import RentalPaymentModal from '@/components/rentals/RentalPaymentModal'
 
 const RentalDetails = () => {
-  const { id: rentalId }: { id: string } = useLocalSearchParams()
+  const { id: rentalId, type }: { id: string; type: RentalTypes } = useLocalSearchParams()
   const [showPaymentModal, setShowPaymentModal] = useState(false)
 
   const { data, isError, isLoading } = useApiQuery<TRentalWithPayments>({

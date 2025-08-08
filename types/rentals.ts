@@ -21,3 +21,8 @@ export type TRentalWithPayments = TRental & {
     payments: TRentalPayment[]
   }
 }
+
+export enum RentalTypes {
+  OWNED_RENTAL = 'owned-rental',
+  LIABLE_RENTAL = 'liable-rental',
+}

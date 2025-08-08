@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { useRouter } from 'expo-router'
 import { ActivityIndicator } from 'react-native-paper'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
@@ -19,6 +20,8 @@ const OwnedRentals = () => {
     url: '/rentals/owned-rentals',
   })
 
+  const router = useRouter()
+
   if (isLoading) {
     return (
       <ScreenWrapper customStyle={{ justifyContent: 'center' }}>
@@ -27,7 +30,6 @@ const OwnedRentals = () => {
     )
   }
 
-  //   TODO Create common component for error screens
   if (isError) {
     return (
       <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -44,6 +46,16 @@ const OwnedRentals = () => {
     )
   }
 
+  function onRentalRowPress(rentalId: string) {
+    router.push({
+      pathname: '/rentals/[id]',
+      params: {
+        id: rentalId,
+        type: 'owned-rental',
+      },
+    })
+  }
+
   return (
     <Container>
       <Text style={styles.pageTitle}>Rentals</Text>
@@ -51,7 +63,13 @@ const OwnedRentals = () => {
       <RentalsTitle />
 
       {data.map((eachRental: any) => {
-        return <RentalsRow key={eachRental.id} ownedRental={eachRental} />
+        return (
+          <RentalsRow
+            key={eachRental.id}
+            ownedRental={eachRental}
+            onRentalRowPress={onRentalRowPress}
+          />
+        )
       })}
     </Container>
   )
@@ -69,14 +87,19 @@ const RentalsTitle = () => {
   )
 }
 
-const RentalsRow = ({ ownedRental }: { ownedRental: TRental }) => {
-  const { tenantFirstName, tenantLastName, planName, startDate } = ownedRental
+interface IRentalsRowProps {
+  ownedRental: TRental
+  onRentalRowPress: (rentalId: string) => void
+}
+
+const RentalsRow = ({ ownedRental, onRentalRowPress }: IRentalsRowProps) => {
+  const { id: rentalId, tenantFirstName, tenantLastName, planName, startDate } = ownedRental
 
   const tenantFullName = `${tenantFirstName} ${tenantLastName}`
   const startDateAsString = getDateFromISOString(startDate)
 
   return (
-    <View style={styles.tableRowContainer}>
+    <Pressable style={styles.tableRowContainer} onPress={() => onRentalRowPress(rentalId)}>
       <Text style={{ flex: 1 }} ellipsizeMode="tail" numberOfLines={1}>
         {tenantFullName}
       </Text>
@@ -84,7 +107,7 @@ const RentalsRow = ({ ownedRental }: { ownedRental: TRental }) => {
       <Text style={{ flex: 1 }}>{planName}</Text>
 
       <Text style={{ flex: 1 }}>{startDateAsString}</Text>
-    </View>
+    </Pressable>
   )
 }
 
