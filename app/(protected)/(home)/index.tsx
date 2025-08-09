@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 
 import ScreenWrapper from '@/components/common/ScreenWrapper'
@@ -7,6 +7,7 @@ import useApiQuery from '@/hooks/useApiQuery'
 import { isObjectEmpty } from '@/utils/objectUtils'
 
 import { TFinancialSummary } from '@/types/users'
+import MonthlyPaymentsBar from '@/components/dashboard/MonthlyPaymentsBar'
 
 export default function Home() {
   const { data, isError, isLoading } = useApiQuery<TFinancialSummary>({
@@ -41,154 +42,134 @@ export default function Home() {
   const { ownedRentalCount, liableRentalCount, totalEarnings, totalExpenditure } = data
 
   return (
-    <ScreenWrapper>
-      <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
-        <View
-          style={{
-            padding: 12,
-            borderRadius: 20,
-            backgroundColor: '#fff',
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Owned Rentals</Text>
+    <ScrollView>
+      <ScreenWrapper>
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
+          <View
+            style={{
+              padding: 12,
+              borderRadius: 20,
+              backgroundColor: '#fff',
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>Owned Rentals</Text>
+
+            <View
+              style={{
+                borderWidth: 8,
+                borderRadius: '50%',
+                borderColor: '#007fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 100,
+                height: 100,
+              }}
+            >
+              <Text style={{ fontSize: 20 }}>{ownedRentalCount}</Text>
+            </View>
+          </View>
 
           <View
             style={{
-              borderWidth: 8,
-              borderRadius: '50%',
-              borderColor: '#007fff',
+              padding: 12,
+              borderRadius: 20,
+              backgroundColor: '#fff',
+              flex: 1,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              width: 100,
-              height: 100,
             }}
           >
-            <Text style={{ fontSize: 20 }}>{ownedRentalCount}</Text>
+            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>Total Earnings</Text>
+
+            <View
+              style={{
+                borderWidth: 8,
+                borderRadius: '50%',
+                borderColor: 'green',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 100,
+                height: 100,
+              }}
+            >
+              <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
+                {totalEarnings}
+              </Text>
+            </View>
           </View>
         </View>
 
-        <View
-          style={{
-            padding: 12,
-            borderRadius: 20,
-            backgroundColor: '#fff',
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Total Earnings</Text>
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
+          <View
+            style={{
+              padding: 12,
+              borderRadius: 20,
+              backgroundColor: '#fff',
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>Liable Rentals</Text>
+
+            <View
+              style={{
+                borderWidth: 8,
+                borderRadius: '50%',
+                borderColor: 'red',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 100,
+                height: 100,
+              }}
+            >
+              <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
+                {liableRentalCount}
+              </Text>
+            </View>
+          </View>
 
           <View
             style={{
-              borderWidth: 8,
-              borderRadius: '50%',
-              borderColor: 'green',
+              padding: 12,
+              borderRadius: 20,
+              backgroundColor: '#fff',
+              flex: 1,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              width: 100,
-              height: 100,
             }}
           >
-            <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
-              {totalEarnings}
+            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>
+              Total Expenditure
             </Text>
-          </View>
-        </View>
-      </View>
 
-      <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
-        <View
-          style={{
-            padding: 12,
-            borderRadius: 20,
-            backgroundColor: '#fff',
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Liable Rentals</Text>
-
-          <View
-            style={{
-              borderWidth: 8,
-              borderRadius: '50%',
-              borderColor: 'red',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 100,
-              height: 100,
-            }}
-          >
-            <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
-              {liableRentalCount}
-            </Text>
+            <View
+              style={{
+                borderWidth: 8,
+                borderRadius: '50%',
+                borderColor: 'red',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 100,
+                height: 100,
+              }}
+            >
+              <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
+                {totalExpenditure}
+              </Text>
+            </View>
           </View>
         </View>
 
-        <View
-          style={{
-            padding: 12,
-            borderRadius: 20,
-            backgroundColor: '#fff',
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Total Expenditure</Text>
-
-          <View
-            style={{
-              borderWidth: 8,
-              borderRadius: '50%',
-              borderColor: 'red',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 100,
-              height: 100,
-            }}
-          >
-            <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
-              {totalExpenditure}
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
-        <View
-          style={{
-            padding: 12,
-            borderRadius: 20,
-            backgroundColor: '#fff',
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 500 }}>Earnings by month</Text>
-
-          <View
-            style={{
-              height: 200,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Text style={{ fontSize: 24 }}>Show bar graphs here</Text>
-          </View>
-        </View>
-      </View>
-    </ScreenWrapper>
+        <MonthlyPaymentsBar />
+      </ScreenWrapper>
+    </ScrollView>
   )
 }
