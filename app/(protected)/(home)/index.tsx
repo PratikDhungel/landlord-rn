@@ -39,7 +39,10 @@ export default function Home() {
     )
   }
 
-  const { ownedRentalCount, liableRentalCount, totalEarnings, totalExpenditure } = data
+  console.log('data', data)
+
+  const { ownedRentalCount, liableRentalCount, totalEarnings, totalExpenditure, paymentsByMonth } =
+    data
 
   return (
     <ScrollView>
@@ -168,7 +171,7 @@ export default function Home() {
           </View>
         </View>
 
-        <MonthlyPaymentsBar />
+        <MonthlyPaymentsBar monthlyEarnings={paymentsByMonth} />
       </ScreenWrapper>
     </ScrollView>
   )

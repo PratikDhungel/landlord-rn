@@ -14,9 +14,15 @@ export type TUserLoginResponse = TUser & {
   refreshToken: string
 }
 
+export type TMonthlyEarning = {
+  month: string
+  earnings: number
+}
+
 export type TFinancialSummary = {
   ownedRentalCount: number
   liableRentalCount: number
   totalEarnings: number
   totalExpenditure: number
+  paymentsByMonth: TMonthlyEarning[]
 }

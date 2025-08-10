@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import paymentMock from './paymentMock.json'
+import { TMonthlyEarning } from '@/types/users'
 
 const EARNINGS_RANGE_START = 0
 const EARNINGS_RANGE_ADDITION = 100
@@ -11,7 +11,21 @@ const EARNINGS_RANGE_PIXEL_DIFFERENCE = 30
 
 const EARNINGS_RANGE_LIST = [...Array(11).keys()]
 
-const MonthlyPaymentsBar = () => {
+const EARNINGS_RANGE_MAX_HEIGHT = (EARNINGS_RANGE_LIST.length - 1) * EARNINGS_RANGE_PIXEL_DIFFERENCE
+
+function getBarGraphHeightFromEarnings(earning: number) {
+  const heightForEarning = (earning / EARNINGS_RANGE_ADDITION) * EARNINGS_RANGE_PIXEL_DIFFERENCE
+
+  const roundedHeightValue = Math.round(heightForEarning)
+
+  if (roundedHeightValue > EARNINGS_RANGE_MAX_HEIGHT) {
+    return EARNINGS_RANGE_MAX_HEIGHT
+  }
+
+  return roundedHeightValue
+}
+
+const MonthlyPaymentsBar = ({ monthlyEarnings }: { monthlyEarnings: TMonthlyEarning[] }) => {
   return (
     <View
       style={{
@@ -33,7 +47,7 @@ const MonthlyPaymentsBar = () => {
             width: 1,
             backgroundColor: '#808080',
             bottom: EARNINGS_RANGE_START_PIXEL,
-            height: (EARNINGS_RANGE_LIST.length - 1) * EARNINGS_RANGE_PIXEL_DIFFERENCE,
+            height: EARNINGS_RANGE_MAX_HEIGHT,
           }}
         />
         {/* Horizontal line on the left to show earnings */}
@@ -87,10 +101,12 @@ const MonthlyPaymentsBar = () => {
             gap: 24,
           }}
         >
-          {paymentMock.map(each => {
+          {monthlyEarnings.map((each, idx) => {
+            const heightValue = getBarGraphHeightFromEarnings(each.earnings)
+
             return (
-              <View style={{ alignSelf: 'flex-end', position: 'relative' }}>
-                <View style={{ height: 200, width: 24, backgroundColor: '#007fff' }} />
+              <View style={{ alignSelf: 'flex-end', position: 'relative' }} key={idx}>
+                <View style={{ height: heightValue, width: 24, backgroundColor: '#007fff' }} />
                 <View
                   style={{
                     position: 'absolute',
@@ -113,7 +129,7 @@ const MonthlyPaymentsBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 32 + (EARNINGS_RANGE_LIST.length - 1) * EARNINGS_RANGE_PIXEL_DIFFERENCE,
+    height: 32 + EARNINGS_RANGE_MAX_HEIGHT,
     marginLeft: 20,
     marginTop: 8,
   },
