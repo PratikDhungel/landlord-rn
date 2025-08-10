@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
+import { StyleSheet, View } from 'react-native'
 
 import Container from '@/components/common/Container'
-import { StyleSheet, View } from 'react-native'
 
 const DashboardStatsSectionWrapper = ({ children }: { children: ReactNode }) => {
   return <View style={styles.dashboardStatsSectionWrapper}>{children}</View>
