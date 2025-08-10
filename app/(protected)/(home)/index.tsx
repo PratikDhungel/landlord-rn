@@ -2,12 +2,21 @@ import { ScrollView, Text, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 
 import ScreenWrapper from '@/components/common/ScreenWrapper'
+import {
+  DashboardStatsContainer,
+  DashboardStatsSectionWrapper,
+} from '@/components/dashboard/DashboardContentWrappers'
+import {
+  CircularStatsVisualization,
+  DashboardVisualizationTitle,
+} from '@/components/dashboard/DashboardVisualizations'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { isObjectEmpty } from '@/utils/objectUtils'
 
 import { TFinancialSummary } from '@/types/users'
 import MonthlyPaymentsBar from '@/components/dashboard/MonthlyPaymentsBar'
+import { VisualizationType } from '@/types/dashboard'
 
 export default function Home() {
   const { data, isError, isLoading } = useApiQuery<TFinancialSummary>({
@@ -45,129 +54,45 @@ export default function Home() {
   return (
     <ScrollView>
       <ScreenWrapper>
-        <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
-          <View
-            style={{
-              padding: 12,
-              borderRadius: 20,
-              backgroundColor: '#fff',
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>Owned Rentals</Text>
+        <DashboardStatsSectionWrapper>
+          <DashboardStatsContainer>
+            <DashboardVisualizationTitle>Owned Rentals</DashboardVisualizationTitle>
 
-            <View
-              style={{
-                borderWidth: 8,
-                borderRadius: '50%',
-                borderColor: '#007fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 100,
-                height: 100,
-              }}
-            >
-              <Text style={{ fontSize: 20 }}>{ownedRentalCount}</Text>
-            </View>
-          </View>
+            <CircularStatsVisualization type={VisualizationType.NEUTRAL}>
+              <Text style={{ fontSize: 16 }}>{ownedRentalCount}</Text>
+            </CircularStatsVisualization>
+          </DashboardStatsContainer>
 
-          <View
-            style={{
-              padding: 12,
-              borderRadius: 20,
-              backgroundColor: '#fff',
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>Total Earnings</Text>
+          <DashboardStatsContainer>
+            <DashboardVisualizationTitle>Total Earnings</DashboardVisualizationTitle>
 
-            <View
-              style={{
-                borderWidth: 8,
-                borderRadius: '50%',
-                borderColor: 'green',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 100,
-                height: 100,
-              }}
-            >
+            <CircularStatsVisualization type={VisualizationType.POSITIVE}>
               <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
                 {totalEarnings}
               </Text>
-            </View>
-          </View>
-        </View>
+            </CircularStatsVisualization>
+          </DashboardStatsContainer>
+        </DashboardStatsSectionWrapper>
 
-        <View style={{ display: 'flex', flexDirection: 'row', gap: 12, marginBottom: 12 }}>
-          <View
-            style={{
-              padding: 12,
-              borderRadius: 20,
-              backgroundColor: '#fff',
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>Liable Rentals</Text>
+        <DashboardStatsSectionWrapper>
+          <DashboardStatsContainer>
+            <DashboardVisualizationTitle>Liable Rentals</DashboardVisualizationTitle>
 
-            <View
-              style={{
-                borderWidth: 8,
-                borderRadius: '50%',
-                borderColor: 'red',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 100,
-                height: 100,
-              }}
-            >
-              <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
-                {liableRentalCount}
-              </Text>
-            </View>
-          </View>
+            <CircularStatsVisualization type={VisualizationType.NEGATIVE}>
+              <Text style={{ fontSize: 16 }}>{liableRentalCount}</Text>
+            </CircularStatsVisualization>
+          </DashboardStatsContainer>
 
-          <View
-            style={{
-              padding: 12,
-              borderRadius: 20,
-              backgroundColor: '#fff',
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600 }}>
-              Total Expenditure
-            </Text>
+          <DashboardStatsContainer>
+            <DashboardVisualizationTitle>Total Expenditure</DashboardVisualizationTitle>
 
-            <View
-              style={{
-                borderWidth: 8,
-                borderRadius: '50%',
-                borderColor: 'red',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 100,
-                height: 100,
-              }}
-            >
+            <CircularStatsVisualization type={VisualizationType.NEGATIVE}>
               <Text style={{ fontSize: 16, maxWidth: 60 }} ellipsizeMode="tail" numberOfLines={1}>
                 {totalExpenditure}
               </Text>
-            </View>
-          </View>
-        </View>
+            </CircularStatsVisualization>
+          </DashboardStatsContainer>
+        </DashboardStatsSectionWrapper>
 
         <MonthlyPaymentsBar monthlyEarnings={paymentsByMonth} />
       </ScreenWrapper>
