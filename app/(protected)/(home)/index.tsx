@@ -39,8 +39,6 @@ export default function Home() {
     )
   }
 
-  console.log('data', data)
-
   const { ownedRentalCount, liableRentalCount, totalEarnings, totalExpenditure, paymentsByMonth } =
     data
 
