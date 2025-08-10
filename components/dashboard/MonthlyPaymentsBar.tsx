@@ -1,6 +1,8 @@
 import { Fragment } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 
+import Container from '@/components/common/Container'
+
 import { TMonthlyEarning } from '@/types/users'
 
 const EARNINGS_RANGE_START = 0
@@ -27,39 +29,16 @@ function getBarGraphHeightFromEarnings(earning: number) {
 
 const MonthlyPaymentsBar = ({ monthlyEarnings }: { monthlyEarnings: TMonthlyEarning[] }) => {
   return (
-    <View
-      style={{
-        marginBottom: 12,
-        padding: 12,
-        borderRadius: 20,
-        backgroundColor: '#fff',
-      }}
-    >
+    <Container>
       <Text style={{ fontSize: 18, marginBottom: 12, fontWeight: 600, alignSelf: 'center' }}>
         Earnings for past year
       </Text>
 
-      <View style={styles.container}>
+      <View style={styles.sectionWrapper}>
         {/* Vertical line on the left to show range */}
-        <View
-          style={{
-            position: 'absolute',
-            width: 1,
-            backgroundColor: '#808080',
-            bottom: EARNINGS_RANGE_START_PIXEL,
-            height: EARNINGS_RANGE_MAX_HEIGHT,
-          }}
-        />
+        <View style={styles.barGraphYAxis} />
         {/* Horizontal line on the left to show earnings */}
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            backgroundColor: '#808080',
-            bottom: EARNINGS_RANGE_START_PIXEL,
-            height: 1,
-          }}
-        />
+        <View style={styles.barGraphXAxis} />
 
         {EARNINGS_RANGE_LIST.map(value => {
           const indicatorBottomPosition =
@@ -71,67 +50,92 @@ const MonthlyPaymentsBar = ({ monthlyEarnings }: { monthlyEarnings: TMonthlyEarn
 
           return (
             <Fragment key={value}>
-              <View style={{ position: 'absolute', left: -28, bottom: labelBottomPosition }}>
-                <Text style={{ fontSize: 12, lineHeight: 12, transform: [{ rotate: '-45deg' }] }}>
-                  {rangeValue !== 0 && rangeValue}
-                </Text>
+              <View style={[styles.yAxisRangeContainer, { bottom: labelBottomPosition }]}>
+                <Text style={styles.barGraphRangeLabel}>{rangeValue !== 0 && rangeValue}</Text>
               </View>
 
-              <View
-                style={{
-                  position: 'absolute',
-                  left: -6,
-                  bottom: indicatorBottomPosition,
-                  width: 12,
-                  height: 2,
-                  backgroundColor: '#000000',
-                }}
-              />
+              <View style={[styles.yAxisRangeDivider, { bottom: indicatorBottomPosition }]} />
             </Fragment>
           )
         })}
 
         <ScrollView
           horizontal={true}
-          style={{
-            marginLeft: 16,
-            paddingBottom: EARNINGS_RANGE_START_PIXEL,
-          }}
-          contentContainerStyle={{
-            gap: 24,
-          }}
+          style={styles.horizontalScrollContainer}
+          contentContainerStyle={styles.scrollContentContainer}
         >
           {monthlyEarnings.map((each, idx) => {
             const heightValue = getBarGraphHeightFromEarnings(each.earnings)
 
             return (
-              <View style={{ alignSelf: 'flex-end', position: 'relative' }} key={idx}>
-                <View style={{ height: heightValue, width: 24, backgroundColor: '#007fff' }} />
-                <View
-                  style={{
-                    position: 'absolute',
-                    bottom: -26,
-                    left: 2,
-                  }}
-                >
-                  <Text style={{ fontSize: 12, lineHeight: 12, transform: [{ rotate: '-45deg' }] }}>
-                    {each.month}
-                  </Text>
+              <View style={styles.barGraphContainer} key={idx}>
+                <View style={[styles.earningsBarGraph, { height: heightValue }]} />
+                <View style={styles.earningMonthlyLabel}>
+                  <Text style={styles.barGraphRangeLabel}>{each.month}</Text>
                 </View>
               </View>
             )
           })}
         </ScrollView>
       </View>
-    </View>
+    </Container>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  sectionWrapper: {
     height: 32 + EARNINGS_RANGE_MAX_HEIGHT,
     marginLeft: 20,
     marginTop: 8,
+  },
+  barGraphYAxis: {
+    position: 'absolute',
+    width: 1,
+    backgroundColor: '#808080',
+    bottom: EARNINGS_RANGE_START_PIXEL,
+    height: EARNINGS_RANGE_MAX_HEIGHT,
+  },
+  barGraphXAxis: {
+    position: 'absolute',
+    width: '100%',
+    backgroundColor: '#808080',
+    bottom: EARNINGS_RANGE_START_PIXEL,
+    height: 1,
+  },
+  yAxisRangeContainer: {
+    position: 'absolute',
+    left: -28,
+  },
+  barGraphRangeLabel: {
+    fontSize: 12,
+    lineHeight: 12,
+    transform: [{ rotate: '-45deg' }],
+  },
+  yAxisRangeDivider: {
+    position: 'absolute',
+    left: -6,
+    width: 12,
+    height: 2,
+    backgroundColor: '#000000',
+  },
+  horizontalScrollContainer: {
+    marginLeft: 16,
+    paddingBottom: EARNINGS_RANGE_START_PIXEL,
+  },
+  scrollContentContainer: {
+    gap: 24,
+  },
+  barGraphContainer: {
+    alignSelf: 'flex-end',
+  },
+  earningsBarGraph: {
+    width: 24,
+    backgroundColor: '#007fff',
+  },
+  earningMonthlyLabel: {
+    position: 'absolute',
+    bottom: -26,
+    left: 2,
   },
 })
 
