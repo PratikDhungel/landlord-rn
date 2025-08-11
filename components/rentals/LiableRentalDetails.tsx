@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper'
 import Container from '@/components/common/Container'
 import RentalPaymentModal from './RentalPaymentModal'
 import RentalPaymentsTable from './RentalPaymentsTable'
+import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
@@ -27,11 +28,7 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
   }
 
   if (isError || !data) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text>No data available</Text>
-      </ScreenWrapper>
-    )
+    return <ErrorScreen customMessage="Rental details not available" />
   }
 
   function handleDismissPaymentModal() {

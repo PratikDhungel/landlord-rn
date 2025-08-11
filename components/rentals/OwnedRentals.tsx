@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router'
 
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
+import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
 
@@ -30,11 +31,7 @@ const OwnedRentals = () => {
   }
 
   if (isError) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Something went wrong</Text>
-      </ScreenWrapper>
-    )
+    return <ErrorScreen />
   }
 
   if (data.length === 0) {

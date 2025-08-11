@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native'
 
 import Container from '@/components/common/Container'
+import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
@@ -22,11 +23,7 @@ const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
   }
 
   if (isError || !data) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text>No data available</Text>
-      </ScreenWrapper>
-    )
+    return <ErrorScreen customMessage="Rental details not available" />
   }
 
   const {

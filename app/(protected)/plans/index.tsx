@@ -3,6 +3,7 @@ import { Text } from 'react-native'
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
 import BasicDataTable from '@/components/table/DataTable'
+import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
@@ -22,11 +23,7 @@ const RentalPlans = () => {
   }
 
   if (isError) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Something went wrong</Text>
-      </ScreenWrapper>
-    )
+    return <ErrorScreen />
   }
 
   if (!data || data.length === 0) {
