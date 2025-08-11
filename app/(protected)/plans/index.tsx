@@ -3,12 +3,13 @@ import { ActivityIndicator } from 'react-native-paper'
 
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
+import BasicDataTable from '@/components/table/DataTable'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
 import useApiQuery from '@/hooks/useApiQuery'
-import { TRentalPlan } from '@/types/rentalPlan'
-import BasicDataTable from '@/components/table/DataTable'
 import { getRentalPlanTableConfig } from '@/components/rentalPlans/constants'
+
+import { TRentalPlan } from '@/types/rentalPlan'
 
 const RentalPlans = () => {
   const { data, isError, isLoading } = useApiQuery<TRentalPlan[]>({
