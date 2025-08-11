@@ -8,7 +8,7 @@ import ScreenLoading from '@/components/common/ScreenLoading'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
 import useApiQuery from '@/hooks/useApiQuery'
-import { getRentalPlanTableConfig } from '@/components/rentalPlans/constants'
+import { getRentalPlanTableConfig } from '@/components/rentalPlans/rentalPlanTableUtils'
 
 import { TRentalPlan } from '@/types/rentalPlan'
 

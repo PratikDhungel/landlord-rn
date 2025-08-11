@@ -10,7 +10,7 @@ export type TRenderHeaderCellProps = {
   columnHeaderTextStyles?: TextStyle
 }
 
-export type TRenderDataCellParams<TTableData = any> = {
+export type TRenderDataCellParams<TTableData> = {
   rowData: TTableData
   dataCellStyles?: ViewStyle
   dataCellTextStyles?: TextStyle

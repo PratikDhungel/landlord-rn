@@ -20,11 +20,15 @@ const BasicDataTable = <TTableData,>({
   return (
     <>
       <View style={styles.tableTitleContainer}>
-        {columns.map(eachColumn => {
+        {columns.map((eachColumn, idx) => {
           const { headerProps, columnHeaderCellStyles, columnHeaderTextStyles, renderHeaderCell } =
             eachColumn
 
-          return renderHeaderCell({ headerProps, columnHeaderCellStyles, columnHeaderTextStyles })
+          return renderHeaderCell({
+            headerProps,
+            columnHeaderCellStyles,
+            columnHeaderTextStyles,
+          })
         })}
       </View>
 
@@ -34,7 +38,11 @@ const BasicDataTable = <TTableData,>({
             {columns.map(eachColumn => {
               const { dataCellStyles, dataCellTextStyles, renderDataCell } = eachColumn
 
-              return renderDataCell({ rowData, dataCellStyles, dataCellTextStyles })
+              return renderDataCell({
+                rowData,
+                dataCellStyles,
+                dataCellTextStyles,
+              })
             })}
           </Pressable>
         )
