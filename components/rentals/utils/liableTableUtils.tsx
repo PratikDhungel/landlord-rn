@@ -36,12 +36,6 @@ export function getLiableRentalsTableConfig(tableRowPressCallback: TTableRowPres
       },
       {
         headerProps: { title: 'Plan Name' },
-        columnHeaderTextStyles: {
-          textAlign: 'center',
-        },
-        dataCellTextStyles: {
-          textAlign: 'center',
-        },
         renderHeaderCell: ({
           headerProps,
           columnHeaderCellStyles,
@@ -68,10 +62,10 @@ export function getLiableRentalsTableConfig(tableRowPressCallback: TTableRowPres
       {
         headerProps: { title: 'Start Date' },
         columnHeaderTextStyles: {
-          textAlign: 'center',
+          textAlign: 'right',
         },
         dataCellTextStyles: {
-          textAlign: 'center',
+          textAlign: 'right',
         },
         renderHeaderCell: ({
           headerProps,
