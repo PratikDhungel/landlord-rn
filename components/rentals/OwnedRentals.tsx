@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router'
 import { ActivityIndicator } from 'react-native-paper'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 
+import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
@@ -58,7 +59,7 @@ const OwnedRentals = () => {
 
   return (
     <Container>
-      <Text style={styles.pageTitle}>Rentals</Text>
+      <PageTitle>Owned Rentals</PageTitle>
 
       <RentalsTitle />
 
@@ -112,11 +113,6 @@ const RentalsRow = ({ ownedRental, onRentalRowPress }: IRentalsRowProps) => {
 }
 
 const styles = StyleSheet.create({
-  pageTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
   tableTitleContainer: {
     flexDirection: 'row',
     paddingVertical: 8,

@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
-
-import Container from '@/components/common/Container'
 import { ActivityIndicator } from 'react-native-paper'
+
+import PageTitle from '@/components/common/PageTitle'
+import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
 import useApiQuery from '@/hooks/useApiQuery'
@@ -41,7 +42,7 @@ const RentalPlans = () => {
   return (
     <ScreenWrapper>
       <Container>
-        <Text style={styles.pageTitle}>Rental Plans</Text>
+        <PageTitle>Rental Plans</PageTitle>
 
         <RentalPlansTitle />
 
@@ -82,18 +83,6 @@ const RentalPlansRow = ({ rentalPlan }: { rentalPlan: any }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 12,
-    backgroundColor: '#fff',
-    paddingHorizontal: 12,
-    paddingVertical: 16,
-  },
-  pageTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
-
   tableTitleContainer: {
     flexDirection: 'row',
     paddingVertical: 8,
