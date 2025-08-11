@@ -1,9 +1,9 @@
 import { Text } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
 
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
 import BasicDataTable from '@/components/table/DataTable'
+import ScreenLoading from '@/components/common/ScreenLoading'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
 import useApiQuery from '@/hooks/useApiQuery'
@@ -18,11 +18,7 @@ const RentalPlans = () => {
   })
 
   if (isLoading) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center' }}>
-        <ActivityIndicator size="large" animating={true} />
-      </ScreenWrapper>
-    )
+    return <ScreenLoading />
   }
 
   if (isError) {

@@ -1,11 +1,11 @@
 import { Text } from 'react-native'
 import { useRouter } from 'expo-router'
-import { ActivityIndicator } from 'react-native-paper'
 
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
 import BasicDataTable from '@/components/table/DataTable'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
+import ScreenLoading from '@/components/common/ScreenLoading'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { transformRentalData } from './utils/dataUtils'
@@ -26,11 +26,7 @@ const LiableRentals = () => {
   const router = useRouter()
 
   if (isLoading) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center' }}>
-        <ActivityIndicator size="large" animating={true} />
-      </ScreenWrapper>
-    )
+    return <ScreenLoading />
   }
 
   if (isError) {

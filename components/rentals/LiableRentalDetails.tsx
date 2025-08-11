@@ -1,11 +1,11 @@
 import { useState } from 'react'
-
 import { Text, View } from 'react-native'
-import { ActivityIndicator, Button } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 
 import Container from '@/components/common/Container'
 import RentalPaymentModal from './RentalPaymentModal'
 import RentalPaymentsTable from './RentalPaymentsTable'
+import ScreenLoading from '@/components/common/ScreenLoading'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
 
@@ -23,11 +23,7 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
   })
 
   if (isLoading) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center' }}>
-        <ActivityIndicator size="large" animating={true} />
-      </ScreenWrapper>
-    )
+    return <ScreenLoading />
   }
 
   if (isError || !data) {

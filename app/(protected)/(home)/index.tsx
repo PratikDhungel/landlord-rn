@@ -1,7 +1,7 @@
-import { ScrollView, Text, View } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
+import { ScrollView, Text } from 'react-native'
 
 import ScreenWrapper from '@/components/common/ScreenWrapper'
+import ScreenLoading from '@/components/common/ScreenLoading'
 import {
   DashboardStatsContainer,
   DashboardStatsSectionWrapper,
@@ -25,11 +25,7 @@ export default function Home() {
   })
 
   if (isLoading) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center' }}>
-        <ActivityIndicator size="large" animating={true} />
-      </ScreenWrapper>
-    )
+    return <ScreenLoading />
   }
 
   if (isError) {
