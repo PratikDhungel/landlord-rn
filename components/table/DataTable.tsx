@@ -1,5 +1,6 @@
-import { StyleSheet, View } from 'react-native'
-import { IBasicTableConfig, TRenderDataCellProps, TRenderHeaderCellProps } from '@/types/table'
+import { StyleSheet, Pressable, View } from 'react-native'
+
+import { IBasicTableConfig } from '@/types/table'
 
 const BasicDataTable = <TTableData,>({
   tableConfig,
@@ -8,7 +9,13 @@ const BasicDataTable = <TTableData,>({
   tableConfig: IBasicTableConfig<TTableData>
   data: TTableData[]
 }) => {
-  const { columns } = tableConfig
+  const { columns, onTableRowPress } = tableConfig
+
+  function handleTableRowPress(rowData: TTableData) {
+    if (onTableRowPress) {
+      onTableRowPress(rowData)
+    }
+  }
 
   return (
     <>
@@ -21,15 +28,15 @@ const BasicDataTable = <TTableData,>({
         })}
       </View>
 
-      {data.map((rowData: any) => {
+      {data.map((rowData: TTableData) => {
         return (
-          <View style={styles.tableRowContainer}>
+          <Pressable style={styles.tableRowContainer} onPress={() => handleTableRowPress(rowData)}>
             {columns.map(eachColumn => {
               const { dataCellStyles, dataCellTextStyles, renderDataCell } = eachColumn
 
               return renderDataCell({ rowData, dataCellStyles, dataCellTextStyles })
             })}
-          </View>
+          </Pressable>
         )
       })}
     </>

@@ -16,6 +16,20 @@ export type TRental = {
   startDate: string
 }
 
+export type TTransformedRentalData = {
+  id: string
+  userId: number
+  ownerFullName: string
+  ownerEmail: string
+  tenantId: string
+  tenantFullName: string
+  tenantEmail: string
+  planId: string
+  planName: string
+  planRate: number
+  startDate: string
+}
+
 export type TRentalWithPayments = TRental & {
   paymentDetails: {
     total: number

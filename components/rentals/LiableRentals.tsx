@@ -1,13 +1,15 @@
+import { Text } from 'react-native'
 import { useRouter } from 'expo-router'
 import { ActivityIndicator } from 'react-native-paper'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
+import BasicDataTable from '@/components/table/DataTable'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 
 import useApiQuery from '@/hooks/useApiQuery'
-import { getDateFromISOString } from '@/utils/dateUtils'
+import { transformRentalData } from './utils/dataUtils'
+import { getLiableRentalsTableConfig } from './utils/liableTableUtils'
 
 import { TRental } from '@/types/rentals'
 
@@ -57,77 +59,16 @@ const LiableRentals = () => {
     })
   }
 
+  const liableRentalTableConfig = getLiableRentalsTableConfig(onRentalRowPress)
+  const liableTableData = transformRentalData(data)
+
   return (
     <Container>
       <PageTitle>Liable Rentals</PageTitle>
 
-      <RentalsTitle />
-
-      {data.map((eachRental: any) => {
-        return (
-          <RentalsRow
-            key={eachRental.id}
-            liableRental={eachRental}
-            onRentalRowPress={onRentalRowPress}
-          />
-        )
-      })}
+      <BasicDataTable tableConfig={liableRentalTableConfig} data={liableTableData} />
     </Container>
   )
 }
-
-const RentalsTitle = () => {
-  return (
-    <View style={styles.tableTitleContainer}>
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Owner Name</Text>
-
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Plan Name</Text>
-
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Start Date</Text>
-    </View>
-  )
-}
-
-interface IRentalsRowProps {
-  liableRental: TRental
-  onRentalRowPress: (rentalId: string) => void
-}
-
-const RentalsRow = ({ liableRental, onRentalRowPress }: IRentalsRowProps) => {
-  const { id: rentalId, ownerFirstName, ownerLastName, planName, startDate } = liableRental
-
-  const ownerFullName = `${ownerFirstName} ${ownerLastName}`
-  const startDateAsString = getDateFromISOString(startDate)
-
-  return (
-    <Pressable style={styles.tableRowContainer} onPress={() => onRentalRowPress(rentalId)}>
-      <Text style={{ flex: 1 }} ellipsizeMode="tail" numberOfLines={1}>
-        {ownerFullName}
-      </Text>
-
-      <Text style={{ flex: 1 }}>{planName}</Text>
-
-      <Text style={{ flex: 1 }}>{startDateAsString}</Text>
-    </Pressable>
-  )
-}
-
-const styles = StyleSheet.create({
-  tableTitleContainer: {
-    flexDirection: 'row',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-  },
-  tableTitleText: {
-    color: '#808080',
-  },
-  tableRowContainer: {
-    flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#dcdcdc',
-  },
-})
 
 export default LiableRentals

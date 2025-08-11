@@ -41,5 +41,6 @@ export interface IBasicTableConfigColumn<TTableData> {
 }
 
 export interface IBasicTableConfig<TTableData> {
+  onTableRowPress?: (rowData: TTableData) => void
   columns: IBasicTableConfigColumn<TTableData>[]
 }
