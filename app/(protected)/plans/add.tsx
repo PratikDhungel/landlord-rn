@@ -10,71 +10,36 @@ import LoadingButton from '@/components/button/LoadingButton'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
 import Dropdown from '@/components/dropdown/Dropdown'
 
-// TODO Move to constants
-const RATE_PERIOD_OPTIONS = [
-  {
-    id: '1',
-    label: 'Weekly',
-    value: 'weekly',
-  },
-  {
-    id: '2',
-    label: 'Biweekly',
-    value: 'biweekly',
-  },
-  {
-    id: '3',
-    label: 'Monthly',
-    value: 'monthly',
-    default: true,
-  },
-  {
-    id: '4',
-    label: 'Quarterly',
-    value: 'quarterly',
-  },
-  {
-    id: '5',
-    label: 'Biannual',
-    value: 'biannual',
-  },
-  {
-    id: '6',
-    label: 'Annual',
-    value: 'annual',
-  },
-]
+import { useApiMutation } from '@/hooks/useApiMutation'
+import { handleCreateNewRentalPlan } from '@/api/rentalPlans/addNewRenalPlan'
+import { ratePeriodOptions } from '@/components/rentalPlans/constants/ratePeriodOptions'
 
-const defaultRatePeriod = RATE_PERIOD_OPTIONS.find(ratePeriod => ratePeriod.default)!
+const defaultRatePeriod = ratePeriodOptions.find(ratePeriod => ratePeriod.default)!
 
 export default function TabTwoScreen() {
   const [name, setName] = useState('')
   const [rate, setRate] = useState('')
   const [ratePeriod, setRatePeriod] = useState(defaultRatePeriod)
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-
   const router = useRouter()
   const { handleInvalidateSingleQuery } = useReactQueryClient()
 
-  async function handleAddNewPlan() {
-    setIsLoading(true)
+  const { mutateAsync, isLoading } = useApiMutation(handleCreateNewRentalPlan)
 
+  async function handleAddNewPlan() {
     try {
-      await api.post('/rentals/create-rental-plan', {
+      const rentalPlanPayload = {
         name,
         rate,
         rate_period: ratePeriod.value,
-      })
-      setIsSuccess(true)
+      }
+
+      await mutateAsync(rentalPlanPayload)
+
       handleInvalidateSingleQuery(['rental-plans'])
-      // NOTE Assuming new plan page is always opened from plans tab
       router.back()
     } catch {
       console.error('Error adding new plan')
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -94,7 +59,7 @@ export default function TabTwoScreen() {
             <Dropdown
               selectedValue={ratePeriod}
               setSelectedValue={setRatePeriod}
-              dropdownOptions={RATE_PERIOD_OPTIONS}
+              dropdownOptions={ratePeriodOptions}
             />
           </View>
         </View>
@@ -103,9 +68,7 @@ export default function TabTwoScreen() {
           <LoadingButton
             buttonLabel="Add Plan"
             isLoading={isLoading}
-            isSuccess={isSuccess}
             loadingLabel="Adding Plan"
-            successLabel="Added"
             mode="contained"
             icon="plus"
             style={{ alignSelf: 'flex-end' }}

@@ -3,7 +3,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
 import { api } from '@/utils/axios'
 
-interface IUseApiQueryProps<TData = unknown> {
+interface IUseApiQueryProps<TData> {
   queryKey: readonly unknown[]
   url: string
   config?: AxiosRequestConfig
