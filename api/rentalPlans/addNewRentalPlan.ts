@@ -6,6 +6,6 @@ interface ICreateNewPlanVariables {
   rate_period: string
 }
 
-export function handleCreateNewRentalPlan(variables: ICreateNewPlanVariables) {
+export function addNewRentalPlan(variables: ICreateNewPlanVariables) {
   return api.post('/rentals/create-rental-plan', variables)
 }

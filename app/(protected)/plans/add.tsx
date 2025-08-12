@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { View } from 'react-native'
 import { useRouter } from 'expo-router'
 
-import { api } from '@/utils/axios'
 import Container from '@/components/common/Container'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelTextInput from '@/components/input/LabelTextInput'
@@ -11,7 +10,7 @@ import useReactQueryClient from '@/hooks/useReactQueryClient'
 import Dropdown from '@/components/dropdown/Dropdown'
 
 import { useApiMutation } from '@/hooks/useApiMutation'
-import { handleCreateNewRentalPlan } from '@/api/rentalPlans/addNewRenalPlan'
+import { addNewRentalPlan } from '@/api/rentalPlans/addNewRentalPlan'
 import { ratePeriodOptions } from '@/components/rentalPlans/constants/ratePeriodOptions'
 
 const defaultRatePeriod = ratePeriodOptions.find(ratePeriod => ratePeriod.default)!
@@ -24,7 +23,7 @@ export default function TabTwoScreen() {
   const router = useRouter()
   const { handleInvalidateSingleQuery } = useReactQueryClient()
 
-  const { mutateAsync, isLoading } = useApiMutation(handleCreateNewRentalPlan)
+  const { mutateAsync, isLoading } = useApiMutation(addNewRentalPlan)
 
   async function handleAddNewPlan() {
     try {
