@@ -10,13 +10,14 @@ import LabelTextInput from '@/components/input/LabelTextInput'
 import LoadingButton from '@/components/button/LoadingButton'
 import SearchableDropdown from '@/components/dropdown/SearchableDropdown'
 
-import { api } from '@/utils/axios'
 import useApiQuery from '@/hooks/useApiQuery'
+import { useApiMutation } from '@/hooks/useApiMutation'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
 
 import { TUser } from '@/types/users'
 import { TRentalPlan } from '@/types/rentalPlan'
 import { TDropdownOption } from '@/types/common'
+import { addNewRental } from '@/api/rentals/addNewRental'
 
 export default function TabTwoScreen() {
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -25,9 +26,6 @@ export default function TabTwoScreen() {
   const [selectedRentalPlan, setSelectedRentalPlan] = useState<TDropdownOption | null>(null)
   const [startDate, setStartDate] = useState(new Date())
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-
   const router = useRouter()
   const { handleInvalidateSingleQuery } = useReactQueryClient()
 
@@ -35,6 +33,8 @@ export default function TabTwoScreen() {
     queryKey: ['rental-plans'],
     url: '/rentals/my-rentals-plans',
   })
+
+  const { mutateAsync, isLoading } = useApiMutation(addNewRental)
 
   const rentalPlansOptions = rentalPlans.map(rentalPlan => {
     return {
@@ -45,21 +45,28 @@ export default function TabTwoScreen() {
   })
 
   async function handleAddNewRental() {
-    setIsLoading(true)
+    if (!selectedTenant) {
+      console.error('Tenant required')
+      return
+    }
 
-    const createRentalPayload = {
-      tenant_id: selectedTenant?.id,
-      plan_id: selectedRentalPlan?.id,
-      start_date: startDate,
+    if (!selectedRentalPlan) {
+      console.error('Rental Plan required')
+      return
+    }
+
+    const newRentalVariables = {
+      tenant_id: selectedTenant.id,
+      plan_id: selectedRentalPlan.id,
+      start_date: startDate.toISOString(),
     }
 
     try {
-      await api.post('/rentals/create-rental', createRentalPayload)
-      setIsSuccess(true)
-      handleInvalidateSingleQuery(['rentals'])
+      await mutateAsync(newRentalVariables)
+      handleInvalidateSingleQuery(['owned-rentals'])
       router.back()
-    } finally {
-      setIsLoading(false)
+    } catch {
+      console.error('Error creating new plan')
     }
   }
 
@@ -136,9 +143,7 @@ export default function TabTwoScreen() {
           <LoadingButton
             buttonLabel="Add Rental"
             isLoading={isLoading}
-            isSuccess={isSuccess}
             loadingLabel="Adding Rental"
-            successLabel="Added"
             mode="contained"
             icon="plus"
             style={{ alignSelf: 'flex-end' }}
