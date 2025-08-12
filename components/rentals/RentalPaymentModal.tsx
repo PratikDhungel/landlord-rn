@@ -6,8 +6,9 @@ import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/d
 import LoadingButton from '@/components/button/LoadingButton'
 import LabelTextInput from '@/components/input/LabelTextInput'
 
-import { api } from '@/utils/axios'
+import { useApiMutation } from '@/hooks/useApiMutation'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
+import { addNewRentalPayment } from '@/api/rentals/addNewRentalPayment'
 
 interface IRentalPaymentModalProps {
   rentalId: string
@@ -30,7 +31,7 @@ const RentalPaymentModal = ({
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [paymentDate, setPaymentDate] = useState(currentDate)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const { mutateAsync, isLoading } = useApiMutation(addNewRentalPayment)
 
   function handleOpenDatePicker() {
     setShowDatePicker(true)
@@ -59,22 +60,21 @@ const RentalPaymentModal = ({
   }
 
   async function handleAddNewPayment() {
-    setIsLoading(true)
-
     try {
       const parsedPaymentAmount = parseFloat(paymentAmount)
 
-      await api.post('/rentals/create-rental-payment', {
+      const newPaymentVariables = {
         rental_id: rentalId,
         amount: parsedPaymentAmount,
-        payment_date: paymentDate,
-      })
+        payment_date: paymentDate.toISOString(),
+      }
+
+      await mutateAsync(newPaymentVariables)
       handleInvalidateSingleQuery(['liable-rentals', rentalId])
     } catch {
       console.error('Error adding new payment')
     } finally {
       resetFormValuesToDefault()
-      setIsLoading(false)
       onDismissModal()
     }
   }

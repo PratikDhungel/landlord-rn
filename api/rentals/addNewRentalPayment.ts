@@ -6,6 +6,6 @@ interface IAddNewRentalPaymentVariables {
   payment_date: string
 }
 
-export function addNewRental(addRentalPaymentVariables: IAddNewRentalPaymentVariables) {
+export function addNewRentalPayment(addRentalPaymentVariables: IAddNewRentalPaymentVariables) {
   return api.post('/rentals/create-rental-payment', addRentalPaymentVariables)
 }
