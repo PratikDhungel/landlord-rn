@@ -3,6 +3,7 @@ export type TUser = {
   email: string
   firstName: string
   lastName: string
+  avatarUrl: string
   role: string
   isActive: boolean
   createdAt: string

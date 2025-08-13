@@ -4,6 +4,7 @@ import { Avatar, Button } from 'react-native-paper'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { View, StyleSheet, Pressable } from 'react-native'
 
+import useAuth from '@/hooks/useAuth'
 import { useApiMutation } from '@/hooks/useApiMutation'
 import { uploadUserProfilePicture } from '@/api/account/uploadProfilePicture'
 
@@ -23,9 +24,9 @@ const ProfilePictureUploader = () => {
   const [imageFileInfo, setImageFileInfo] = useState<TImagePickerFileInfo>(
     imagePickerDefaultFileInfo,
   )
-  const [profilePicUrl, setProfilePicUrl] = useState('')
+  const { userInfo, setUserInfoOnLogin } = useAuth()
 
-  const { mutateAsync } = useApiMutation(uploadUserProfilePicture)
+  const { mutateAsync, isLoading } = useApiMutation(uploadUserProfilePicture)
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -59,6 +60,12 @@ const ProfilePictureUploader = () => {
     }
   }
 
+  function updateUserAvatarUrlInStore(newUrl: string) {
+    const updatedUserInfo = { ...userInfo!, avatarUrl: newUrl }
+
+    setUserInfoOnLogin(updatedUserInfo)
+  }
+
   const handleUploadUserPhoto = async () => {
     const formData = new FormData()
 
@@ -67,14 +74,17 @@ const ProfilePictureUploader = () => {
     try {
       const response = await mutateAsync(formData)
 
-      setProfilePicUrl(response.avatarUrl)
+      const newAvatarUrl = response.avatarUrl
+
+      updateUserAvatarUrlInStore(newAvatarUrl)
+
       setImageFileInfo(imagePickerDefaultFileInfo)
     } catch {
       console.error('Error uploading image')
     }
   }
 
-  const avatarUrl = imageFileInfo.uri || profilePicUrl
+  const avatarUrl = imageFileInfo.uri || userInfo!.avatarUrl
 
   return (
     <View style={styles.container}>
@@ -93,7 +103,7 @@ const ProfilePictureUploader = () => {
       <Button
         mode="text"
         style={styles.button}
-        disabled={!imageFileInfo.name}
+        disabled={!imageFileInfo.name || isLoading}
         onPress={() => handleUploadUserPhoto()}
       >
         Upload Photo
