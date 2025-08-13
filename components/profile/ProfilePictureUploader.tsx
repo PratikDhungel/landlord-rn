@@ -24,7 +24,7 @@ const ProfilePictureUploader = () => {
   const [imageFileInfo, setImageFileInfo] = useState<TImagePickerFileInfo>(
     imagePickerDefaultFileInfo,
   )
-  const { userInfo, setUserInfoOnLogin } = useAuth()
+  const { userInfo, setUserInfoInStore } = useAuth()
 
   const { mutateAsync, isLoading } = useApiMutation(uploadUserProfilePicture)
 
@@ -63,7 +63,7 @@ const ProfilePictureUploader = () => {
   function updateUserAvatarUrlInStore(newUrl: string) {
     const updatedUserInfo = { ...userInfo!, avatarUrl: newUrl }
 
-    setUserInfoOnLogin(updatedUserInfo)
+    setUserInfoInStore(updatedUserInfo)
   }
 
   const handleUploadUserPhoto = async () => {

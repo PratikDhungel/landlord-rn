@@ -17,7 +17,7 @@ const Login = () => {
   const [isSuccess, setIsSuccess] = useState(false)
 
   const router = useRouter()
-  const { setAuthTokenOnLogin, setUserInfoOnLogin } = useAuth()
+  const { setAuthTokenOnLogin, setUserInfoInStore } = useAuth()
 
   async function handleUserLogin() {
     try {
@@ -33,7 +33,7 @@ const Login = () => {
 
       const { token, refreshToken, ...userInfo } = data
 
-      setUserInfoOnLogin(userInfo)
+      setUserInfoInStore(userInfo)
       setIsSuccess(true)
       router.replace('/(protected)/(home)')
       // TODO Add a toast on error

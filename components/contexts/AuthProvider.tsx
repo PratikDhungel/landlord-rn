@@ -8,7 +8,7 @@ import { TUser } from '@/types/users'
 interface IAuthContext {
   setAuthTokenOnLogin: (token: string) => void
   removeAuthTokenOnLogout: () => void
-  setUserInfoOnLogin: (user: TUser) => void
+  setUserInfoInStore: (user: TUser) => void
   handleStateUpdateOnLogout: () => void
   userInfo: TUser | null
   token?: string | null
@@ -18,7 +18,7 @@ interface IAuthContext {
 export const AuthContext = createContext<IAuthContext>({
   setAuthTokenOnLogin: () => null,
   removeAuthTokenOnLogout: () => null,
-  setUserInfoOnLogin: () => null,
+  setUserInfoInStore: () => null,
   handleStateUpdateOnLogout: () => null,
   userInfo: null,
   token: null,
@@ -39,7 +39,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     setToken(null)
   }
 
-  function setUserInfoOnLogin(user: TUser) {
+  function setUserInfoInStore(user: TUser) {
     const stringifiedUserInfo = JSON.stringify(user)
     setUserInfoInStorage(stringifiedUserInfo)
   }
@@ -60,7 +60,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       value={{
         setAuthTokenOnLogin,
         removeAuthTokenOnLogout,
-        setUserInfoOnLogin,
+        setUserInfoInStore,
         handleStateUpdateOnLogout,
         userInfo,
         token,
