@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'expo-router'
+import { Button } from 'react-native-paper'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 
 import useAuth from '@/hooks/useAuth'
@@ -35,6 +36,10 @@ const CreateAccount = () => {
     } catch {
       console.error('Register User Error')
     }
+  }
+
+  function handleLoginRouteButtonPress() {
+    router.push('/login')
   }
 
   return (
@@ -79,6 +84,12 @@ const CreateAccount = () => {
               onPress={handleRegisterNewUser}
             />
           </View>
+
+          <View style={styles.backToLoginButtonContainer}>
+            <Button mode="text" onPress={handleLoginRouteButtonPress}>
+              Already have an account?
+            </Button>
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -110,6 +121,10 @@ const styles = StyleSheet.create({
   registerTitleText: {
     fontSize: 32,
     color: '#007fff',
+  },
+  backToLoginButtonContainer: {
+    marginTop: 24,
+    alignItems: 'center',
   },
 })
 

@@ -19,7 +19,7 @@ const AuthNavigation = () => {
       <Stack.Protected guard={!token}>
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="forgot-password" options={{ title: 'Forgot Password' }} />
-        <Stack.Screen name="create-account" options={{ title: 'Create Account' }} />
+        <Stack.Screen name="create-account" options={{ headerShown: false }} />
       </Stack.Protected>
     </Stack>
   )
