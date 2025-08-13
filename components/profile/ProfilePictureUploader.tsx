@@ -1,12 +1,30 @@
 import { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
 import { Avatar, Button } from 'react-native-paper'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { View, StyleSheet, Pressable } from 'react-native'
 
-import * as ImagePicker from 'expo-image-picker'
+import { useApiMutation } from '@/hooks/useApiMutation'
+import { uploadUserProfilePicture } from '@/api/account/uploadProfilePicture'
+
+type TImagePickerFileInfo = {
+  uri: string
+  name: string
+  type: string
+}
+
+const imagePickerDefaultFileInfo: TImagePickerFileInfo = {
+  uri: '',
+  name: '',
+  type: '',
+}
 
 const ProfilePictureUploader = () => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [imageFileInfo, setImageFileInfo] = useState<TImagePickerFileInfo>(
+    imagePickerDefaultFileInfo,
+  )
+
+  const { mutateAsync } = useApiMutation(uploadUserProfilePicture)
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -24,8 +42,31 @@ const ProfilePictureUploader = () => {
     })
 
     if (!result.canceled) {
-      const fileUrl = result.assets[0].uri
-      setImageUrl(fileUrl)
+      const asset = result.assets[0]
+
+      const fileUrl = asset.uri
+      const fileName = 'user-profile-pic'
+      const fileType = asset.mimeType || 'image/jpeg'
+
+      const fileInfo = {
+        uri: fileUrl,
+        name: fileName,
+        type: fileType,
+      }
+
+      setImageFileInfo(fileInfo)
+    }
+  }
+
+  const handleUploadUserPhoto = async () => {
+    const formData = new FormData()
+
+    formData.append('file', imageFileInfo as any)
+
+    try {
+      await mutateAsync(formData)
+    } catch {
+      console.error('Error uploading image')
     }
   }
 
@@ -35,17 +76,22 @@ const ProfilePictureUploader = () => {
         size={120}
         style={{ justifyContent: 'center' }}
         source={
-          imageUrl
-            ? { uri: imageUrl }
+          imageFileInfo.uri
+            ? { uri: imageFileInfo.uri }
             : () => (
-                <View style={{ alignItems: 'center' }}>
+                <Pressable style={{ alignItems: 'center' }} onPress={pickImage}>
                   <FontAwesome size={110} name="user" color="white" />
-                </View>
+                </Pressable>
               )
         }
       />
 
-      <Button mode="text" style={styles.button} onPress={pickImage}>
+      <Button
+        mode="text"
+        style={styles.button}
+        disabled={!imageFileInfo.name}
+        onPress={() => handleUploadUserPhoto()}
+      >
         Upload Photo
       </Button>
     </View>
