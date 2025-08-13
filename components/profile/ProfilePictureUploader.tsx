@@ -23,6 +23,7 @@ const ProfilePictureUploader = () => {
   const [imageFileInfo, setImageFileInfo] = useState<TImagePickerFileInfo>(
     imagePickerDefaultFileInfo,
   )
+  const [profilePicUrl, setProfilePicUrl] = useState('')
 
   const { mutateAsync } = useApiMutation(uploadUserProfilePicture)
 
@@ -64,27 +65,30 @@ const ProfilePictureUploader = () => {
     formData.append('file', imageFileInfo as any)
 
     try {
-      await mutateAsync(formData)
+      const response = await mutateAsync(formData)
+
+      setProfilePicUrl(response.avatarUrl)
+      setImageFileInfo(imagePickerDefaultFileInfo)
     } catch {
       console.error('Error uploading image')
     }
   }
 
+  const avatarUrl = imageFileInfo.uri || profilePicUrl
+
   return (
     <View style={styles.container}>
-      <Avatar.Image
-        size={120}
-        style={{ justifyContent: 'center' }}
-        source={
-          imageFileInfo.uri
-            ? { uri: imageFileInfo.uri }
-            : () => (
-                <Pressable style={{ alignItems: 'center' }} onPress={pickImage}>
-                  <FontAwesome size={110} name="user" color="white" />
-                </Pressable>
-              )
-        }
-      />
+      <Pressable style={{ alignItems: 'center' }} onPress={pickImage}>
+        <Avatar.Image
+          size={120}
+          style={{ justifyContent: 'center', alignItems: 'center' }}
+          source={
+            avatarUrl
+              ? { uri: avatarUrl }
+              : () => <FontAwesome size={110} name="user" color="white" />
+          }
+        />
+      </Pressable>
 
       <Button
         mode="text"
