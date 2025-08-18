@@ -10,6 +10,7 @@ import useApiQuery from '@/hooks/useApiQuery'
 import { getRentalPlanTableConfig } from '@/components/rentalPlans/rentalPlanTableUtils'
 
 import { TRentalPlan } from '@/types/rentalPlan'
+import WithWrapper from '@/components/common/WithWrapper'
 
 const RentalPlans = () => {
   const { data, isError, isLoading } = useApiQuery<TRentalPlan[]>({
@@ -42,4 +43,4 @@ const RentalPlans = () => {
   )
 }
 
-export default RentalPlans
+export default WithWrapper(RentalPlans)

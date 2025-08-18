@@ -1,17 +1,12 @@
 import { ActivityIndicator } from 'react-native-paper'
 
-import Container from './Container'
-import ScreenWrapper from './ScreenWrapper'
+import FullCenterScreenContent from './FullCenterScreenContent'
 
 const ScreenLoading = () => {
   return (
-    <ScreenWrapper>
-      <Container
-        containerStyles={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}
-      >
-        <ActivityIndicator size="large" animating={true} />
-      </Container>
-    </ScreenWrapper>
+    <FullCenterScreenContent>
+      <ActivityIndicator size="large" animating={true} />
+    </FullCenterScreenContent>
   )
 }
 
