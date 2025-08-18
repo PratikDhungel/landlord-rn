@@ -1,11 +1,10 @@
-import { Text } from 'react-native'
-
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
 import BasicDataTable from '@/components/table/DataTable'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
+import NoDataAvailableScreen from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { getRentalPlanTableConfig } from '@/components/rentalPlans/rentalPlanTableUtils'
@@ -27,11 +26,7 @@ const RentalPlans = () => {
   }
 
   if (!data || data.length === 0) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text>No data available</Text>
-      </ScreenWrapper>
-    )
+    return <NoDataAvailableScreen />
   }
 
   const tableConfig = getRentalPlanTableConfig()
