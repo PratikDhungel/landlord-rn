@@ -19,7 +19,7 @@ import { TFinancialSummary } from '@/types/users'
 import MonthlyPaymentsBar from '@/components/dashboard/MonthlyPaymentsBar'
 import { VisualizationType } from '@/types/dashboard'
 
-export default function Home() {
+const Home = () => {
   const { data, isError, isLoading } = useApiQuery<TFinancialSummary>({
     queryKey: ['financialSummary'],
     url: '/users/financial-summary',
@@ -92,3 +92,5 @@ export default function Home() {
     </ScrollView>
   )
 }
+
+export default Home

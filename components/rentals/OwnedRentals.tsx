@@ -2,7 +2,7 @@ import { Text } from 'react-native'
 import { useRouter } from 'expo-router'
 
 import PageTitle from '@/components/common/PageTitle'
-import Container from '@/components/common/Container'
+import WithWrapper from '@/components/common/WithWrapper'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
@@ -56,12 +56,12 @@ const OwnedRentals = () => {
   const ownedRentalTableData = transformRentalData(data)
 
   return (
-    <Container>
+    <>
       <PageTitle>Owned Rentals</PageTitle>
 
       <BasicDataTable tableConfig={ownedRentalTableConfig} data={ownedRentalTableData} />
-    </Container>
+    </>
   )
 }
 
-export default OwnedRentals
+export default WithWrapper(OwnedRentals)

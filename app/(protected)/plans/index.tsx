@@ -1,16 +1,14 @@
 import PageTitle from '@/components/common/PageTitle'
-import Container from '@/components/common/Container'
+import WithWrapper from '@/components/common/WithWrapper'
 import BasicDataTable from '@/components/table/DataTable'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
 import NoDataAvailableScreen from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { getRentalPlanTableConfig } from '@/components/rentalPlans/rentalPlanTableUtils'
 
 import { TRentalPlan } from '@/types/rentalPlan'
-import WithWrapper from '@/components/common/WithWrapper'
 
 const RentalPlans = () => {
   const { data, isError, isLoading } = useApiQuery<TRentalPlan[]>({
@@ -33,13 +31,11 @@ const RentalPlans = () => {
   const tableConfig = getRentalPlanTableConfig()
 
   return (
-    <ScreenWrapper>
-      <Container>
-        <PageTitle>Rental Plans</PageTitle>
+    <>
+      <PageTitle>Rental Plans</PageTitle>
 
-        <BasicDataTable tableConfig={tableConfig} data={data} />
-      </Container>
-    </ScreenWrapper>
+      <BasicDataTable tableConfig={tableConfig} data={data} />
+    </>
   )
 }
 
