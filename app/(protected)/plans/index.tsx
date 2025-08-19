@@ -2,8 +2,8 @@ import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
 import BasicDataTable from '@/components/table/DataTable'
 import ErrorScreen from '@/components/common/ErrorScreen'
+import WithWrapper from '@/components/common/WithWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
 import NoDataAvailable from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
@@ -32,14 +32,12 @@ const RentalPlans = () => {
   const tableConfig = getRentalPlanTableConfig()
 
   return (
-    <ScreenWrapper>
-      <Container>
-        <PageTitle>Rental Plans</PageTitle>
+    <Container>
+      <PageTitle>Rental Plans</PageTitle>
 
-        <BasicDataTable tableConfig={tableConfig} data={data} />
-      </Container>
-    </ScreenWrapper>
+      <BasicDataTable tableConfig={tableConfig} data={data} />
+    </Container>
   )
 }
 
-export default RentalPlans
+export default WithWrapper(RentalPlans)
