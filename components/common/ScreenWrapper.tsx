@@ -6,7 +6,11 @@ interface IScreenWrapperProps extends PropsWithChildren {
 }
 
 const ScreenWrapper = ({ customStyle, children }: IScreenWrapperProps) => {
-  return <View style={[styles.screen, customStyle]}>{children}</View>
+  return (
+    <View id="screen-wrapper" style={[styles.screen, customStyle]}>
+      {children}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

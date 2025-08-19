@@ -6,7 +6,11 @@ interface IContainerProps extends PropsWithChildren {
 }
 
 const Container = ({ containerStyles, children }: IContainerProps) => {
-  return <View style={[styles.container, containerStyles && containerStyles]}>{children}</View>
+  return (
+    <View id="container" style={[styles.container, containerStyles && containerStyles]}>
+      {children}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
