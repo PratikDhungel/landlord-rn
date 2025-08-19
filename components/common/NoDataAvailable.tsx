@@ -3,7 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 import FullScreenCenterContainer from './FullScreenCenterContainer'
 
-const NoDataAvailableScreen = ({ customMessage }: { customMessage?: string }) => {
+const NoDataAvailable = ({ customMessage }: { customMessage?: string }) => {
   const errorMessage = customMessage || 'No data available'
 
   return (
@@ -14,4 +14,4 @@ const NoDataAvailableScreen = ({ customMessage }: { customMessage?: string }) =>
   )
 }
 
-export default NoDataAvailableScreen
+export default NoDataAvailable
