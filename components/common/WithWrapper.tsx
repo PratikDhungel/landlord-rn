@@ -5,11 +5,11 @@ import ScreenWrapper from './ScreenWrapper'
 
 const WithWrapper = <ComponentProps extends object>(
   Component: React.ComponentType<ComponentProps>,
-  customStyles?: StyleProp<ViewStyle>,
+  screenWrapperStyles?: StyleProp<ViewStyle>,
 ) => {
   const WrapperComponent: React.FC<ComponentProps> = (props: ComponentProps) => {
     return (
-      <ScreenWrapper screenWrapperStyles={customStyles}>
+      <ScreenWrapper screenWrapperStyles={screenWrapperStyles}>
         <Component {...props} />
       </ScreenWrapper>
     )
