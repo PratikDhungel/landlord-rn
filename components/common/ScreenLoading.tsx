@@ -1,12 +1,12 @@
 import { ActivityIndicator } from 'react-native-paper'
 
-import FullCenterScreenContent from './FullCenterScreenContent'
+import FullScreenCenterContainer from './FullScreenCenterContainer'
 
 const ScreenLoading = () => {
   return (
-    <FullCenterScreenContent>
+    <FullScreenCenterContainer>
       <ActivityIndicator size="large" animating={true} />
-    </FullCenterScreenContent>
+    </FullScreenCenterContainer>
   )
 }
 

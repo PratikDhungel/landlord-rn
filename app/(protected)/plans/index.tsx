@@ -1,9 +1,10 @@
 import PageTitle from '@/components/common/PageTitle'
-import WithWrapper from '@/components/common/WithWrapper'
+import Container from '@/components/common/Container'
 import BasicDataTable from '@/components/table/DataTable'
 import ErrorScreen from '@/components/common/ErrorScreen'
+import WithWrapper from '@/components/common/WithWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
-import NoDataAvailableScreen from '@/components/common/NoDataAvailable'
+import NoDataAvailable from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { getRentalPlanTableConfig } from '@/components/rentalPlans/rentalPlanTableUtils'
@@ -25,17 +26,17 @@ const RentalPlans = () => {
   }
 
   if (!data || data.length === 0) {
-    return <NoDataAvailableScreen />
+    return <NoDataAvailable />
   }
 
   const tableConfig = getRentalPlanTableConfig()
 
   return (
-    <>
+    <Container>
       <PageTitle>Rental Plans</PageTitle>
 
       <BasicDataTable tableConfig={tableConfig} data={data} />
-    </>
+    </Container>
   )
 }
 

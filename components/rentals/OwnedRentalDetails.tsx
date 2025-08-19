@@ -2,7 +2,7 @@ import { Text, View } from 'react-native'
 
 import Container from '@/components/common/Container'
 import ErrorScreen from '@/components/common/ErrorScreen'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
+import WithWrapper from '@/components/common/WithWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
 
@@ -61,7 +61,7 @@ const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
   ]
 
   return (
-    <ScreenWrapper>
+    <>
       <Container containerStyles={{ marginBottom: 16 }}>
         <View>
           {rentalDetailsLabelValues.map((detail, idx) => {
@@ -91,8 +91,8 @@ const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
 
         <RentalPaymentsTable rentalPayments={payments} />
       </Container>
-    </ScreenWrapper>
+    </>
   )
 }
 
-export default OwnedRentalDetails
+export default WithWrapper(OwnedRentalDetails)

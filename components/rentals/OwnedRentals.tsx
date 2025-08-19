@@ -1,11 +1,10 @@
-import { Text } from 'react-native'
 import { useRouter } from 'expo-router'
 
 import PageTitle from '@/components/common/PageTitle'
-import WithWrapper from '@/components/common/WithWrapper'
+import Container from '@/components/common/Container'
 import ErrorScreen from '@/components/common/ErrorScreen'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
+import NoDataAvailable from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
 
@@ -35,11 +34,7 @@ const OwnedRentals = () => {
   }
 
   if (data.length === 0) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text>No data available</Text>
-      </ScreenWrapper>
-    )
+    return <NoDataAvailable />
   }
 
   function onRentalRowPress(rentalId: string) {
@@ -56,12 +51,12 @@ const OwnedRentals = () => {
   const ownedRentalTableData = transformRentalData(data)
 
   return (
-    <>
+    <Container>
       <PageTitle>Owned Rentals</PageTitle>
 
       <BasicDataTable tableConfig={ownedRentalTableConfig} data={ownedRentalTableData} />
-    </>
+    </Container>
   )
 }
 
-export default WithWrapper(OwnedRentals)
+export default OwnedRentals

@@ -5,9 +5,9 @@ import { Button } from 'react-native-paper'
 import Container from '@/components/common/Container'
 import RentalPaymentModal from './RentalPaymentModal'
 import RentalPaymentsTable from './RentalPaymentsTable'
+import WithWrapper from '@/components/common/WithWrapper'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
 
 import useApiQuery from '@/hooks/useApiQuery'
@@ -71,7 +71,7 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
   ]
 
   return (
-    <ScreenWrapper>
+    <>
       <Container containerStyles={{ marginBottom: 16 }}>
         <View>
           <View>
@@ -114,8 +114,8 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
         visible={showPaymentModal}
         onDismissModal={handleDismissPaymentModal}
       />
-    </ScreenWrapper>
+    </>
   )
 }
 
-export default LiableRentalDetails
+export default WithWrapper(LiableRentalDetails)

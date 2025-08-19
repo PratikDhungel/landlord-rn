@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { View } from 'react-native'
 
 import TabsGroup from '@/components/tabs/TabsGroup'
+import WithWrapper from '@/components/common/WithWrapper'
 import OwnedRentals from '@/components/rentals/OwnedRentals'
 import LiableRentals from '@/components/rentals/LiableRentals'
 
@@ -34,7 +35,7 @@ const Rentals = () => {
 
   return (
     <>
-      <View style={{ padding: 16, paddingBottom: 0 }}>
+      <View style={{ marginBottom: 12 }}>
         <TabsGroup config={tabsWithActiveState} onActiveStateUpdate={onActiveStateUpdate} />
       </View>
 
@@ -51,4 +52,4 @@ const RentalDetailsTable = ({ activeRentalType }: { activeRentalType: string }) 
   return <LiableRentals />
 }
 
-export default Rentals
+export default WithWrapper(Rentals)

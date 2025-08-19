@@ -2,12 +2,12 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { PropsWithChildren } from 'react'
 
 interface IScreenWrapperProps extends PropsWithChildren {
-  customStyle?: StyleProp<ViewStyle>
+  screenWrapperStyles?: StyleProp<ViewStyle>
 }
 
-const ScreenWrapper = ({ customStyle, children }: IScreenWrapperProps) => {
+const ScreenWrapper = ({ screenWrapperStyles, children }: IScreenWrapperProps) => {
   return (
-    <View id="screen-wrapper" style={[styles.screen, customStyle]}>
+    <View id="screen-wrapper" style={[styles.screen, screenWrapperStyles]}>
       {children}
     </View>
   )

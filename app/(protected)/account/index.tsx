@@ -1,8 +1,10 @@
 import { useRouter } from 'expo-router'
 import { Button } from 'react-native-paper'
 
-import useAuth from '@/hooks/useAuth'
+import Container from '@/components/common/Container'
 import WithWrapper from '@/components/common/WithWrapper'
+
+import useAuth from '@/hooks/useAuth'
 import ProfilePictureUploader from '@/components/profile/ProfilePictureUploader'
 
 const Account = () => {
@@ -15,13 +17,13 @@ const Account = () => {
   }
 
   return (
-    <>
+    <Container>
       <ProfilePictureUploader />
 
       <Button mode="contained" onPress={handleLogout}>
         Logout
       </Button>
-    </>
+    </Container>
   )
 }
 

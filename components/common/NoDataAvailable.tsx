@@ -1,17 +1,17 @@
 import { Text } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
-import FullCenterScreenContent from './FullCenterScreenContent'
+import FullScreenCenterContainer from './FullScreenCenterContainer'
 
-const NoDataAvailableScreen = ({ customMessage }: { customMessage?: string }) => {
+const NoDataAvailable = ({ customMessage }: { customMessage?: string }) => {
   const errorMessage = customMessage || 'No data available'
 
   return (
-    <FullCenterScreenContent>
+    <FullScreenCenterContainer>
       <FontAwesome size={36} style={{ marginBottom: 12 }} name="cloud-download" />
       <Text style={{ fontSize: 18 }}>{errorMessage}</Text>
-    </FullCenterScreenContent>
+    </FullScreenCenterContainer>
   )
 }
 
-export default NoDataAvailableScreen
+export default NoDataAvailable
