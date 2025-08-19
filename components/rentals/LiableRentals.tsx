@@ -1,4 +1,3 @@
-import { Text } from 'react-native'
 import { useRouter } from 'expo-router'
 
 import PageTitle from '@/components/common/PageTitle'
