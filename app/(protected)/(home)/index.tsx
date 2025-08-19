@@ -1,6 +1,7 @@
 import { ScrollView, Text } from 'react-native'
 
 import ErrorScreen from '@/components/common/ErrorScreen'
+import WithWrapper from '@/components/common/WithWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import NoDataAvailable from '@/components/common/NoDataAvailable'
 import {
@@ -18,7 +19,6 @@ import { isObjectEmpty } from '@/utils/objectUtils'
 import { TFinancialSummary } from '@/types/users'
 import MonthlyPaymentsBar from '@/components/dashboard/MonthlyPaymentsBar'
 import { VisualizationType } from '@/types/dashboard'
-import WithWrapper from '@/components/common/WithWrapper'
 
 const Home = () => {
   const { data, isError, isLoading } = useApiQuery<TFinancialSummary>({
