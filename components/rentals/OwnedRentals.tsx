@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router'
 
 import PageTitle from '@/components/common/PageTitle'
-import WithWrapper from '@/components/common/WithWrapper'
+import Container from '@/components/common/Container'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import NoDataAvailable from '@/components/common/NoDataAvailable'
@@ -51,12 +51,12 @@ const OwnedRentals = () => {
   const ownedRentalTableData = transformRentalData(data)
 
   return (
-    <>
+    <Container>
       <PageTitle>Owned Rentals</PageTitle>
 
       <BasicDataTable tableConfig={ownedRentalTableConfig} data={ownedRentalTableData} />
-    </>
+    </Container>
   )
 }
 
-export default WithWrapper(OwnedRentals)
+export default OwnedRentals
