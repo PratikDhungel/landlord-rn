@@ -4,7 +4,7 @@ import BasicDataTable from '@/components/table/DataTable'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import ScreenWrapper from '@/components/common/ScreenWrapper'
-import NoDataAvailableScreen from '@/components/common/NoDataAvailable'
+import NoDataAvailable from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { getRentalPlanTableConfig } from '@/components/rentalPlans/rentalPlanTableUtils'
@@ -26,7 +26,7 @@ const RentalPlans = () => {
   }
 
   if (!data || data.length === 0) {
-    return <NoDataAvailableScreen />
+    return <NoDataAvailable />
   }
 
   const tableConfig = getRentalPlanTableConfig()

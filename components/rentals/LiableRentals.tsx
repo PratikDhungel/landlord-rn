@@ -5,8 +5,8 @@ import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
 import BasicDataTable from '@/components/table/DataTable'
 import ErrorScreen from '@/components/common/ErrorScreen'
-import ScreenWrapper from '@/components/common/ScreenWrapper'
 import ScreenLoading from '@/components/common/ScreenLoading'
+import NoDataAvailable from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { transformRentalData } from './utils/dataUtils'
@@ -35,11 +35,7 @@ const LiableRentals = () => {
   }
 
   if (data.length === 0) {
-    return (
-      <ScreenWrapper customStyle={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text>No data available</Text>
-      </ScreenWrapper>
-    )
+    return <NoDataAvailable />
   }
 
   function onRentalRowPress(rentalId: string) {
