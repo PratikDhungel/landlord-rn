@@ -1,4 +1,4 @@
-enum RENTAL_PAYMENT_STATUS {
+export enum RENTAL_PAYMENT_STATUS {
   PENDING = 'pending',
   APPROVED = 'approved',
   REJECTED = 'rejected',
