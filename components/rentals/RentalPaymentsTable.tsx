@@ -1,14 +1,52 @@
 import { StyleSheet, Text, View } from 'react-native'
 
-import { TRentalPayment } from '@/types/rentalPayments'
+import NoDataAvailable from '@/components/common/NoDataAvailable'
+import StatusPill, { STATUS_PILL_TYPE } from '@/components/pills/StatusPill'
+
+import { capitalize } from '@/utils/stringUtils'
 import { getDateFromISOString } from '@/utils/dateUtils'
 
+import { RENTAL_PAYMENT_STATUS, TRentalPayment } from '@/types/rentalPayments'
+
+type TRentalPaymentWithStatusLabel = TRentalPayment & {
+  statusLabel: string
+  pillType: STATUS_PILL_TYPE
+}
+
+function getStatusPillType(status: RENTAL_PAYMENT_STATUS) {
+  switch (status) {
+    case RENTAL_PAYMENT_STATUS.APPROVED:
+      return STATUS_PILL_TYPE.ACTIVE
+
+    case RENTAL_PAYMENT_STATUS.REJECTED:
+      return STATUS_PILL_TYPE.DANGER
+
+    default:
+      return STATUS_PILL_TYPE.NEUTRAL
+  }
+}
+
+function prepareRentalPaymentsData(rentalPayments: TRentalPayment[]) {
+  return rentalPayments.map(eachPayment => {
+    const paymentStatusLabel = capitalize(eachPayment.status)
+    const pillType = getStatusPillType(eachPayment.status)
+
+    return { ...eachPayment, statusLabel: paymentStatusLabel, pillType }
+  })
+}
+
 const RentalPaymentsTable = ({ rentalPayments }: { rentalPayments: TRentalPayment[] }) => {
+  if (rentalPayments.length === 0) {
+    return <NoDataAvailable />
+  }
+
+  const rentalPaymentsData = prepareRentalPaymentsData(rentalPayments)
+
   return (
     <View>
       <RentalPaymentsTableHeader />
 
-      {rentalPayments.map(eachPayment => {
+      {rentalPaymentsData.map(eachPayment => {
         return <RentalPaymentsTableRow rentalPayment={eachPayment} key={eachPayment.id} />
       })}
     </View>
@@ -18,19 +56,21 @@ const RentalPaymentsTable = ({ rentalPayments }: { rentalPayments: TRentalPaymen
 const RentalPaymentsTableHeader = () => {
   return (
     <View style={styles.tableTitleContainer}>
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Payment Amount</Text>
+      <Text style={[styles.tableTitleText, { flex: 1 }]}>Amount</Text>
 
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Payment Date</Text>
+      <Text style={[styles.tableTitleText, { flex: 1 }]}>Date</Text>
 
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Proof of Payment</Text>
+      <Text style={[styles.tableTitleText, { flexBasis: 80 }]}>Status</Text>
     </View>
   )
 }
 
-const RentalPaymentsTableRow = ({ rentalPayment }: { rentalPayment: TRentalPayment }) => {
-  const { amount, paymentDate, proofOfPayment } = rentalPayment
-
-  const proofOfPaymentLabel = proofOfPayment ?? 'N/A'
+const RentalPaymentsTableRow = ({
+  rentalPayment,
+}: {
+  rentalPayment: TRentalPaymentWithStatusLabel
+}) => {
+  const { amount, paymentDate, statusLabel, pillType } = rentalPayment
 
   return (
     <View style={styles.tableRowContainer}>
@@ -38,7 +78,9 @@ const RentalPaymentsTableRow = ({ rentalPayment }: { rentalPayment: TRentalPayme
 
       <Text style={{ flex: 1 }}>{getDateFromISOString(paymentDate)}</Text>
 
-      <Text style={{ flex: 1 }}>{proofOfPaymentLabel}</Text>
+      <View style={{ flexBasis: 80 }}>
+        <StatusPill statusLabel={statusLabel} pillType={pillType} />
+      </View>
     </View>
   )
 }
@@ -47,7 +89,7 @@ const styles = StyleSheet.create({
   tableTitleContainer: {
     flexDirection: 'row',
     paddingVertical: 8,
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
   },
   tableTitleText: {
     color: '#808080',
@@ -55,7 +97,7 @@ const styles = StyleSheet.create({
   tableRowContainer: {
     flexDirection: 'row',
     paddingVertical: 12,
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
     borderBottomWidth: 1,
     borderBottomColor: '#dcdcdc',
   },
