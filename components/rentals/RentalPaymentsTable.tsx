@@ -23,27 +23,25 @@ const RentalPaymentsTable = ({ rentalPayments }: { rentalPayments: TRentalPaymen
 const RentalPaymentsTableHeader = () => {
   return (
     <View style={styles.tableTitleContainer}>
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Payment Amount</Text>
+      <Text style={[styles.tableTitleText, { flex: 2 }]}>Payment Amount</Text>
 
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Payment Date</Text>
+      <Text style={[styles.tableTitleText, { flex: 2 }]}>Payment Date</Text>
 
-      <Text style={[styles.tableTitleText, { flex: 1 }]}>Proof of Payment</Text>
+      <Text style={[styles.tableTitleText, { flex: 1 }]}>Status</Text>
     </View>
   )
 }
 
 const RentalPaymentsTableRow = ({ rentalPayment }: { rentalPayment: TRentalPayment }) => {
-  const { amount, paymentDate, proofOfPayment } = rentalPayment
-
-  const proofOfPaymentLabel = proofOfPayment ?? 'N/A'
+  const { amount, paymentDate, status } = rentalPayment
 
   return (
     <View style={styles.tableRowContainer}>
-      <Text style={{ flex: 1 }}>{amount}</Text>
+      <Text style={{ flex: 2 }}>{amount}</Text>
 
-      <Text style={{ flex: 1 }}>{getDateFromISOString(paymentDate)}</Text>
+      <Text style={{ flex: 2 }}>{getDateFromISOString(paymentDate)}</Text>
 
-      <Text style={{ flex: 1 }}>{proofOfPaymentLabel}</Text>
+      <Text style={{ flex: 1 }}>{status}</Text>
     </View>
   )
 }
