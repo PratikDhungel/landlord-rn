@@ -2,8 +2,13 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { TRentalPayment } from '@/types/rentalPayments'
 import { getDateFromISOString } from '@/utils/dateUtils'
+import NoDataAvailable from '../common/NoDataAvailable'
 
 const RentalPaymentsTable = ({ rentalPayments }: { rentalPayments: TRentalPayment[] }) => {
+  if (rentalPayments.length === 0) {
+    return <NoDataAvailable />
+  }
+
   return (
     <View>
       <RentalPaymentsTableHeader />
