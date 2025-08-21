@@ -1,3 +1,5 @@
+import { STATUS_PILL_TYPE } from './common'
+
 export enum RENTAL_PAYMENT_STATUS {
   PENDING = 'pending',
   APPROVED = 'approved',
@@ -13,4 +15,9 @@ export type TRentalPayment = {
   paymentDate: string
   proofOfPayment: string | null
   status: RENTAL_PAYMENT_STATUS
+}
+
+export type TTransformedRentalPayments = TRentalPayment & {
+  statusLabel: string
+  pillType: STATUS_PILL_TYPE
 }

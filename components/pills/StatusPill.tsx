@@ -1,11 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 
-export enum STATUS_PILL_TYPE {
-  NEUTRAL = 'neutral',
-  WARNING = 'warning',
-  DANGER = 'danger',
-  ACTIVE = 'active',
-}
+import { STATUS_PILL_TYPE } from '@/types/common'
 
 interface IStatusPillProps {
   pillType: STATUS_PILL_TYPE
