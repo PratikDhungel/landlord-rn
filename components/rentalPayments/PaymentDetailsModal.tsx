@@ -78,7 +78,6 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
           style={{
             marginVertical: 8,
             flexDirection: 'row',
-            justifyContent: 'space-between',
           }}
         >
           <LoadingButton
@@ -94,6 +93,7 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
             buttonLabel="Approve"
             loadingLabel="Approving"
             mode="contained"
+            style={{ marginLeft: 'auto' }}
             onPress={() => {}}
           />
         </View>
