@@ -10,7 +10,7 @@ import useApiQuery from '@/hooks/useApiQuery'
 import { getDateFromISOString } from '@/utils/dateUtils'
 
 import { TRentalWithPayments } from '@/types/rentals'
-import RentalPaymentsTable from './RentalPaymentsTable'
+import RentalPaymentsTable from '../rentalPayments/RentalPaymentsTable'
 
 const OwnedRentalDetails = ({ rentalId }: { rentalId: string }) => {
   const { data, isError, isLoading } = useApiQuery<TRentalWithPayments>({

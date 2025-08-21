@@ -1,11 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
-
-import StatusPill from '@/components/pills/StatusPill'
 import BasicDataTable from '@/components/table/DataTable'
 import NoDataAvailable from '@/components/common/NoDataAvailable'
 import { getRentalPaymentsTableConfig } from '@/components/rentalPayments/utils/paymentsTableConfig'
-
-import { getDateFromISOString } from '@/utils/dateUtils'
 
 import { TRentalPayment } from '@/types/rentalPayments'
 import { prepareRentalPaymentsData } from '@/components/rentalPayments/utils/paymentTableDataUtils'
