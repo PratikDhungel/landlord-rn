@@ -1,12 +1,14 @@
 import { Modal, Portal } from 'react-native-paper'
 import { Image, Text, View } from 'react-native'
 
+import LoadingButton from '@/components/button/LoadingButton'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
 // import LoadingButton from '@/components/button/LoadingButton'
 
 // import { useApiMutation } from '@/hooks/useApiMutation'
 // import useReactQueryClient from '@/hooks/useReactQueryClient'
 
+import { BUTTON_TYPE } from '@/types/common'
 import { TTransformedRentalPayment } from '@/types/rentalPayments'
 
 interface IPaymentDetailsModalProps {
@@ -31,7 +33,8 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
         onDismiss={onDismissModal}
         contentContainerStyle={{
           backgroundColor: '#fff',
-          padding: 16,
+          paddingHorizontal: 16,
+          paddingVertical: 12,
           width: '80%',
           marginHorizontal: 'auto',
         }}
@@ -55,6 +58,30 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
             />
           </View>
         )}
+
+        <View
+          style={{
+            marginVertical: 8,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <LoadingButton
+            isLoading={false}
+            buttonLabel="Reject"
+            loadingLabel="Rejecting"
+            buttonType={BUTTON_TYPE.DANGER}
+            onPress={() => {}}
+          />
+
+          <LoadingButton
+            isLoading={false}
+            buttonLabel="Approve"
+            loadingLabel="Approving"
+            mode="contained"
+            onPress={() => {}}
+          />
+        </View>
       </Modal>
     </Portal>
   )
