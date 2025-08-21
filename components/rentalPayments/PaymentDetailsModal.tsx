@@ -1,5 +1,6 @@
 import { Modal, Portal } from 'react-native-paper'
 import { Image, Text, View } from 'react-native'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 import LoadingButton from '@/components/button/LoadingButton'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
@@ -58,6 +59,20 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
             />
           </View>
         )}
+
+        <View style={{ flexDirection: 'row', gap: 8, padding: 4 }}>
+          <FontAwesome
+            size={12}
+            name="exclamation-circle"
+            color="#dc2626"
+            style={{ marginTop: 2 }}
+          />
+
+          <Text style={{ fontSize: 12, maxWidth: '90%' }}>
+            Please confirm the details before approving payment, approved payments cannot be
+            reverted
+          </Text>
+        </View>
 
         <View
           style={{
