@@ -8,6 +8,7 @@ import LabelValuePair from '@/components/labelvalues/LabelValuePair'
 
 import { useApiMutation } from '@/hooks/useApiMutation'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
+import { rejectRentalPayment } from '@/api/rentalPayments/rejectRentalPayment'
 import { approveRentalPayment } from '@/api/rentalPayments/approveRentalPayment'
 
 import { BUTTON_TYPE } from '@/types/common'
@@ -27,13 +28,16 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
   const { mutateAsync: handleApprovePayment, isLoading: isApprovePaymentLoading } =
     useApiMutation(approveRentalPayment)
 
+  const { mutateAsync: handleRejectRentalPayment, isLoading: isRejectPaymentLoading } =
+    useApiMutation(rejectRentalPayment)
+
   if (!paymentDetails) {
     return null
   }
 
   const { id, amount, paymentDateFull, proofOfPayment } = paymentDetails
 
-  const isActionLoading = isApprovePaymentLoading
+  const isActionLoading = isApprovePaymentLoading || isRejectPaymentLoading
 
   async function onApproveRentalPayment() {
     try {
@@ -42,6 +46,16 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
       onDismissModal()
     } catch (e) {
       console.error('Error approving rental payment')
+    }
+  }
+
+  async function onRejectRentalPayment() {
+    try {
+      await handleRejectRentalPayment({ paymentId: id })
+      handleInvalidateSingleQuery(['owned-rentals', rentalId])
+      onDismissModal()
+    } catch (e) {
+      console.error('Error rejecting rental payment')
     }
   }
 
@@ -103,7 +117,7 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
             buttonLabel="Reject"
             loadingLabel="Rejecting"
             buttonType={BUTTON_TYPE.DANGER}
-            onPress={() => {}}
+            onPress={onRejectRentalPayment}
           />
 
           <LoadingButton
