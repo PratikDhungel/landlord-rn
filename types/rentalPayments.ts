@@ -17,7 +17,8 @@ export type TRentalPayment = {
   status: RENTAL_PAYMENT_STATUS
 }
 
-export type TTransformedRentalPayments = TRentalPayment & {
+export type TTransformedRentalPayment = TRentalPayment & {
   statusLabel: string
+  paymentDateFull: string
   pillType: STATUS_PILL_TYPE
 }

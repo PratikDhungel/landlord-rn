@@ -4,7 +4,7 @@ import { getDateFromISOString } from '@/utils/dateUtils'
 import {
   RENTAL_PAYMENT_STATUS,
   TRentalPayment,
-  TTransformedRentalPayments,
+  TTransformedRentalPayment,
 } from '@/types/rentalPayments'
 import { STATUS_PILL_TYPE } from '@/types/common'
 
@@ -23,13 +23,21 @@ function getStatusPillType(status: RENTAL_PAYMENT_STATUS) {
 
 export function prepareRentalPaymentsData(
   rentalPayments: TRentalPayment[],
-): TTransformedRentalPayments[] {
+): TTransformedRentalPayment[] {
   return rentalPayments.map(eachPayment => {
-    const paymentStatusLabel = capitalize(eachPayment.status)
-    const pillType = getStatusPillType(eachPayment.status)
+    const { status, paymentDate } = eachPayment
 
-    const paymentDate = getDateFromISOString(eachPayment.paymentDate)
+    const paymentStatusLabel = capitalize(status)
+    const pillType = getStatusPillType(status)
 
-    return { ...eachPayment, paymentDate, statusLabel: paymentStatusLabel, pillType }
+    const paymentDateOnly = getDateFromISOString(paymentDate)
+
+    return {
+      ...eachPayment,
+      paymentDate: paymentDateOnly,
+      paymentDateFull: paymentDate,
+      statusLabel: paymentStatusLabel,
+      pillType,
+    }
   })
 }
