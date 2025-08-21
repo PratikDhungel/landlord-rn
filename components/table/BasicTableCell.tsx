@@ -1,3 +1,4 @@
+import { Children, PropsWithChildren } from 'react'
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
 
 interface IBasicTableRowCellProps {
@@ -19,6 +20,21 @@ const BasicTableRowCell = (props: IBasicTableRowCellProps) => {
       <Text style={dataCellTextStyles}>{cellValue}</Text>
     </View>
   )
+}
+
+interface ICustomTableRowCellProps extends PropsWithChildren {
+  dataCellStyles?: ViewStyle
+}
+
+export const CustomTableRowCell = (props: ICustomTableRowCellProps) => {
+  const { dataCellStyles: additionalCellStyles, children } = props
+
+  const dataCellStyles = [
+    styles.tableRowDataCellDefaultStyles,
+    additionalCellStyles && additionalCellStyles,
+  ]
+
+  return <View style={dataCellStyles}>{children}</View>
 }
 
 const styles = StyleSheet.create({
