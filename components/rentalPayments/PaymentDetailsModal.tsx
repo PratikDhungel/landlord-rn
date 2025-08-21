@@ -1,13 +1,14 @@
 import { Modal, Portal } from 'react-native-paper'
 import { Image, Text, View } from 'react-native'
+import { useLocalSearchParams } from 'expo-router'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 import LoadingButton from '@/components/button/LoadingButton'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
-// import LoadingButton from '@/components/button/LoadingButton'
 
-// import { useApiMutation } from '@/hooks/useApiMutation'
-// import useReactQueryClient from '@/hooks/useReactQueryClient'
+import { useApiMutation } from '@/hooks/useApiMutation'
+import useReactQueryClient from '@/hooks/useReactQueryClient'
+import { approveRentalPayment } from '@/api/rentalPayments/approveRentalPayment'
 
 import { BUTTON_TYPE } from '@/types/common'
 import { TTransformedRentalPayment } from '@/types/rentalPayments'
@@ -20,12 +21,29 @@ interface IPaymentDetailsModalProps {
 
 const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
   const { visible, onDismissModal, paymentDetails } = prop
+  const { id: rentalId }: { id: string } = useLocalSearchParams()
+  const { handleInvalidateSingleQuery } = useReactQueryClient()
+
+  const { mutateAsync: handleApprovePayment, isLoading: isApprovePaymentLoading } =
+    useApiMutation(approveRentalPayment)
 
   if (!paymentDetails) {
     return null
   }
 
-  const { amount, paymentDateFull, proofOfPayment } = paymentDetails
+  const { id, amount, paymentDateFull, proofOfPayment } = paymentDetails
+
+  const isActionLoading = isApprovePaymentLoading
+
+  async function onApproveRentalPayment() {
+    try {
+      await handleApprovePayment({ paymentId: id })
+      handleInvalidateSingleQuery(['owned-rentals', rentalId])
+      onDismissModal()
+    } catch (e) {
+      console.error('Error approving rental payment')
+    }
+  }
 
   return (
     <Portal>
@@ -81,7 +99,7 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
           }}
         >
           <LoadingButton
-            isLoading={false}
+            isLoading={isActionLoading}
             buttonLabel="Reject"
             loadingLabel="Rejecting"
             buttonType={BUTTON_TYPE.DANGER}
@@ -89,12 +107,12 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
           />
 
           <LoadingButton
-            isLoading={false}
+            isLoading={isActionLoading}
             buttonLabel="Approve"
             loadingLabel="Approving"
             mode="contained"
             style={{ marginLeft: 'auto' }}
-            onPress={() => {}}
+            onPress={onApproveRentalPayment}
           />
         </View>
       </Modal>
