@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'expo-router'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
 
@@ -13,9 +14,10 @@ import RentalPaymentsTable from '@/components/rentalPayments/RentalPaymentsTable
 import useApiQuery from '@/hooks/useApiQuery'
 import { getDateFromISOString } from '@/utils/dateUtils'
 
-import { TRentalWithPayments } from '@/types/rentals'
+import { RENTAL_TYPE, TRentalWithPayments } from '@/types/rentals'
 
 const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
+  const router = useRouter()
   const [showPaymentModal, setShowPaymentModal] = useState(false)
 
   const { data, isError, isLoading } = useApiQuery<TRentalWithPayments>({
@@ -33,6 +35,16 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
 
   function handleDismissPaymentModal() {
     setShowPaymentModal(false)
+  }
+
+  function onAddNewPaymentPress() {
+    router.push({
+      pathname: '/rentals/[id]/newPayment',
+      params: {
+        id: rentalId,
+        type: RENTAL_TYPE.LIABLE_RENTAL,
+      },
+    })
   }
 
   const {
@@ -93,7 +105,7 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
             Rental Payments
           </Text>
 
-          <Button mode="text" onPress={() => setShowPaymentModal(true)}>
+          <Button mode="text" onPress={onAddNewPaymentPress}>
             <Text style={{ fontSize: 12 }}>New Payment</Text>
           </Button>
         </View>
