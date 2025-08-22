@@ -7,6 +7,7 @@ import LoadingButton from '@/components/button/LoadingButton'
 import LabelTextInput from '@/components/input/LabelTextInput'
 
 import { useApiMutation } from '@/hooks/useApiMutation'
+import { getDateFromISOString } from '@/utils/dateUtils'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
 import { addNewRentalPayment } from '@/api/rentals/addNewRentalPayment'
 
@@ -30,6 +31,8 @@ const RentalPaymentModal = ({
   const [paymentAmount, setPaymentAmount] = useState(planRate)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [paymentDate, setPaymentDate] = useState(currentDate)
+
+  const paymentDateISO = paymentDate.toISOString()
 
   const { mutateAsync, isLoading } = useApiMutation(addNewRentalPayment)
 
@@ -66,7 +69,7 @@ const RentalPaymentModal = ({
       const newPaymentVariables = {
         rental_id: rentalId,
         amount: parsedPaymentAmount,
-        payment_date: paymentDate.toISOString(),
+        payment_date: paymentDateISO,
       }
 
       await mutateAsync(newPaymentVariables)
@@ -79,7 +82,7 @@ const RentalPaymentModal = ({
     }
   }
 
-  const paymentDateString = paymentDate.toISOString().split('T')[0]
+  const paymentDateString = getDateFromISOString(paymentDateISO)
 
   return (
     <Portal>
