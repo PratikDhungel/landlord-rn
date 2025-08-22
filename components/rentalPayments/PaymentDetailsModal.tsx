@@ -3,14 +3,15 @@ import { Modal, Portal } from 'react-native-paper'
 import { useLocalSearchParams } from 'expo-router'
 
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
+import PaymentDetailsModalAction from './PaymentDetailsModalAction'
 
 import { useApiMutation } from '@/hooks/useApiMutation'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
 import { rejectRentalPayment } from '@/api/rentalPayments/rejectRentalPayment'
 import { approveRentalPayment } from '@/api/rentalPayments/approveRentalPayment'
 
+import { RENTAL_TYPE } from '@/types/rentals'
 import { TTransformedRentalPayment } from '@/types/rentalPayments'
-import PaymentDetailsModalAction from './PaymentDetailsModalAction'
 
 interface IPaymentDetailsModalProps {
   visible: boolean
@@ -20,7 +21,8 @@ interface IPaymentDetailsModalProps {
 
 const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
   const { visible, onDismissModal, paymentDetails } = prop
-  const { id: rentalId }: { id: string } = useLocalSearchParams()
+  const { id: rentalId, type: rentalType }: { id: string; type: RENTAL_TYPE } =
+    useLocalSearchParams()
   const { handleInvalidateSingleQuery } = useReactQueryClient()
 
   const { mutateAsync: handleApprovePayment, isLoading: isApprovePaymentLoading } =
@@ -91,6 +93,7 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
         )}
 
         <PaymentDetailsModalAction
+          rentalType={rentalType}
           paymentStatus={status}
           isActionLoading={isActionLoading}
           onApproveRentalPayment={onApproveRentalPayment}

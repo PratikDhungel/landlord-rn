@@ -37,7 +37,7 @@ export type TRentalWithPayments = TRental & {
   }
 }
 
-export enum RentalTypes {
+export enum RENTAL_TYPE {
   OWNED_RENTAL = 'owned-rental',
   LIABLE_RENTAL = 'liable-rental',
 }
