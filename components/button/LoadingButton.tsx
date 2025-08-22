@@ -5,7 +5,7 @@ import { BUTTON_TYPE } from '@/types/common'
 interface ILoadingButtonProps extends Omit<ButtonProps, 'children'> {
   buttonLabel: string
   isLoading: boolean
-  loadingLabel: string
+  loadingLabel?: string
   buttonType?: BUTTON_TYPE
 }
 
@@ -39,7 +39,7 @@ const LoadingButton = (props: ILoadingButtonProps) => {
   if (isLoading) {
     return (
       <Button {...buttonProps} loading disabled>
-        {loadingLabel}
+        {loadingLabel || buttonLabel}
       </Button>
     )
   }

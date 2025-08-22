@@ -92,8 +92,6 @@ const Login = () => {
             <LoadingButton
               buttonLabel="Login"
               loadingLabel="Logging In"
-              successLabel="Logged In"
-              isSuccess={isSuccess}
               isLoading={isLoading}
               mode="contained"
               style={{ marginTop: 24 }}

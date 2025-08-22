@@ -43,7 +43,6 @@ const PaymentDetailsModalAction = (props: IPaymentDetailsModalProps) => {
           <LoadingButton
             isLoading={isActionLoading}
             buttonLabel="Reject"
-            loadingLabel="Rejecting"
             buttonType={BUTTON_TYPE.DANGER}
             onPress={onRejectRentalPayment}
           />
@@ -52,7 +51,6 @@ const PaymentDetailsModalAction = (props: IPaymentDetailsModalProps) => {
         <LoadingButton
           isLoading={isActionLoading}
           buttonLabel="Approve"
-          loadingLabel="Approving"
           mode="contained"
           style={{ marginLeft: 'auto' }}
           onPress={onApproveRentalPayment}
