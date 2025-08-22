@@ -2,7 +2,7 @@ import StatusPill from '@/components/pills/StatusPill'
 import BasicTableHeader from '@/components/table/BasicTableHeader'
 import BasicTableRowCell, { CustomTableRowCell } from '@/components/table/BasicTableCell'
 
-import { TTransformedRentalPayments } from '@/types/rentalPayments'
+import { TTransformedRentalPayment } from '@/types/rentalPayments'
 import { IBasicTableConfig, TRenderDataCellParams, TRenderHeaderCellProps } from '@/types/table'
 
 type TTableRowPressCallback = (paymentId: string) => void
@@ -27,7 +27,7 @@ export function getRentalPaymentsTableConfig(tableRowPressCallback: TTableRowPre
           rowData,
           dataCellStyles,
           dataCellTextStyles,
-        }: TRenderDataCellParams<TTransformedRentalPayments>) => (
+        }: TRenderDataCellParams<TTransformedRentalPayment>) => (
           <BasicTableRowCell
             cellValue={rowData.amount}
             dataCellStyles={dataCellStyles}
@@ -52,7 +52,7 @@ export function getRentalPaymentsTableConfig(tableRowPressCallback: TTableRowPre
           rowData,
           dataCellStyles,
           dataCellTextStyles,
-        }: TRenderDataCellParams<TTransformedRentalPayments>) => (
+        }: TRenderDataCellParams<TTransformedRentalPayment>) => (
           <BasicTableRowCell
             cellValue={rowData.paymentDate}
             dataCellStyles={dataCellStyles}
@@ -84,7 +84,7 @@ export function getRentalPaymentsTableConfig(tableRowPressCallback: TTableRowPre
         renderDataCell: ({
           rowData,
           dataCellStyles,
-        }: TRenderDataCellParams<TTransformedRentalPayments>) => (
+        }: TRenderDataCellParams<TTransformedRentalPayment>) => (
           <CustomTableRowCell dataCellStyles={dataCellStyles}>
             <StatusPill statusLabel={rowData.statusLabel} pillType={rowData.pillType} />
           </CustomTableRowCell>
@@ -94,7 +94,7 @@ export function getRentalPaymentsTableConfig(tableRowPressCallback: TTableRowPre
     onTableRowPress(rowData) {
       tableRowPressCallback(rowData.id)
     },
-  } as IBasicTableConfig<TTransformedRentalPayments>
+  } as IBasicTableConfig<TTransformedRentalPayment>
 
   return tableConfig
 }

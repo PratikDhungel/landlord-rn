@@ -10,3 +10,10 @@ export enum STATUS_PILL_TYPE {
   DANGER = 'danger',
   ACTIVE = 'active',
 }
+
+export enum BUTTON_TYPE {
+  NEUTRAL = 'neutral',
+  WARNING = 'warning',
+  DANGER = 'danger',
+  ACTIVE = 'active',
+}

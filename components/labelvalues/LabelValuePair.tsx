@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 interface ILabelValuePairProps {
   label: string
-  value: string
+  value: string | number
   containerStyles?: ViewStyle
 }
 
