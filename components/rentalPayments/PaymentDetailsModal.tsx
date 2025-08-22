@@ -1,9 +1,7 @@
-import { Modal, Portal } from 'react-native-paper'
 import { Image, Text, View } from 'react-native'
+import { Modal, Portal } from 'react-native-paper'
 import { useLocalSearchParams } from 'expo-router'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
 
-import LoadingButton from '@/components/button/LoadingButton'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
 
 import { useApiMutation } from '@/hooks/useApiMutation'
@@ -11,8 +9,8 @@ import useReactQueryClient from '@/hooks/useReactQueryClient'
 import { rejectRentalPayment } from '@/api/rentalPayments/rejectRentalPayment'
 import { approveRentalPayment } from '@/api/rentalPayments/approveRentalPayment'
 
-import { BUTTON_TYPE } from '@/types/common'
 import { TTransformedRentalPayment } from '@/types/rentalPayments'
+import PaymentDetailsModalAction from './PaymentDetailsModalAction'
 
 interface IPaymentDetailsModalProps {
   visible: boolean
@@ -35,7 +33,7 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
     return null
   }
 
-  const { id, amount, paymentDateFull, proofOfPayment } = paymentDetails
+  const { id, amount, status, paymentDateFull, proofOfPayment } = paymentDetails
 
   const isActionLoading = isApprovePaymentLoading || isRejectPaymentLoading
 
@@ -92,43 +90,12 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
           </View>
         )}
 
-        <View style={{ flexDirection: 'row', gap: 8, padding: 4 }}>
-          <FontAwesome
-            size={12}
-            name="exclamation-circle"
-            color="#dc2626"
-            style={{ marginTop: 2 }}
-          />
-
-          <Text style={{ fontSize: 12, maxWidth: '90%' }}>
-            Please confirm the details before approving payment, approved payments cannot be
-            reverted
-          </Text>
-        </View>
-
-        <View
-          style={{
-            marginVertical: 8,
-            flexDirection: 'row',
-          }}
-        >
-          <LoadingButton
-            isLoading={isActionLoading}
-            buttonLabel="Reject"
-            loadingLabel="Rejecting"
-            buttonType={BUTTON_TYPE.DANGER}
-            onPress={onRejectRentalPayment}
-          />
-
-          <LoadingButton
-            isLoading={isActionLoading}
-            buttonLabel="Approve"
-            loadingLabel="Approving"
-            mode="contained"
-            style={{ marginLeft: 'auto' }}
-            onPress={onApproveRentalPayment}
-          />
-        </View>
+        <PaymentDetailsModalAction
+          paymentStatus={status}
+          isActionLoading={isActionLoading}
+          onApproveRentalPayment={onApproveRentalPayment}
+          onRejectRentalPayment={onRejectRentalPayment}
+        />
       </Modal>
     </Portal>
   )
