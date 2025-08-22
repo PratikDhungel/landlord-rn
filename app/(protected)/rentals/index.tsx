@@ -6,24 +6,21 @@ import WithWrapper from '@/components/common/WithWrapper'
 import OwnedRentals from '@/components/rentals/OwnedRentals'
 import LiableRentals from '@/components/rentals/LiableRentals'
 
-enum RENTAL_TYPES {
-  OWNED_RENTALS = 'owned_rentals',
-  LIABLE_RENTALS = 'liable_rentals',
-}
+import { RENTAL_TYPE } from '@/types/rentals'
 
 const rentalTabsConfig = [
   {
     label: 'Owned Rentals',
-    value: RENTAL_TYPES.OWNED_RENTALS,
+    value: RENTAL_TYPE.OWNED_RENTAL,
   },
   {
     label: 'Liable Rentals',
-    value: RENTAL_TYPES.LIABLE_RENTALS,
+    value: RENTAL_TYPE.LIABLE_RENTAL,
   },
 ]
 
 const Rentals = () => {
-  const [activeTab, setActiveTab] = useState<string>(RENTAL_TYPES.OWNED_RENTALS)
+  const [activeTab, setActiveTab] = useState<string>(RENTAL_TYPE.OWNED_RENTAL)
 
   const tabsWithActiveState = rentalTabsConfig.map(eachTab => {
     return { ...eachTab, isActive: eachTab.value === activeTab }
@@ -45,7 +42,7 @@ const Rentals = () => {
 }
 
 const RentalDetailsTable = ({ activeRentalType }: { activeRentalType: string }) => {
-  if (activeRentalType === RENTAL_TYPES.OWNED_RENTALS) {
+  if (activeRentalType === RENTAL_TYPE.OWNED_RENTAL) {
     return <OwnedRentals />
   }
 

@@ -2,16 +2,16 @@ import { useRouter } from 'expo-router'
 
 import PageTitle from '@/components/common/PageTitle'
 import Container from '@/components/common/Container'
+import BasicDataTable from '@/components/table/DataTable'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import NoDataAvailable from '@/components/common/NoDataAvailable'
 
 import useApiQuery from '@/hooks/useApiQuery'
-
-import { TRental } from '@/types/rentals'
-import BasicDataTable from '../table/DataTable'
 import { getOwnedRentalsTableConfig } from './utils/ownedTableUtils'
 import { transformRentalData } from './utils/dataUtils'
+
+import { RENTAL_TYPE, TRental } from '@/types/rentals'
 
 const OwnedRentals = () => {
   const {
@@ -42,7 +42,7 @@ const OwnedRentals = () => {
       pathname: '/rentals/[id]',
       params: {
         id: rentalId,
-        type: 'owned-rental',
+        type: RENTAL_TYPE.OWNED_RENTAL,
       },
     })
   }
