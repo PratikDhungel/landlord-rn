@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRouter } from 'expo-router'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-paper'
 
@@ -7,16 +7,15 @@ import WithWrapper from '@/components/common/WithWrapper'
 import ErrorScreen from '@/components/common/ErrorScreen'
 import ScreenLoading from '@/components/common/ScreenLoading'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
-import RentalPaymentModal from '@/components/rentalPayments/RentalPaymentModal'
 import RentalPaymentsTable from '@/components/rentalPayments/RentalPaymentsTable'
 
 import useApiQuery from '@/hooks/useApiQuery'
 import { getDateFromISOString } from '@/utils/dateUtils'
 
-import { TRentalWithPayments } from '@/types/rentals'
+import { RENTAL_TYPE, TRentalWithPayments } from '@/types/rentals'
 
 const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
-  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const router = useRouter()
 
   const { data, isError, isLoading } = useApiQuery<TRentalWithPayments>({
     queryKey: ['liable-rentals', rentalId],
@@ -31,8 +30,15 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
     return <ErrorScreen customMessage="Rental details not available" />
   }
 
-  function handleDismissPaymentModal() {
-    setShowPaymentModal(false)
+  function onAddNewPaymentPress() {
+    router.push({
+      pathname: '/rentals/[id]/newPayment',
+      params: {
+        id: rentalId,
+        type: RENTAL_TYPE.LIABLE_RENTAL,
+        planRate: planRate.toString(),
+      },
+    })
   }
 
   const {
@@ -93,7 +99,7 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
             Rental Payments
           </Text>
 
-          <Button mode="text" onPress={() => setShowPaymentModal(true)}>
+          <Button mode="text" onPress={onAddNewPaymentPress}>
             <Text style={{ fontSize: 12 }}>New Payment</Text>
           </Button>
         </View>
@@ -107,13 +113,6 @@ const LiableRentalDetails = ({ rentalId }: { rentalId: string }) => {
 
         <RentalPaymentsTable rentalPayments={payments} />
       </Container>
-
-      <RentalPaymentModal
-        rentalId={rentalId}
-        planRate={planRateAsString}
-        visible={showPaymentModal}
-        onDismissModal={handleDismissPaymentModal}
-      />
     </>
   )
 }

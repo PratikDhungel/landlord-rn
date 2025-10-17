@@ -11,7 +11,7 @@ import useApiQuery from '@/hooks/useApiQuery'
 import { transformRentalData } from './utils/dataUtils'
 import { getLiableRentalsTableConfig } from './utils/liableTableUtils'
 
-import { TRental } from '@/types/rentals'
+import { RENTAL_TYPE, TRental } from '@/types/rentals'
 
 const LiableRentals = () => {
   const {
@@ -42,7 +42,7 @@ const LiableRentals = () => {
       pathname: '/rentals/[id]',
       params: {
         id: rentalId,
-        type: 'liable-rental',
+        type: RENTAL_TYPE.LIABLE_RENTAL,
       },
     })
   }

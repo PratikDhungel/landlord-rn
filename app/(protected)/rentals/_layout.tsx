@@ -30,7 +30,7 @@ export default function PlansLayout() {
       <Stack.Screen
         name="[id]"
         options={{
-          title: 'Rental Details',
+          headerShown: false,
         }}
       />
     </Stack>

@@ -7,6 +7,7 @@ export const AppTheme = {
     primary: '#007fff',
     secondary: '#dcdcdc',
     surfaceDisabled: '#dcdcdc',
+    outline: '#007fff',
   },
 }
 
