@@ -17,3 +17,9 @@ export enum BUTTON_TYPE {
   DANGER = 'danger',
   ACTIVE = 'active',
 }
+
+export type PickedFile = {
+  uri: string
+  name: string
+  type: string
+}

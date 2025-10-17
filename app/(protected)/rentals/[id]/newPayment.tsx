@@ -10,9 +10,12 @@ import WithWrapper from '@/components/common/WithWrapper'
 import LoadingButton from '@/components/button/LoadingButton'
 import useReactQueryClient from '@/hooks/useReactQueryClient'
 import LabelTextInput from '@/components/input/LabelTextInput'
+import FileUploader from '@/components/fileUpload/FileUpload'
 
 import { getDateFromISOString } from '@/utils/dateUtils'
 import { addNewRentalPayment } from '@/api/rentals/addNewRentalPayment'
+
+import { PickedFile } from '@/types/common'
 
 const currentDate = new Date()
 
@@ -28,6 +31,7 @@ const NewPayment = () => {
   const [paymentAmount, setPaymentAmount] = useState(defaultAmount)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [paymentDate, setPaymentDate] = useState(currentDate)
+  const [proofOfPayment, setProofOfPayment] = useState<PickedFile | null>(null)
 
   const paymentDateISO = paymentDate.toISOString()
 
@@ -60,22 +64,28 @@ const NewPayment = () => {
   }
 
   async function handleAddNewPayment() {
-    try {
-      const parsedPaymentAmount = parseFloat(paymentAmount)
+    const parsedPaymentAmount = parseFloat(paymentAmount)
 
+    try {
       const newPaymentVariables = {
         rental_id: rentalId,
         amount: parsedPaymentAmount,
         payment_date: paymentDateISO,
+        file: proofOfPayment!,
       }
 
       await mutateAsync(newPaymentVariables)
+
       handleInvalidateSingleQuery(['liable-rentals', rentalId])
     } catch {
       console.error('Error adding new payment')
     } finally {
       resetFormValuesToDefault()
     }
+  }
+
+  async function onFileSelected(file: PickedFile) {
+    setProofOfPayment(file)
   }
 
   const paymentDateString = getDateFromISOString(paymentDateISO)
@@ -116,6 +126,10 @@ const NewPayment = () => {
             />
           </Portal>
         )}
+      </View>
+
+      <View>
+        <FileUploader onSelected={onFileSelected} />
       </View>
 
       <View>
