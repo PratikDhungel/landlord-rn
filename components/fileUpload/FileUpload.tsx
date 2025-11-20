@@ -36,8 +36,8 @@ const FileUploader = ({ label = 'Upload an image or PDF', onSelected, onError }:
         const asset = result.assets[0]
         const picked: PickedFile = {
           uri: asset.uri,
-          name: asset.fileName || 'image.jpg',
-          type: asset.type || 'image/jpeg',
+          name: 'proof-of-payment',
+          type: asset.mimeType || 'image/jpeg',
         }
         setFile(picked)
         onSelected?.(picked)
