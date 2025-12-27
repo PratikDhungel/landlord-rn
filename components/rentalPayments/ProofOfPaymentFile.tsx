@@ -30,12 +30,12 @@ const ProofOfPaymentFile = ({ paymentId, filePath }: { paymentId: string; filePa
 
   if (data.fileType === VALID_FILE_TYPE.JPEG) {
     return (
-      <DownloadFileButton fileName="transaction-details." fileUrl={data.url}>
+      <DownloadFileButton fileName="transaction-details.jpeg" fileUrl={data.url}>
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontWeight: 600 }}>Proof of Payment</Text>
+          <Text style={{ fontWeight: 600, marginBottom: 12 }}>Proof of Payment</Text>
 
           <Image
-            source={{ uri: data?.url }}
+            source={{ uri: data.url }}
             style={{ height: 240, width: '100%' }}
             resizeMode="contain"
           />
@@ -47,9 +47,13 @@ const ProofOfPaymentFile = ({ paymentId, filePath }: { paymentId: string; filePa
   if (data.fileType === VALID_FILE_TYPE.PDF) {
     return (
       <DownloadFileButton fileName="transaction-details.pdf" fileUrl={data.url}>
-        <View style={styles.pdfBadge}>
-          <FontAwesome5 name="file-pdf" size={18} />
-          <Text style={styles.pdfText}>PDF</Text>
+        <View style={{ marginBottom: 12 }}>
+          <Text style={{ fontWeight: 600, marginBottom: 12 }}>Proof of Payment</Text>
+
+          <View style={styles.pdfBadge}>
+            <FontAwesome5 name="file-pdf" size={18} />
+            <Text style={styles.pdfText}>PDF</Text>
+          </View>
         </View>
       </DownloadFileButton>
     )

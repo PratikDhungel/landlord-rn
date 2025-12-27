@@ -1,5 +1,4 @@
 import RNFS from 'react-native-fs'
-import * as FileSystem from 'expo-file-system'
 import { ActivityIndicator } from 'react-native-paper'
 import React, { PropsWithChildren, useState } from 'react'
 import { Alert, Platform, Pressable, View } from 'react-native'
@@ -20,9 +19,6 @@ const DownloadFileButton = ({ fileUrl, fileName, children }: IDownloadFileButton
         Platform.OS === 'android'
           ? `${RNFS.DownloadDirectoryPath}/${fileName}`
           : `${RNFS.DocumentDirectoryPath}/${fileName}`
-
-      // Define where to save
-      const fileUri = FileSystem.documentDirectory + fileName
 
       const result = await RNFS.downloadFile({
         fromUrl: fileUrl,
@@ -59,7 +55,7 @@ const DownloadFileButton = ({ fileUrl, fileName, children }: IDownloadFileButton
   }
 
   return (
-    <View style={{ margin: 10 }}>
+    <View>
       {loading ? <ActivityIndicator /> : <Pressable onPress={handleDownload}>{children}</Pressable>}
     </View>
   )
