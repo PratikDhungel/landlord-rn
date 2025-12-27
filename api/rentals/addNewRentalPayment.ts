@@ -23,5 +23,10 @@ export function addNewRentalPayment(addRentalPaymentVariables: IAddNewRentalPaym
   newPaymentFormData.append('data', JSON.stringify(payload))
   newPaymentFormData.append('file', file as any)
 
-  return api.post('/rentals/create-rental-payment', newPaymentFormData)
+  return api.post('/rentals/create-rental-payment', newPaymentFormData, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  })
 }

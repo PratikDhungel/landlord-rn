@@ -1,7 +1,8 @@
-import { Image, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Modal, Portal } from 'react-native-paper'
 import { useLocalSearchParams } from 'expo-router'
 
+import ProofOfPaymentFile from './ProofOfPaymentFile'
 import LabelValuePair from '@/components/labelvalues/LabelValuePair'
 import PaymentDetailsModalAction from './PaymentDetailsModalAction'
 
@@ -80,17 +81,7 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
 
         <LabelValuePair label="Payment Date" value={paymentDateFull} />
 
-        {proofOfPayment && (
-          <View style={{ marginBottom: 12 }}>
-            <Text style={{ fontWeight: 600 }}>Proof of Payment</Text>
-
-            <Image
-              source={{ uri: proofOfPayment }}
-              style={{ height: 240, width: '100%' }}
-              resizeMode="contain"
-            />
-          </View>
-        )}
+        <ProofOfPaymentFile paymentId={id} filePath={proofOfPayment} />
 
         <PaymentDetailsModalAction
           rentalType={rentalType}

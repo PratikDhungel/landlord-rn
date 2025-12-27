@@ -23,3 +23,8 @@ export type PickedFile = {
   name: string
   type: string
 }
+
+export enum VALID_FILE_TYPE {
+  JPEG = 'image/jpeg',
+  PDF = 'application/pdf',
+}
