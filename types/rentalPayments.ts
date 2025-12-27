@@ -13,7 +13,7 @@ export type TRentalPayment = {
   amount: number
   createdAt: string
   paymentDate: string
-  proofOfPayment: string | null
+  proofOfPayment: string
   status: RENTAL_PAYMENT_STATUS
 }
 
@@ -21,4 +21,9 @@ export type TTransformedRentalPayment = TRentalPayment & {
   statusLabel: string
   paymentDateFull: string
   pillType: STATUS_PILL_TYPE
+}
+
+export type TProofOfPaymentDetails = {
+  url: string
+  fileType: string
 }
