@@ -1,3 +1,4 @@
+import React from 'react'
 import { StyleSheet, Pressable, View } from 'react-native'
 
 import { IBasicTableConfig } from '@/types/table'
@@ -24,25 +25,37 @@ const BasicDataTable = <TTableData,>({
           const { headerProps, columnHeaderCellStyles, columnHeaderTextStyles, renderHeaderCell } =
             eachColumn
 
-          return renderHeaderCell({
-            headerProps,
-            columnHeaderCellStyles,
-            columnHeaderTextStyles,
-          })
+          return (
+            <React.Fragment key={idx}>
+              {renderHeaderCell({
+                headerProps,
+                columnHeaderCellStyles,
+                columnHeaderTextStyles,
+              })}
+            </React.Fragment>
+          )
         })}
       </View>
 
-      {data.map((rowData: TTableData) => {
+      {data.map((rowData: TTableData, idx) => {
         return (
-          <Pressable style={styles.tableRowContainer} onPress={() => handleTableRowPress(rowData)}>
-            {columns.map(eachColumn => {
+          <Pressable
+            style={styles.tableRowContainer}
+            onPress={() => handleTableRowPress(rowData)}
+            key={idx}
+          >
+            {columns.map((eachColumn, idx) => {
               const { dataCellStyles, dataCellTextStyles, renderDataCell } = eachColumn
 
-              return renderDataCell({
-                rowData,
-                dataCellStyles,
-                dataCellTextStyles,
-              })
+              return (
+                <React.Fragment key={idx}>
+                  {renderDataCell({
+                    rowData,
+                    dataCellStyles,
+                    dataCellTextStyles,
+                  })}
+                </React.Fragment>
+              )
             })}
           </Pressable>
         )
