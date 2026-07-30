@@ -1,4 +1,4 @@
-package com.anonymous.Landlord
+package com.anonymous.landlord
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

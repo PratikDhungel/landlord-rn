@@ -1,4 +1,4 @@
-package com.anonymous.Landlord
+package com.anonymous.landlord
 
 import android.app.Application
 import android.content.res.Configuration

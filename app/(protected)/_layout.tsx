@@ -2,8 +2,10 @@ import React from 'react'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs } from 'expo-router'
 
+import useAuth from '@/hooks/useAuth'
 import useAppTheme from '@/hooks/useAppTheme'
 import { useClientOnlyValue } from '@/components/useClientOnlyValue'
+import useNotifications from '@/hooks/useNotifications'
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name']
@@ -13,7 +15,11 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+  const { userInfo } = useAuth()
+  const userId = userInfo!.id
   const currentTheme = useAppTheme()
+
+  useNotifications(userId ?? null)
 
   return (
     <Tabs
