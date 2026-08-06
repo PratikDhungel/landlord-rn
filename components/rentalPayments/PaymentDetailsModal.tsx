@@ -50,9 +50,9 @@ const PaymentDetailsModal = (prop: IPaymentDetailsModalProps) => {
     }
   }
 
-  async function onRejectRentalPayment() {
+  async function onRejectRentalPayment(rejectionReason: string) {
     try {
-      await handleRejectRentalPayment({ paymentId: id })
+      await handleRejectRentalPayment({ paymentId: id, rejectionReason })
       handleInvalidateSingleQuery(['owned-rentals', rentalId])
       onDismissModal()
     } catch (e) {
